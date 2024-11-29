@@ -2,7 +2,7 @@ import Image from "next/image";
 import Banner from "./components/Banner/Banner";
 import Property from "./components/Property/Property";
 import FilterSidebar from "./components/FilterSidebar/FilterSidebar";
-import Footer from "./components/Footer/Footer";
+
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
 
       </div>
-      <Footer></Footer>
+      
 
     </main>
 

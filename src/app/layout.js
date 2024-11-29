@@ -1,3 +1,4 @@
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import "./globals.css";
 import { Inter } from "@next/font/google";
@@ -22,7 +23,7 @@ export default function DashboardLayout({ children }) {
         
         {/* Main content */}
         <main className="py-6">{children}</main>
-       
+        <Footer></Footer>
       </body>
     </html>
   );
