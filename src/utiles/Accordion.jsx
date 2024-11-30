@@ -29,7 +29,8 @@ const getIconComponentAsync = async (iconName) => {
 };
 
 const Accordion = ({ facilities }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  // Set initial active index to the first item
+  const [activeIndex, setActiveIndex] = useState("0-0"); // Assuming the first question should be open
   const [icons, setIcons] = useState({}); // Store dynamically loaded icons
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const Accordion = ({ facilities }) => {
 
   const toggleAccordion = (facilityIndex, itemIndex) => {
     const newIndex = `${facilityIndex}-${itemIndex}`;
-    setActiveIndex((prevIndex) => (prevIndex === newIndex ? null : newIndex));
+    setActiveIndex((prevIndex) => (prevIndex === newIndex ? "" : newIndex));
   };
 
   return (
@@ -74,29 +75,33 @@ const Accordion = ({ facilities }) => {
                 const IconComponent = icons[iconName]; // Get the loaded icon
 
                 return (
-                  <div key={itemIndex} className="w-full mb-3">
+                  <div key={itemIndex} className="w-full mb-4"> {/* Ensure spacing between questions */}
+                    {/* Accordion Header */}
                     <div
                       className="cursor-pointer p-3 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 flex items-center"
                       onClick={() => toggleAccordion(facilityIndex, itemIndex)}
                     >
+                      {/* Icon */}
                       {IconComponent ? (
-                        <IconComponent className="text-gray-800 pr-2" size={24} />
+                        <IconComponent className="text-gray-800  pr-2" size={24} />
                       ) : (
                         <span className="text-red-500">Icon not found</span>
                       )}
-                      <span className="font-semibold ml-2 text-gray-800">
+                      {/* Facility Name */}
+                      <span className="font-semibold ml-2  text-gray-800">
                         {item.facilty_name}
                       </span>
                     </div>
 
-                    {activeIndex === `${facilityIndex}-${itemIndex}` && (
-                      <div className="p-4 bg-gray-50 rounded-md mt-2 shadow-inner mb-10">
-                        <div
-                          className="custom-content text-gray-700 text-base leading-relaxed space-y-2"
-                          dangerouslySetInnerHTML={{ __html: item.value }}
-                        />
-                      </div>
-                    )}
+                    {/* Accordion Content */}
+                    <div
+                      className={`p-4 bg-gray-50 rounded-md mt-2 shadow-inner ${activeIndex === `${facilityIndex}-${itemIndex}` ? 'block' : 'hidden'}`}
+                    >
+                      <div
+                        className="custom-content text-gray-700 text-base leading-relaxed space-y-2"
+                        dangerouslySetInnerHTML={{ __html: item.value }}
+                      />
+                    </div>
                   </div>
                 );
               })}

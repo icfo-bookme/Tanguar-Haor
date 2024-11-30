@@ -1,16 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import propertySummary from '@/utiles/propertySummary';
-import { SlLocationPin } from 'react-icons/sl';
-import { FaRegUser, FaRegClock } from 'react-icons/fa';
+import IconShow from '@/utiles/IconShow';
+
 
 export default async function Property() {
-  const iconMap = {
-    SlLocationPin: <SlLocationPin size={25} />,
-    FaRegUser: <FaRegUser size={25} />,
-    FaRegClock: <FaRegClock size={25} />,
-  };
-
   let data = [];
 
   try {
@@ -22,7 +16,7 @@ export default async function Property() {
 
   return (
     <div className="container lg:w-full w-screen mx-auto px-4">
-      {data.map((property) => (
+      {data?.map((property) => (
         <div key={property.property_id} className="mb-10">
           <Link href={`/Property/${property.property_id}`}>
             <div className="shadow-xl flex flex-col md:flex-row gap-5">
@@ -52,8 +46,6 @@ export default async function Property() {
                       })()}
                     </span>
                   </h1>
-
-
                 </div>
 
                 {/* Render Property Summaries */}
@@ -63,7 +55,7 @@ export default async function Property() {
                     <div className="flex flex-wrap gap-4">
                       {property.property_summaries.slice(0, 1).map((summary) => (
                         <div key={summary.id} className="flex items-center text-blue-700">
-                          {iconMap[summary.icon]}
+                          <IconShow iconName={summary.icons.icon_name} />
                           <span className="ml-2 text-blue-900">{summary.value}</span>
                         </div>
                       ))}
@@ -75,7 +67,7 @@ export default async function Property() {
                       <div className="flex gap-4 w-full md:w-auto">
                         {property.property_summaries.slice(1, 3).map((summary) => (
                           <div key={summary.id} className="flex items-center text-gray-700">
-                            {iconMap[summary.icon]}
+                            <IconShow iconName={summary.icons.icon_name} />
                             <span className="ml-2 text-gray-900">{summary.value}</span>
                           </div>
                         ))}
@@ -91,7 +83,7 @@ export default async function Property() {
                     <div className="flex gap-4 w-full md:w-auto">
                       {property.property_summaries.slice(3, 4).map((summary) => (
                         <div key={summary.id} className="flex items-center text-gray-700">
-                          {iconMap[summary.icon]}
+                          <IconShow iconName={summary.icon} />
                           <span className="ml-2 text-gray-900">{summary.value}</span>
                         </div>
                       ))}
