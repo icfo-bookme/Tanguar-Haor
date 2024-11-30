@@ -103,10 +103,18 @@ export default async function Page({ params }) {
                             <a href="#" className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 dark:border-gray-300 dark:text-gray-600">Option</a>
                             <a href="#" className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 dark:border-violet-600 dark:text-gray-900">Policy</a>
                         </div>
+                        <div className="grid grid-cols-3 gap-10">
+                            <div className="col-span-2"> 
+                            <Accordion facilities={propertyFacilities} />
+                            </div>
+                            
+                            <div className="col-span-1">
+                                this is contract form
+                            </div>
+                        </div>
 
-                        <Accordion facilities={propertyFacilities} />
                     </div>
-               
+
                 </div>
             </div>
         </div>

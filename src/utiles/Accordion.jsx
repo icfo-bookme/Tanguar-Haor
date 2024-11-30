@@ -1,81 +1,110 @@
 "use client";
-import React, { useState } from "react";
-import * as FaIcons from "react-icons/fa"; // Import all FontAwesome icons
-import * as TbIcons from "react-icons/tb"; // Import all Tabler icons
+import React, { useEffect, useState } from "react";
+
+// Dynamically import the icon based on the icon name
+const getIconComponentAsync = async (iconName) => {
+  if (!iconName) return null;
+
+  try {
+    // Determine the library based on the icon prefix
+    let IconComponent = null;
+    if (iconName.startsWith("Tb")) {
+      const { [iconName]: LoadedIcon } = await import("react-icons/tb");
+      IconComponent = LoadedIcon;
+    } else if (iconName.startsWith("Io")) {
+      const { [iconName]: LoadedIcon } = await import("react-icons/io5");
+      IconComponent = LoadedIcon;
+    } else if (iconName.startsWith("Fa")) {
+      const { [iconName]: LoadedIcon } = await import("react-icons/fa");
+      IconComponent = LoadedIcon;
+    } else {
+      console.error(`Icon not found: ${iconName}`);
+      return null;
+    }
+    return IconComponent;
+  } catch (error) {
+    console.error("Error dynamically loading icon:", error);
+    return null;
+  }
+};
 
 const Accordion = ({ facilities }) => {
-    const [activeIndex, setActiveIndex] = useState("0-0");
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [icons, setIcons] = useState({}); // Store dynamically loaded icons
 
-    const toggleAccordion = (facilityIndex, itemIndex) => {
-        const newIndex = `${facilityIndex}-${itemIndex}`;
-        setActiveIndex((prevIndex) => (prevIndex === newIndex ? null : newIndex));
-    };
+  useEffect(() => {
+    let isMounted = true; // Track mount state
 
-    // Function to dynamically get the icon component
-    const getIconComponent = (iconName) => {
-        if (iconName) {
-            // Dynamically resolve the icon based on the prefix (e.g., Fa, Tb)
-            if (iconName.startsWith("Fa")) {
-                // Return icon from FontAwesome (fa)
-                const icon = FaIcons[iconName];
-                return icon || null;
-            } else if (iconName.startsWith("Tb")) {
-                // Return icon from Tabler (tb)
-                const icon = TbIcons[iconName];
-                return icon || null;
-            }
+    const loadIcons = async () => {
+      const iconMap = {};
+      for (const facility of facilities) {
+        for (const item of facility.facilities) {
+          const iconName = item.icons.icon_name;
+          const IconComponent = await getIconComponentAsync(iconName);
+          if (isMounted && IconComponent) {
+            iconMap[iconName] = IconComponent;
+          }
         }
-        return null;
+      }
+      if (isMounted) {
+        setIcons(iconMap); // Update icons only if mounted
+      }
     };
 
-    return (
-        <div className="flex flex-col gap-4 mt-5">
-            <div className="flex flex-wrap gap-4">
-                {facilities.map((facility, facilityIndex) => (
-                    <div key={facilityIndex} className="w-full">
-                        {facility.facilities &&
-                            facility.facilities.map((item, itemIndex) => {
-                                // Dynamically resolve the icon component using the getIconComponent function
-                                const IconComponent = getIconComponent(item.icons.icon_name);
+    loadIcons();
 
-                                return (
-                                    <div key={itemIndex} className="w-full mb-3">
-                                        {/* Accordion Question with Icon */}
-                                        <div
-                                            className="cursor-pointer p-3 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 flex items-center"
-                                            onClick={() =>
-                                                toggleAccordion(facilityIndex, itemIndex)
-                                            }
-                                        >
-                                            {/* Render the dynamic icon */}
-                                            {IconComponent && (
-                                                <IconComponent
-                                                    className="text-gray-800 pr-2"
-                                                    size={24}
-                                                />
-                                            )}
-                                            <span className="font-semibold ml-2 text-gray-800">
-                                                {item.facilty_name}
-                                            </span>
-                                        </div>
+    return () => {
+      isMounted = false; // Cleanup on unmount
+    };
+  }, [facilities]);
 
-                                        {/* Accordion Answer */}
-                                        {activeIndex === `${facilityIndex}-${itemIndex}` && (
-                                            <div className="p-4 bg-gray-50 rounded-md mt-2 shadow-inner mb-10">
-                                                <div
-                                                    className="custom-content text-gray-700 text-base leading-relaxed space-y-2"
-                                                    dangerouslySetInnerHTML={{ __html: item.value }}
-                                                />
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
+  const toggleAccordion = (facilityIndex, itemIndex) => {
+    const newIndex = `${facilityIndex}-${itemIndex}`;
+    setActiveIndex((prevIndex) => (prevIndex === newIndex ? null : newIndex));
+  };
+
+  return (
+    <div className="flex flex-col gap-4 mt-5">
+      <div className="flex flex-wrap gap-4">
+        {facilities.map((facility, facilityIndex) => (
+          <div key={facilityIndex} className="w-full">
+            {facility.facilities &&
+              facility.facilities.map((item, itemIndex) => {
+                const iconName = item.icons.icon_name;
+                const IconComponent = icons[iconName]; // Get the loaded icon
+
+                return (
+                  <div key={itemIndex} className="w-full mb-3">
+                    <div
+                      className="cursor-pointer p-3 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 flex items-center"
+                      onClick={() => toggleAccordion(facilityIndex, itemIndex)}
+                    >
+                      {IconComponent ? (
+                        <IconComponent className="text-gray-800 pr-2" size={24} />
+                      ) : (
+                        <span className="text-red-500">Icon not found</span>
+                      )}
+                      <span className="font-semibold ml-2 text-gray-800">
+                        {item.facilty_name}
+                      </span>
                     </div>
-                ))}
-            </div>
-        </div>
-    );
+
+                    {activeIndex === `${facilityIndex}-${itemIndex}` && (
+                      <div className="p-4 bg-gray-50 rounded-md mt-2 shadow-inner mb-10">
+                        <div
+                          className="custom-content text-gray-700 text-base leading-relaxed space-y-2"
+                          dangerouslySetInnerHTML={{ __html: item.value }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Accordion;
