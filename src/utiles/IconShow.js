@@ -23,6 +23,9 @@ const IconShow = ({ iconName }) => {
         } else if (iconName.startsWith("Ci")) {
             const { [iconName]: Icon } = await import("react-icons/ci");
             LoadedIcon = Icon;
+          }else if (iconName.startsWith("Go")) {
+            const { [iconName]: Icon } = await import("react-icons/go");
+            LoadedIcon = Icon;
           }
         else {
           console.error(`#: ${iconName}`);

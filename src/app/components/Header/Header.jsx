@@ -22,10 +22,10 @@ const Header = () => {
   };
 
   return (
-    <header className={`header-area-three w-[85%] mx-auto ${inter.className}`}>
+    <header className={`header-area-three ${inter.className}`}>
       <div className="main-header">
         {/* Header Top */}
-        <div className="header-top py-2 border-b border-gray-200 hidden sm:block">
+        <div className="header-top  w-[85%] mx-auto py-2 border-b border-gray-200 hidden sm:block">
           <div className="container mx-auto">
             <div className="flex justify-between items-center">
               {/* Contact Section */}
@@ -64,8 +64,8 @@ const Header = () => {
         </div>
 
         {/* Header Bottom */}
-        <div className="header-bottom">
-          <div className="container mx-auto">
+        <div className="header-bottom shadow-xl">
+          <div className="container  w-[85%]  mx-auto">
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
               <div className="logo">

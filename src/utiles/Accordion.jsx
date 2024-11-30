@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { FaPlus, FaMinus } from "react-icons/fa"; // Import icons
 
 // Dynamically import the icon based on the icon name
 const getIconComponentAsync = async (iconName) => {
   if (!iconName) return null;
 
   try {
-    // Determine the library based on the icon prefix
     let IconComponent = null;
     if (iconName.startsWith("Tb")) {
       const { [iconName]: LoadedIcon } = await import("react-icons/tb");
@@ -29,12 +29,18 @@ const getIconComponentAsync = async (iconName) => {
 };
 
 const Accordion = ({ facilities }) => {
-  // Set initial active index to the first item
-  const [activeIndex, setActiveIndex] = useState("0-0"); // Assuming the first question should be open
-  const [icons, setIcons] = useState({}); // Store dynamically loaded icons
+  const [activeIndexes, setActiveIndexes] = useState(() => {
+    const initialActiveIndexes = {};
+    if (facilities?.length > 0 && facilities[0]?.facilities?.length > 0) {
+      initialActiveIndexes["0-0"] = true; // Open the first question
+    }
+    return initialActiveIndexes;
+  });
+
+  const [icons, setIcons] = useState({});
 
   useEffect(() => {
-    let isMounted = true; // Track mount state
+    let isMounted = true;
 
     const loadIcons = async () => {
       const iconMap = {};
@@ -48,20 +54,23 @@ const Accordion = ({ facilities }) => {
         }
       }
       if (isMounted) {
-        setIcons(iconMap); // Update icons only if mounted
+        setIcons(iconMap);
       }
     };
 
     loadIcons();
 
     return () => {
-      isMounted = false; // Cleanup on unmount
+      isMounted = false;
     };
   }, [facilities]);
 
   const toggleAccordion = (facilityIndex, itemIndex) => {
-    const newIndex = `${facilityIndex}-${itemIndex}`;
-    setActiveIndex((prevIndex) => (prevIndex === newIndex ? "" : newIndex));
+    const key = `${facilityIndex}-${itemIndex}`;
+    setActiveIndexes((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key], // Toggle open/close state for the specific question
+    }));
   };
 
   return (
@@ -72,33 +81,52 @@ const Accordion = ({ facilities }) => {
             {facility.facilities &&
               facility.facilities.map((item, itemIndex) => {
                 const iconName = item.icons.icon_name;
-                const IconComponent = icons[iconName]; // Get the loaded icon
+                const IconComponent = icons[iconName];
+                const key = `${facilityIndex}-${itemIndex}`;
+                const isOpen = activeIndexes[key]; // Check if the question is open
 
                 return (
-                  <div key={itemIndex} className="w-full mb-4"> {/* Ensure spacing between questions */}
+                  <div key={itemIndex} className="w-full mb-4 mouse-pointer ">
                     {/* Accordion Header */}
                     <div
-                      className="cursor-pointer p-3 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 flex items-center"
+                      className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
                       onClick={() => toggleAccordion(facilityIndex, itemIndex)}
                     >
-                      {/* Icon */}
-                      {IconComponent ? (
-                        <IconComponent className="text-gray-800  pr-2" size={24} />
-                      ) : (
-                        <span className="text-red-500">Icon not found</span>
-                      )}
-                      {/* Facility Name */}
-                      <span className="font-semibold ml-2  text-gray-800">
-                        {item.facilty_name}
-                      </span>
+                      {/* Left: Icon and Facility Name */}
+                      <div className="flex items-center">
+                        {/* Icon */}
+                        {IconComponent ? (
+                          <IconComponent
+                            className="text-blue-800 text-2xl font-bold"
+                            size={30}
+                          />
+                        ) : (
+                          <span className="text-red-500">Icon not found</span>
+                        )}
+                        {/* Facility Name */}
+                        <span className="font-semibold ml-2 cursor-pointer text-blue-800 text-2xl">
+                          {item.facilty_name}
+                        </span>
+                      </div>
+
+                      {/* Right: + or - Icon */}
+                      <div>
+                        {isOpen ? (
+                          <FaMinus className="text-gray-400 cursor-pointer" size={20} />
+                        ) : (
+                          <FaPlus className="text-gray-400 cursor-pointer" size={20} />
+                        )}
+                      </div>
                     </div>
 
                     {/* Accordion Content */}
                     <div
-                      className={`p-4 bg-gray-50 rounded-md mt-2 shadow-inner ${activeIndex === `${facilityIndex}-${itemIndex}` ? 'block' : 'hidden'}`}
+                      className={`p-4 bg-gray-50 rounded-md shadow-inner ${
+                        isOpen ? "block" : "hidden"
+                      }`}
                     >
                       <div
-                        className="custom-content text-gray-700 text-base leading-relaxed space-y-2"
+                        className="custom-content text-blue-900 text-sm leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: item.value }}
                       />
                     </div>

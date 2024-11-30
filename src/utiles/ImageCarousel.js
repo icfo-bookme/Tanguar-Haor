@@ -62,7 +62,7 @@ const ImageCarousel = ({ propertyImages }) => {
             </div>
 
             {/* Thumbnail Section */}
-            <div className="flex flex-col justify-center mt-2 pl-4">
+            <div className="flex flex-col justify-center mt-3 pl-4">
                 {displayedImages.map((image, index) => (
                     <div
                         key={index}
