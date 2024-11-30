@@ -7,6 +7,7 @@ import { SlLocationPin } from 'react-icons/sl';
 import { FaRegUser, FaRegClock } from 'react-icons/fa';
 import getFacilities from "@/utiles/getFacilities";
 import Accordion from "@/utiles/Accordion";
+import IconShow from "@/utiles/IconShow";
 
 export default async function Page({ params }) {
     const { id } = await params;
@@ -67,7 +68,7 @@ export default async function Page({ params }) {
                                                     <div className="flex flex-wrap gap-4">
                                                         {property.property_summaries.slice(0, 1).map((summary) => (
                                                             <div key={summary.id} className="flex items-center text-blue-700">
-                                                                {iconMap[summary.icon]}
+                                                             <IconShow iconName={summary.icons.icon_name} />
                                                                 <span className="ml-2 text-blue-900">{summary.value}</span>
                                                             </div>
                                                         ))}
@@ -79,7 +80,8 @@ export default async function Page({ params }) {
                                                         <div className="flex gap-4 w-full md:w-auto">
                                                             {property.property_summaries.slice(1, 3).map((summary) => (
                                                                 <div key={summary.id} className="flex items-center text-gray-700">
-                                                                    {iconMap[summary.icon]}
+                                                                 
+                                                                   <IconShow iconName={summary?.icons?.icon_name} />
                                                                     <span className="ml-2 text-gray-900">{summary.value}</span>
                                                                 </div>
                                                             ))}
