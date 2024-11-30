@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const ImageCarousel = ({ propertyImages }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showAll, setShowAll] = useState(false); // Track if we are showing all images or not
+    const [showAll, setShowAll] = useState(false);
 
     const nextImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % propertyImages.length);
@@ -26,39 +26,43 @@ const ImageCarousel = ({ propertyImages }) => {
         : propertyImages.slice(currentIndex, currentIndex + 4);
 
     const handleShowAllClick = () => {
-        setShowAll(!showAll); // Toggle showAll state
-    };  
+        setShowAll(!showAll);
+    };
 
     return (
         <div className="flex col-span-2">
-            <div className="flex-1 relative">
+            {/* Image Display Section */}
+            <div className="flex-1 relative flex justify-center items-center">
+                {/* Previous Button */}
                 <button
                     onClick={prevImage}
-                    className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2"
+                    className="absolute  top-1/2  transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
                 >
                     &lt;
                 </button>
 
+                {/* Image Container with Fixed Height */}
                 <div className="relative w-full h-96">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${propertyImages[currentIndex].path}`}
                         alt={`Property Image ${currentIndex + 1}`}
-                        fill
+                        layout="fill"
                         className="object-cover rounded shadow"
                         sizes="(max-width: 768px) 100vw, 33vw"
                     />
                 </div>
 
+                {/* Next Button */}
                 <button
                     onClick={nextImage}
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2"
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
                 >
                     &gt;
                 </button>
             </div>
 
             {/* Thumbnail Section */}
-            <div className="flex flex-col justify-center ml-4">
+            <div className="flex flex-col justify-center mt-2 pl-4">
                 {displayedImages.map((image, index) => (
                     <div
                         key={index}
@@ -81,13 +85,13 @@ const ImageCarousel = ({ propertyImages }) => {
                     </div>
                 ))}
 
-                {/* Show the "last image + count" if more than 4 images */}
+                {/* Show the "Show all images" button if more than 4 images */}
                 {!showAll && propertyImages.length > 4 && (
                     <div
                         className="cursor-pointer text-blue-500 mt-2"
                         onClick={handleShowAllClick}
                     >
-                       
+                        Show all
                     </div>
                 )}
 
