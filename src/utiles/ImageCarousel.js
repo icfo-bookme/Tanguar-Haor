@@ -30,16 +30,16 @@ const ImageCarousel = ({ propertyImages }) => {
     };
 
     return (
-        <div className="flex col-span-2">
+        <div className="flex col-span-2 ">
             {/* Image Display Section */}
-            <div className="flex-1 relative flex justify-center items-center">
+            <div className="flex-1 relative flex justify-between items-center">
                 {/* Previous Button */}
-                <button
+                {/* <button
                     onClick={prevImage}
-                    className="absolute  top-1/2  transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
+                    className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
                 >
                     &lt;
-                </button>
+                </button> */}
 
                 {/* Image Container with Fixed Height */}
                 <div className="relative w-full h-96">
@@ -53,20 +53,20 @@ const ImageCarousel = ({ propertyImages }) => {
                 </div>
 
                 {/* Next Button */}
-                <button
+                {/* <button
                     onClick={nextImage}
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
+                    className="absolute right-96 top-1/2 transform -translate-y-1/2 text-white text-2xl bg-gray-800 bg-opacity-50 rounded-full p-2 z-10"
                 >
                     &gt;
-                </button>
+                </button> */}
             </div>
 
             {/* Thumbnail Section */}
-            <div className="flex flex-col justify-center mt-3 pl-4">
+            <div className="flex flex-col justify-start mt-2 pl-4">
                 {displayedImages.map((image, index) => (
                     <div
                         key={index}
-                        className={`relative cursor-pointer mb-2 p-1 border-2 ${currentIndex === index ? 'border-blue-500' : 'border-gray-300'}`}
+                        className={`relative cursor-pointer  mb-2 p-1 border-2 ${currentIndex === index ? 'border-blue-500' : 'border-gray-300'}`}
                         onClick={() => goToImage(index)}
                     >
                         <Image
@@ -86,12 +86,12 @@ const ImageCarousel = ({ propertyImages }) => {
                 ))}
 
                 {/* Show the "Show all images" button if more than 4 images */}
-                {!showAll && propertyImages.length > 4 && (
+                {!showAll && propertyImages.length > 5 && (
                     <div
                         className="cursor-pointer text-blue-500 mt-2"
                         onClick={handleShowAllClick}
                     >
-                        Show all
+                      
                     </div>
                 )}
 

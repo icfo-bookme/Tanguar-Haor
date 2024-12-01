@@ -84,7 +84,7 @@ export default async function Property() {
                       {property.property_summaries.slice(3, 4).map((summary) => (
                         <div key={summary.id} className="flex items-center text-gray-700">
                           <IconShow iconName={summary.icons.icon_name} />
-                          <span className="ml-2 text-gray-900">{summary.value}</span>
+                          <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
                         </div>
                       ))}
                     </div>

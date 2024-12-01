@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaPlus, FaMinus } from "react-icons/fa"; // Import icons
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 // Dynamically import the icon based on the icon name
 const getIconComponentAsync = async (iconName) => {
@@ -18,7 +18,7 @@ const getIconComponentAsync = async (iconName) => {
       const { [iconName]: LoadedIcon } = await import("react-icons/fa");
       IconComponent = LoadedIcon;
     } else {
-      console.error(`Icon not found: ${iconName}`);
+      console.error(`...: ${iconName}`);
       return null;
     }
     return IconComponent;
@@ -29,30 +29,44 @@ const getIconComponentAsync = async (iconName) => {
 };
 
 const Accordion = ({ facilities }) => {
-  const [activeIndexes, setActiveIndexes] = useState(() => {
-    const initialActiveIndexes = {};
-    if (facilities?.length > 0 && facilities[0]?.facilities?.length > 0) {
-      initialActiveIndexes["0-0"] = true; // Open the first question
-    }
-    return initialActiveIndexes;
-  });
-
+  const [activeIndexes, setActiveIndexes] = useState({});
   const [icons, setIcons] = useState({});
+  const [defaultOpen, setDefaultOpen] = useState(null);
+
+  // Group facilities by `facility_type`
+  const groupedFacilities = facilities.facilities.reduce((acc, facility) => {
+    if (!acc[facility.facility_type]) {
+      acc[facility.facility_type] = [];
+    }
+    acc[facility.facility_type] = acc[facility.facility_type].concat(
+      facility.facilities
+    );
+    return acc;
+  }, {});
 
   useEffect(() => {
     let isMounted = true;
 
     const loadIcons = async () => {
       const iconMap = {};
-      for (const facility of facilities) {
-        for (const item of facility.facilities) {
-          const iconName = item.icons.icon_name;
-          const IconComponent = await getIconComponentAsync(iconName);
-          if (isMounted && IconComponent) {
-            iconMap[iconName] = IconComponent;
-          }
+
+      // Collect unique icons to load them efficiently
+      const uniqueIcons = new Set(
+        Object.values(groupedFacilities)
+          .flat()
+          .map((item) => item.icon)
+      );
+
+      // Load icons asynchronously
+      const iconPromises = Array.from(uniqueIcons).map(async (iconName) => {
+        const IconComponent = await getIconComponentAsync(iconName);
+        if (isMounted && IconComponent) {
+          iconMap[iconName] = IconComponent;
         }
-      }
+      });
+
+      await Promise.all(iconPromises);
+
       if (isMounted) {
         setIcons(iconMap);
       }
@@ -60,81 +74,90 @@ const Accordion = ({ facilities }) => {
 
     loadIcons();
 
+    // Set default open item
+    const firstFacilityType = Object.keys(groupedFacilities)[0];
+    if (firstFacilityType) {
+      setActiveIndexes((prev) => ({
+        ...prev,
+        [firstFacilityType]: true,
+      }));
+      setDefaultOpen(firstFacilityType);
+    }
+
     return () => {
       isMounted = false;
     };
-  }, [facilities]);
+  }, []);
 
-  const toggleAccordion = (facilityIndex, itemIndex) => {
-    const key = `${facilityIndex}-${itemIndex}`;
+  const toggleAccordion = (facilityType) => {
     setActiveIndexes((prevState) => ({
       ...prevState,
-      [key]: !prevState[key], // Toggle open/close state for the specific question
+      [facilityType]: !prevState[facilityType], // Toggle open/close state for the facility type
     }));
   };
 
   return (
     <div className="flex flex-col gap-4 mt-5">
       <div className="flex flex-wrap gap-4">
-        {facilities.map((facility, facilityIndex) => (
-          <div key={facilityIndex} className="w-full">
-            {facility.facilities &&
-              facility.facilities.map((item, itemIndex) => {
-                const iconName = item.icons.icon_name;
-                const IconComponent = icons[iconName];
-                const key = `${facilityIndex}-${itemIndex}`;
-                const isOpen = activeIndexes[key]; // Check if the question is open
+        {Object.entries(groupedFacilities).map(
+          ([facilityType, facilityItems], index) => {
+            const isOpen =
+              activeIndexes[facilityType] || defaultOpen === facilityType; // Default open first
+            const IconComponent = facilityItems[0]?.icon
+              ? icons[facilityItems[0].icon]
+              : null;
 
-                return (
-                  <div key={itemIndex} className="w-full mb-4 mouse-pointer ">
-                    {/* Accordion Header */}
-                    <div
-                      className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
-                      onClick={() => toggleAccordion(facilityIndex, itemIndex)}
-                    >
-                      {/* Left: Icon and Facility Name */}
-                      <div className="flex items-center">
-                        {/* Icon */}
-                        {IconComponent ? (
-                          <IconComponent
-                            className="text-blue-800 text-2xl font-bold"
-                            size={30}
-                          />
-                        ) : (
-                          <span className="text-red-500">Icon not found</span>
-                        )}
-                        {/* Facility Name */}
-                        <span className="font-semibold ml-2 cursor-pointer text-blue-800 text-2xl">
-                          {item.facilty_name}
-                        </span>
-                      </div>
+            return (
+              <div key={index} className="w-full">
+                {/* Accordion Header */}
+                <div
+                  className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
+                  onClick={() => toggleAccordion(facilityType)}
+                >
+                  {/* Left: Icon and Facility Type */}
+                  <div className="flex items-center">
+                    {/* Icon */}
+                    {IconComponent ? (
+                      <IconComponent
+                        className="text-blue-800 text-2xl font-bold"
+                        size={30}
+                      />
+                    ) : (
+                      <span className="text-red-500">...</span>
+                    )}
+                    {/* Facility Type */}
+                    <span className="font-semibold ml-2 cursor-pointer text-blue-800 text-2xl">
+                      {facilityType} {/* This is the question */}
+                    </span>
+                  </div>
 
-                      {/* Right: + or - Icon */}
-                      <div>
-                        {isOpen ? (
-                          <FaMinus className="text-gray-400 cursor-pointer" size={20} />
-                        ) : (
-                          <FaPlus className="text-gray-400 cursor-pointer" size={20} />
-                        )}
-                      </div>
-                    </div>
+                  {/* Right: + or - Icon */}
+                  <div>
+                    {isOpen ? (
+                      <FaMinus className="text-gray-400 cursor-pointer" size={20} />
+                    ) : (
+                      <FaPlus className="text-gray-400 cursor-pointer" size={20} />
+                    )}
+                  </div>
+                </div>
 
-                    {/* Accordion Content */}
-                    <div
-                      className={`p-4 bg-gray-50 rounded-md shadow-inner ${
-                        isOpen ? "block" : "hidden"
-                      }`}
-                    >
+                {/* Accordion Content */}
+                <div
+                  className={`p-4 bg-gray-50 rounded-md shadow-inner ${isOpen ? "block" : "hidden"}`}
+                >
+                  {facilityItems.map((item, itemIndex) => (
+                    <div key={itemIndex} className="custom-content text-blue-900 text-sm leading-relaxed mb-2">
+                      <h1 className=" font-bold">{item.facility_name}</h1> {/* Displaying facility name */}
                       <div
-                        className="custom-content text-blue-900 text-sm leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: item.value }}
                       />
                     </div>
-                  </div>
-                );
-              })}
-          </div>
-        ))}
+                  ))}
+                </div>
+              </div>
+            );
+          }
+        )}
       </div>
     </div>
   );
