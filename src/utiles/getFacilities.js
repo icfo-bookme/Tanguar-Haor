@@ -1,7 +1,7 @@
 
 
 const getFacilities =  async(id) => {
-    let res= await fetch(`http://127.0.0.1:8000/api/propertyfacilities/${id}`);
+    let res= await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/propertyfacilities/${id}`);
     let propertyFacilities = await res.json();
     return propertyFacilities;
 };

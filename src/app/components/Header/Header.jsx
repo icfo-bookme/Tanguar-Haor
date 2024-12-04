@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { FaSquarePhone } from "react-icons/fa6";
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 import { FiMenu } from 'react-icons/fi'; 
 import { IoClose } from 'react-icons/io5'; 
 import Link from 'next/link'; 

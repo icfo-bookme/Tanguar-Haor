@@ -96,60 +96,61 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Footer Middle Area */}
-                    <div className="footer-middle-area text-gray-950 py-8 bg-white rounded-xl p-12 mt-20">
-                        <div className="footer-body flex justify-between gap-40 items-center">
-                            <div className="footer-content space-y-4 flex-1">
-                                <div className="logo">
-                                    <Image 
-                                        src="/assets/images/logo/logo.png" 
-                                        alt="travello" 
-                                        className="changeLogo"
-                                        width={150}
-                                        height={100}
-                                    />
-                                </div>
-                                <p className="pera text-gray-700">
-                                    Travel is a transformative and enriching experience that allows individuals to explore new destinations, cultures, and landscapes.
-                                </p>
-                            </div>
-                            <div className="footer-right flex-1">
-                                <h4 className="title text-lg font-semibold mb-4">Subscribe Our Newsletter</h4>
-                                <div className="subscribe-wrapper bg-white p-4 rounded-md shadow-md">
-                                    <input
-                                        className="footer-search p-2 w-64 text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        type="email"
-                                        name="footer"
-                                        placeholder="Enter Your Email"
-                                    />
-                                    <button className="subscribe-btn bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
-                                        Subscribe
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                   {/* Footer Middle Area */}
+<div className="footer-middle-area text-gray-950 py-8 bg-white rounded-xl p-6 md:p-12 mt-20">
+    <div className="footer-body flex flex-col md:flex-row justify-between gap-10 md:gap-20 lg:gap-40 items-center">
+        <div className="footer-content space-y-4 flex-1 text-center md:text-left">
+            <div className="logo">
+                <Image 
+                    src="/assets/images/logo/logo.png" 
+                    alt="travello" 
+                    className="changeLogo mx-auto md:mx-0"
+                    width={150}
+                    height={100}
+                />
+            </div>
+            <p className="pera text-gray-700">
+                Travel is a transformative and enriching experience that allows individuals to explore new destinations, cultures, and landscapes.
+            </p>
+        </div>
+        <div className="footer-right flex-1 text-center md:text-left">
+            <h4 className="title text-lg font-semibold mb-4">Subscribe Our Newsletter</h4>
+            <div className="subscribe-wrapper bg-white p-4 rounded-md shadow-md inline-block md:w-auto">
+                <input
+                    className="footer-search p-2 w-full md:w-64 text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 md:mb-0 md:mr-4"
+                    type="email"
+                    name="footer"
+                    placeholder="Enter Your Email"
+                />
+                <button className="subscribe-btn bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300 w-full md:w-auto">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </div>
 
-                        {/* Footer Bottom */}
-                        <div className="footer-bottom py-4 mt-8">
-                            <ul className="listing flex gap-10 space-x-6">
-                                <li className="single-list">
-                                    <Link href="/terms-condition" className="single text-gray-700 hover:text-white transition duration-300">
-                                        Terms of use
-                                    </Link>
-                                </li>
-                                <li className="single-list">
-                                    <Link href="/privacy-policy" className="single text-gray-700 hover:text-white transition duration-300">
-                                        Privacy and Cookies Statement
-                                    </Link>
-                                </li>
-                                <li className="single-list">
-                                    <Link href="/contact" className="single text-gray-700 hover:text-white transition duration-300">
-                                        How the site works
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+    {/* Footer Bottom */}
+    <div className="footer-bottom py-4 mt-8">
+        <ul className="listing flex flex-col md:flex-row justify-center md:justify-start gap-6 space-x-0 md:space-x-6">
+            <li className="single-list">
+                <Link href="/terms-condition" className="single text-gray-700 hover:text-blue-600 transition duration-300">
+                    Terms of use
+                </Link>
+            </li>
+            <li className="single-list">
+                <Link href="/privacy-policy" className="single text-gray-700 hover:text-blue-600 transition duration-300">
+                    Privacy and Cookies Statement
+                </Link>
+            </li>
+            <li className="single-list">
+                <Link href="/contact" className="single text-gray-700 hover:text-blue-600 transition duration-300">
+                    How the site works
+                </Link>
+            </li>
+        </ul>
+    </div>
+</div>
+
                 </div>
             </div>
 

@@ -1,7 +1,7 @@
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import "./globals.css";
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 
 // Font setup at module scope
 const inter = Inter({
