@@ -1,8 +1,8 @@
 const propertySummary = async () => {
 
     try {
-        const response = await fetch(`https://freecvbd.com/admin/api/propertySummary`);
-    const data = await response.json();
+        const res = await fetch(`https://freecvbd.com/admin/api/propertySummary`);
+    const data = await res.json();
     return data; 
     } catch (error) {
         console.log(error);
