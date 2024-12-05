@@ -11,14 +11,15 @@ export default function Home() {
     <main className="">
 
       <Banner />
-      <div className="grid grid-cols-7 mt-10 gap-5 w-[100%] lg:w-[90%] mx-auto" >
+      <div className="bg-[#EBF0F4] -mt-10 pt-10">
+      <div className="grid grid-cols-10 mt-10  w-[100%] lg:w-[78%] mx-auto bg" >
         <div className="col-span-2 lg:flex hidden">
           <FilterSidebar></FilterSidebar>
         </div>
-        <div className="col-span-5">
+        <div className="col-span-8">
           <Property />
         </div>
-
+        </div>
       </div>
       
 

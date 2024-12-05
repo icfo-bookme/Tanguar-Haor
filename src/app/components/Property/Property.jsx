@@ -17,16 +17,16 @@ export default async function Property() {
   return (
     <div className="container lg:w-full w-screen mx-auto px-4">
       {data?.map((property) => (
-        <div key={property.property_id} className="mb-10">
+        <div key={property.property_id} className="mb-5">
           <Link href={`/Property/${property.property_id}`}>
-            <div className="shadow flex flex-col md:flex-row gap-5">
+            <div className="shadow-custom flex flex-col md:flex-row gap-5 p-5 rounded bg-white">
               {/* Property Image */}
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${property.main_img}`}
                 alt={property.property_name}
-                width={500}
+                width={600}
                 height={300}
-                className="rounded-lg object-cover w-full md:w-[200px] md:h-[200px] h-[200px] mx-auto"
+                className=" object-cover w-full md:w-[300px] md:h-[200px] h-[200px] mx-auto"
               />
 
               {/* Property Information */}

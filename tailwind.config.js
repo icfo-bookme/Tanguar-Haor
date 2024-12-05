@@ -12,6 +12,9 @@ module.exports = {
         center: true, // Centers the container
         padding: '0', // Removes default padding
       },
+      boxShadow: {
+        'custom': 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+      },
       colors: {
         background: "var(--background)", 
         foreground: "var(--foreground)", 

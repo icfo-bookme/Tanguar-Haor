@@ -25,7 +25,7 @@ const Header = () => {
     <header className={`header-area-three ${inter.className}`}>
       <div className="main-header">
         {/* Header Top */}
-        <div className="header-top  w-[85%] mx-auto py-2 border-b border-gray-200 hidden sm:block">
+        <div className="header-top  w-[78%] mx-auto py-2 border-b border-gray-200 hidden sm:block">
           <div className="container mx-auto">
             <div className="flex justify-between items-center">
               {/* Contact Section */}
@@ -65,7 +65,7 @@ const Header = () => {
 
         {/* Header Bottom */}
         <div className="header-bottom shadow-xl">
-          <div className="container  w-[85%]  mx-auto">
+          <div className="container  w-[78%]  mx-auto">
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
               <div className="logo">
