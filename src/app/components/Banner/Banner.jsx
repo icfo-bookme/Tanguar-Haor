@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Banner() {
   return (
-    <section className="relative -mt-6 h-[40vh] md:h-[50vh] sm:h-[40vh] p-0 m-0">
+    <section className="relative -mt-6 h-[40vh] md:h-[50vh] sm:h-[50vh] p-0 m-0">
       {/* Background Video */}
       <div className="absolute inset-0 overflow-hidden">
         <video
@@ -21,10 +21,10 @@ export default function Banner() {
       {/* Content Overlay */}
       <div className="relative z-10 flex items-center h-full px-4 md:px-8">
         <div className="text-white w-full lg:w-3/5 space-y-6 pl-8 lg:pl-16 text-left">
-          <h4 className="text-4xl sm:text-5xl font-bold mb-4 animate__animated animate__fadeInUp">
+          <h4 className="text-xl lg:text-4xl font-bold mb-4 animate__animated animate__fadeInUp">
             Plan tours to dream <br /> locations in just a click!
           </h4>
-          <p className="text-base sm:text-lg animate__animated animate__fadeInUp animate__delay-1s">
+          <p className="text-base sm:text-[8px] animate__animated animate__fadeInUp animate__delay-1s">
             Travel is a transformative and enriching experience that allows
             individuals to explore new destinations, cultures, and landscapes.
           </p>
