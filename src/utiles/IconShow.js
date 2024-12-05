@@ -1,5 +1,6 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+
+import React, { useState, useEffect } from "react";
 
 const IconShow = ({ iconName }) => {
   const [IconComponent, setIconComponent] = useState(null);
@@ -12,27 +13,25 @@ const IconShow = ({ iconName }) => {
         let LoadedIcon = null;
 
         if (iconName.startsWith("Tb")) {
-          const { [iconName]: Icon } = await import("react-icons/tb");
-          LoadedIcon = Icon;
+          const icons = await import("react-icons/tb");
+          LoadedIcon = icons[iconName];
         } else if (iconName.startsWith("Io")) {
-          const { [iconName]: Icon } = await import("react-icons/io5");
-          LoadedIcon = Icon;
+          const icons = await import("react-icons/io5");
+          LoadedIcon = icons[iconName];
         } else if (iconName.startsWith("Fa")) {
-          const { [iconName]: Icon } = await import("react-icons/fa");
-          LoadedIcon = Icon;
+          const icons = await import("react-icons/fa");
+          LoadedIcon = icons[iconName];
         } else if (iconName.startsWith("Ci")) {
-            const { [iconName]: Icon } = await import("react-icons/ci");
-            LoadedIcon = Icon;
-          }else if (iconName.startsWith("Go")) {
-            const { [iconName]: Icon } = await import("react-icons/go");
-            LoadedIcon = Icon;
-          }else if (iconName.startsWith("Pi")) {
-            const { [iconName]: Icon } = await import("react-icons/pi");
-            LoadedIcon = Icon;
-          }
-          
-        else {
-          console.error(`#: ${iconName}`);
+          const icons = await import("react-icons/ci");
+          LoadedIcon = icons[iconName];
+        } else if (iconName.startsWith("Go")) {
+          const icons = await import("react-icons/go");
+          LoadedIcon = icons[iconName];
+        } else if (iconName.startsWith("Pi")) {
+          const icons = await import("react-icons/pi");
+          LoadedIcon = icons[iconName];
+        } else {
+          console.error(`Unknown icon library for: ${iconName}`);
           return;
         }
 
@@ -45,7 +44,6 @@ const IconShow = ({ iconName }) => {
     loadIcon();
   }, [iconName]);
 
-  // Return the icon component, or null if not loaded
   return IconComponent ? <IconComponent size={20} /> : null;
 };
 
