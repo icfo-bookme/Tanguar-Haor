@@ -7,7 +7,8 @@ const propertySummary = async () => {
     } catch (error) {
         console.log(error);
         return []
-    }
+    }  
+    //
     
 };
 
