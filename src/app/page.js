@@ -12,16 +12,20 @@ export default function Home() {
 
       <Banner />
       <div className="bg-[#EBF0F4] -mt-10 pt-10">
-      <div className="grid grid-cols-10 mt-10  w-[100%] lg:w-[78%] mx-auto bg" >
-        <div className="col-span-2 lg:flex hidden">
-          <FilterSidebar></FilterSidebar>
-        </div>
-        <div className="col-span-8">
-          <Property />
-        </div>
+        <div className="grid grid-cols-11 mt-10 w-[100%] lg:w-[85%] gap-5 mx-auto">
+          {/* Sidebar */}
+          <div className="w-full col-span-3 h-auto bg-white p-2 border rounded-lg shadow">
+            <FilterSidebar />
+          </div>
+
+          {/* Main Content */}
+          <div className="col-span-8 ">
+            <Property />
+          </div>
         </div>
       </div>
-      
+
+
 
     </main>
 

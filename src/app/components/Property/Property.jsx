@@ -26,16 +26,16 @@ export default async function Property() {
                 alt={property.property_name}
                 width={600}
                 height={300}
-                className=" object-cover w-full md:w-[300px] md:h-[200px] h-[200px] mx-auto"
+                className=" object-cover w-full md:w-[200px] md:h-[200px] h-[200px] mx-auto"
               />
 
               {/* Property Information */}
               <div className="flex flex-col w-full pr-4">
                 <div className="flex justify-between items-center w-full">
-                  <h1 className="font-semibold text-xl text-gray-900">
+                  <h1 className="font-semibold text-lg text-[#00026E] ">
                     {property.property_name}
                   </h1>
-                  <h1 className="font-normal text-right">
+                  <h1 className="font-normal text-sm text-[#00026E] text-right">
                     Starting from <br />
                     <span className="font-bold text-lg text-blue-900">
                       {(() => {
@@ -56,7 +56,7 @@ export default async function Property() {
                       {property.property_summaries.slice(0, 1).map((summary) => (
                         <div key={summary.id} className="flex items-center text-blue-700">
                           <IconShow iconName={summary.icons.icon_name} />
-                          <span className="ml-2 text-blue-900">{summary.value}</span>
+                          <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
                         </div>
                       ))}
                     </div>
@@ -68,7 +68,7 @@ export default async function Property() {
                         {property.property_summaries.slice(1, 3).map((summary) => (
                           <div key={summary.id} className="flex items-center text-gray-700">
                             <IconShow iconName={summary.icons.icon_name} />
-                            <span className="ml-2 text-gray-900">{summary.value}</span>
+                            <span className="ml-2 text-sm text-gray-900">{summary.value}</span>
                           </div>
                         ))}
                       </div>
