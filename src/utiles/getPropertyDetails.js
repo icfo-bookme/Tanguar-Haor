@@ -2,7 +2,7 @@
 
 const getPropertyDetails = async (id) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/propertySummary/${id}`);
+        const response = await fetch(`https://freecvbd.com/admin/api/propertySummary/${id}`);
         const propertyDetails = await response.json();
         return propertyDetails; 
     } catch (error) {
