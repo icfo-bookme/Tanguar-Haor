@@ -25,11 +25,11 @@ export default async function Page({ params }) {
     const propertyFacilities = await getFacilities(id);
 
     return (
-        <div className="bg-white">
-            <div className="container mx-auto w-[82%]">
-                <div className="lg:grid grid-cols-3 gap-8">
+        <div className="bg-gray-200 -mt-6 pt-5">
+            <div className="container mx-auto w-[82%]  ">
+                <div className="lg:grid grid-cols-3 bg-white rounded  gap-8 pr-3">
                     {/* Image Carousel or Fallback */}
-                    <div className="col-span-2">
+                    <div className="col-span-2 -mt-1">
                         {propertyImages && propertyImages.length > 0 ? (
                             <ImageCarousel propertyImages={propertyImages} />
                         ) : (
@@ -40,7 +40,7 @@ export default async function Page({ params }) {
                     </div>
 
                     {/* Property Details */}
-                    <div className="col-span-1 pt-5">
+                    <div className="col-span-1 pt-4 ">
                         {propertyDetails?.map((property, index) => (
                             <div key={index}>
                                 <h2 className="text-xl text-blue-700 font-semibold">{property.property_name}</h2>
@@ -84,7 +84,7 @@ export default async function Page({ params }) {
 
                 {/* Property Facilities */}
                 <div className="bg-white">
-                    <div className="w-full pl-4 mt-10 pt-5">
+                    <div className="w-full pl-4 mt-5 pt-5">
                         <div className="flex -mx-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
                             <a
                                 href="#"
@@ -103,10 +103,11 @@ export default async function Page({ params }) {
                                 className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-transparent dark:border-violet-600 dark:text-gray-900"
                             >
                                 Policy
-                            </a>
+                            </a> 
                         </div>
+                        <hr />
 
-                        <div className="lg:grid grid-cols-3 gap-10">
+                        <div className="lg:grid grid-cols-3 gap-10 rounded">
                             <div className="col-span-2 pt-5">
                                 <Accordion facilities={propertyFacilities} />
                             </div>

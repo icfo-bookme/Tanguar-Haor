@@ -73,7 +73,7 @@ const ImageCarousel = ({ propertyImages }) => {
                     {displayedImages.map((image, index) => (
                         <div
                             key={index}
-                            className={`relative cursor-pointer mb-2 p-1 border-2 ${
+                            className={`relative cursor-pointer mb-2 -mt-1 border-2 ${
                                 currentIndex === index ? "border-blue-500" : "border-gray-300"
                             }`}
                             onClick={() => goToImage((currentIndex + index) % propertyImages.length)}
@@ -83,7 +83,7 @@ const ImageCarousel = ({ propertyImages }) => {
                                 alt={`Thumbnail ${index + 1}`}
                                 width={80}
                                 height={80}
-                                className="object-cover rounded"
+                                className="object-cover "
                             />
                             {!showAll && propertyImages.length > 5 && index === 4 && (
                                 <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex justify-center items-center text-sm font-bold">

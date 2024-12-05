@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Banner() {
   return (
-    <section className="relative -mt-6 h-[60vh] md:h-[60vh] sm:h-[40vh] p-0 m-0">
+    <section className="relative -mt-6 h-[40vh] md:h-[50vh] sm:h-[40vh] p-0 m-0">
       {/* Background Video */}
       <div className="absolute inset-0 overflow-hidden">
         <video

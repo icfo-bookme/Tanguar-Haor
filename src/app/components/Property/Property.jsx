@@ -19,7 +19,7 @@ export default async function Property() {
       {data?.map((property) => (
         <div key={property.property_id} className="mb-10">
           <Link href={`/Property/${property.property_id}`}>
-            <div className="shadow-xl flex flex-col md:flex-row gap-5">
+            <div className="shadow flex flex-col md:flex-row gap-5">
               {/* Property Image */}
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${property.main_img}`}
