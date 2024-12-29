@@ -2,7 +2,9 @@
 import IconShow from "@/app/components/IconShow/IconShow";
 import React, { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { Inter } from "next/font/google";
 
+const inter = Inter({ subsets: ["latin"] });
 
 const Accordion = ({ facilities }) => {
   const [activeIndexes, setActiveIndexes] = useState({});
@@ -37,7 +39,7 @@ const Accordion = ({ facilities }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 mt-5">
+    <div className={`${inter.className} flex flex-col gap-4 mt-5`}>
       <div className="flex flex-wrap gap-4">
         {Object.entries(groupedFacilities).map(
           ([facilityType, facilityItems], index) => {
@@ -60,7 +62,7 @@ const Accordion = ({ facilities }) => {
                         size={30}
                       />
                     )}
-                    <span className="font-semibold ml-2 cursor-pointer !text-blue-800 text-xl">
+                    <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
                       {facilityType}
                     </span>
                   </div>
@@ -74,7 +76,7 @@ const Accordion = ({ facilities }) => {
                 </div>
 
                 <div
-                  className={`p-4 bg-gray-50 rounded-md shadow-inner ${
+                  className={`p-4 bg-gray-50 rounded-md shadow-inner leading-loose ${
                     isOpen ? "block" : "hidden"
                   }`}
                 >
@@ -83,7 +85,7 @@ const Accordion = ({ facilities }) => {
                       key={itemIndex}
                       className="custom-content text-blue-900 text-sm leading-relaxed mb-2"
                     >
-                      <h1 className="font-bold">{item.facility_name}</h1>
+                      <h1 className="font-bold mb-1">{item.facility_name}</h1>
                       <div dangerouslySetInnerHTML={{ __html: item.value }} />
                     </div>
                   ))}

@@ -24,7 +24,7 @@ export default function Banner() {
           <h4 className="text-xl lg:text-4xl font-bold mb-4 animate__animated animate__fadeInUp">
             Plan tours to dream <br /> locations in just a click!
           </h4>
-          <p className="text-base sm:text-[8px] animate__animated animate__fadeInUp animate__delay-1s">
+          <p className="text-base sm:text-[16px] animate__animated animate__fadeInUp animate__delay-1s">
             Travel is a transformative and enriching experience that allows
             individuals to explore new destinations, cultures, and landscapes.
           </p>
