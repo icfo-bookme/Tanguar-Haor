@@ -84,6 +84,8 @@ const ImageCarousel = ({ propertyImages }) => {
                                 width={80}
                                 height={80}
                                 className="object-cover "
+                                loading="lazy" 
+                                 quality={75}
                             />
                             {!showAll && propertyImages.length > 5 && index === 4 && (
                                 <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex justify-center items-center text-sm font-bold">

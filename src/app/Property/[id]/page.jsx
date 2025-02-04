@@ -9,12 +9,10 @@ import Image from "next/image";
 import { FaRegClock, FaRegUser } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 
-
 export default async function Page({ params }) {
     const { id } = await params;
 
     const iconMap = {
-        // SlLocationPin: <SlLocationPin size={25} />,
         FaRegUser: <FaRegUser size={25} />,
         FaRegClock: <FaRegClock size={25} />,
     };
@@ -24,10 +22,23 @@ export default async function Page({ params }) {
     const propertyDetails = await getPropertyDetails(id);
     const propertyFacilities = await getFacilities(id);
 
+    // Loading skeleton
+    const loadingSkeleton = (
+        <div className="bg-white rounded shadow-md p-4">
+            <div className="animate-pulse space-y-4">
+                <div className="h-48 bg-gray-200 rounded-lg"></div>
+                <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+                <div className="h-6 bg-gray-300 rounded w-1/2"></div>
+                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+            </div>
+        </div>
+    );
+
     return (
         <div className="bg-gray-200 -mt-6 pt-5">
-            <div className="container mx-auto w-[82%]  ">
-                <div className="lg:grid grid-cols-3 bg-white rounded  gap-8 pr-3">
+            <div className="container mx-auto w-[82%]">
+                <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-3">
                     {/* Image Carousel or Fallback */}
                     <div className="col-span-2 -mt-1">
                         {propertyImages && propertyImages.length > 0 ? (
@@ -40,45 +51,54 @@ export default async function Page({ params }) {
                     </div>
 
                     {/* Property Details */}
-                    <div className="col-span-1 pt-4 ">
-                        {propertyDetails?.map((property, index) => (
-                            <div key={index}>
-                                <h2 className="text-xl text-blue-700 font-semibold">{property.property_name}</h2>
-                                <p className="flex pb-3 items-center">
-                                    <strong><IoLocation /></strong> {property.address}
-                                </p>
-                                <Image
-                                    src="/map.png"
-                                    alt="map"
-                                    width={400}
-                                    height={200}
-                                    className="rounded-lg"
-                                />
-                                {property?.property_summaries && property.property_summaries.length > 0 && (
-                                    <div className="flex flex-col gap-3 mt-3">
-                                        <div className="flex flex-wrap gap-4">
-                                            {property.property_summaries.slice(0, 1).map((summary) => (
-                                                <div key={summary.id} className="flex items-center text-blue-700">
-                                                    <IconShow iconName={summary.icons.icon_name} />
-                                                    <span className="ml-2 text-blue-900">{summary.value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex flex-wrap justify-between items-center gap-4">
-                                            <div className="flex gap-4 w-full md:w-auto">
-                                                {property.property_summaries.slice(1, 3).map((summary) => (
-                                                    <div key={summary.id} className="flex items-center text-gray-700">
-                                                        <IconShow iconName={summary?.icons?.icon_name} />
-                                                        <span className="ml-2 text-gray-900">{summary.value}</span>
+                    <div className="col-span-1 pt-4">
+                        {propertyDetails?.length === 0 ? (
+                            loadingSkeleton
+                        ) : (
+                            propertyDetails?.map((property, index) => (
+                                <div key={index}>
+                                    <h2 className="text-xl text-blue-700 font-semibold">{property.property_name}</h2>
+                                    <p className="flex pb-3 items-center">
+                                        <strong>
+                                            <IoLocation />
+                                        </strong>{" "}
+                                        {property.address}
+                                    </p>
+                                    <Image
+                                        src="/map.png"
+                                        alt="map"
+                                        width={400}
+                                        height={200}
+                                        className="rounded-lg"
+                                        loading="lazy" 
+                                        quality={75}
+                                    />
+                                    {property?.property_summaries && property.property_summaries.length > 0 && (
+                                        <div className="flex flex-col gap-3 mt-3">
+                                            <div className="flex flex-wrap gap-4">
+                                                {property.property_summaries.slice(0, 1).map((summary) => (
+                                                    <div key={summary.id} className="flex items-center text-blue-700">
+                                                        <IconShow iconName={summary.icons.icon_name} />
+                                                        <span className="ml-2 text-blue-900">{summary.value}</span>
                                                     </div>
                                                 ))}
                                             </div>
+
+                                            <div className="flex flex-wrap justify-between items-center gap-4">
+                                                <div className="flex gap-4 w-full md:w-auto">
+                                                    {property.property_summaries.slice(1, 3).map((summary) => (
+                                                        <div key={summary.id} className="flex items-center text-gray-700">
+                                                            <IconShow iconName={summary?.icons?.icon_name} />
+                                                            <span className="ml-2 text-gray-900">{summary.value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                    )}
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -103,7 +123,7 @@ export default async function Page({ params }) {
                                 className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-transparent dark:border-violet-600 dark:text-gray-900"
                             >
                                 Policy
-                            </a> 
+                            </a>
                         </div>
                         <hr />
 
@@ -114,7 +134,9 @@ export default async function Page({ params }) {
 
                             <div className="col-span-1">
                                 <div>
-                                    <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900  mt-10">Get Free Tour Consultation</h1>
+                                    <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
+                                        Get Free Tour Consultation
+                                    </h1>
                                     <ContactForm />
                                 </div>
                             </div>

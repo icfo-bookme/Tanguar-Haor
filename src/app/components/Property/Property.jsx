@@ -18,7 +18,7 @@ export default async function Property() {
     <div className="container lg:w-full w-screen mx-auto px-4">
       {data?.map((property) => (
         <div key={property.property_id} className="mb-5">
-          <Link href={`/Property/${property.property_id}`}>
+          <Link href={`/Property/${property.property_id}`} prefetch={true}>
             <div className="shadow-custom flex flex-col md:flex-row gap-5 p-5 rounded bg-white">
               {/* Property Image */}
               <Image
