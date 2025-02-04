@@ -26,7 +26,7 @@ export default async function Property() {
                 alt={property.property_name}
                 width={600}
                 height={300}
-                className=" object-cover w-full md:w-[200px] md:h-[200px] h-[200px] mx-auto"
+                className=" object-cover w-full md:w-[300px] md:h-[230px] h-[200px] mx-auto"
               />
 
               {/* Property Information */}
