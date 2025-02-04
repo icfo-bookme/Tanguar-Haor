@@ -36,7 +36,7 @@ export default async function Page({ params }) {
     );
 
     return (
-        <div className="bg-gray-200 -mt-6 pt-5">
+        <div className="bg-gray-200 -mt-6 pt-5 px-3">
             <div className="container mx-auto ">
                 <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-3">
                     {/* Image Carousel or Fallback */}
