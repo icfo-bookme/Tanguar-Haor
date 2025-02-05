@@ -49,28 +49,55 @@ const Accordion = ({ facilities }) => {
 
             return (
               <div key={index} className="w-full">
-                <div
+                <div  id="detail"
                   className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
                   onClick={() => toggleAccordion(facilityType)}
                 >
-                  <div className="flex items-center">
+                 
                     {/* Dynamically Render Icon */}
-                    {firstIcon && (
-                      <IconShow
-                        iconName={firstIcon}
-                        className="text-blue-800"
-                        size={30}
-                      />
+
+                    {facilityType !== "Options" && (
+                      <div className="flex items-center">
+                        {firstIcon && (
+                          <IconShow
+                            iconName={firstIcon}
+                            className="text-blue-800"
+                            size={30}
+                          />
+                        )}
+                        <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
+                          {facilityType}
+                        </span>
+                      </div>
                     )}
-                    <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
-                      {facilityType}
-                    </span>
+                 
+                  <div>
+                  {facilityType == "Options" && (
+                      <div className="flex items-center" id="option">
+                        {firstIcon && (
+                          <IconShow
+                            iconName={firstIcon}
+                            className="text-blue-800"
+                            size={30}
+                          />
+                        )}
+                        <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
+                          {facilityType}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div>
                     {isOpen ? (
-                      <FaMinus className="text-gray-400 cursor-pointer" size={20} />
+                      <FaMinus
+                        className="text-gray-400 cursor-pointer"
+                        size={20}
+                      />
                     ) : (
-                      <FaPlus className="text-gray-400 cursor-pointer" size={20} />
+                      <FaPlus
+                        className="text-gray-400 cursor-pointer"
+                        size={20}
+                      />
                     )}
                   </div>
                 </div>

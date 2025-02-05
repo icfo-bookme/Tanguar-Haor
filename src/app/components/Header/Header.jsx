@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <header className={`header-area-three ${inter.className}`}>
-      <div className="main-header fixed w-full z-50 bg-gray-100 max-w-[1440px] mx-auto">
+      <div className="main-header fixed w-full z-50 bg-gray-100 max-w-[1440px] ">
         {/* Header Top */}
 
         {/* Header Bottom */}

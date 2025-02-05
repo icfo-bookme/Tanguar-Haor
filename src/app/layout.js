@@ -19,9 +19,21 @@ export default function DashboardLayout({ children }) {
       </head>
       <body className={inter.className}> {/* Applying the Inter font globally */}
       <div className="max-w-[1440px] mx-auto">
-        <Header />
+      <Header />
+       
+        
         {/* Main content */}
-        <main className="py-6">{children}</main>
+        <div className="">
+        
+        <main className="py-6 ">
+        <div className="mb-[55px]">
+        
+        </div>
+          {children}
+
+        </main>
+        </div>
+        
         <Footer></Footer>
         </div>
       </body>

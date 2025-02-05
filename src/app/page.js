@@ -9,7 +9,7 @@ export default function Home() {
   return (
 
     <main className="max-w-[1440px] mx-auto">
-      <div className="mt-[55px] md:mt-[66px] ">
+      <div className="  ">
       <Banner />
       </div>
       <div className="bg-[#EBF0F4] -mt-10 pt-10 ">
