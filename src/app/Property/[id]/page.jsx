@@ -36,11 +36,11 @@ export default async function Page({ params }) {
     );
 
     return (
-        <div className="bg-gray-200  ">
+        <div className="bg-gray-200 -mt-4 ">
             <div className="container mx-auto w-[85%]">
-                <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-1">
+                <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-1 pt-1">
                     {/* Image Carousel or Fallback */}
-                    <div className="col-span-2 -mt-1">
+                    <div className="col-span-2 ">
                         {propertyImages && propertyImages.length > 0 ? (
                             <ImageCarousel propertyImages={propertyImages} />
                         ) : (
@@ -51,7 +51,7 @@ export default async function Page({ params }) {
                     </div>
 
                     {/* Property Details */}
-                    <div className="col-span-1 pt-4">
+                    <div className="col-span-1 p-4">
                         {propertyDetails?.length === 0 ? (
                             loadingSkeleton
                         ) : (
@@ -69,7 +69,7 @@ export default async function Page({ params }) {
                                         alt="map"
                                         width={400}
                                         height={200}
-                                        className="rounded-lg"
+                                        
                                         loading="lazy" 
                                         quality={75}
                                     />

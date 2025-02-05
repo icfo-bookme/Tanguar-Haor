@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const ImageCarousel = ({ propertyImages }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showAll, setShowAll] = useState(false);
     const [isAutoChanging, setIsAutoChanging] = useState(true);
 
     const nextImage = () => {
@@ -21,85 +20,83 @@ const ImageCarousel = ({ propertyImages }) => {
         setCurrentIndex(index);
     };
 
-    const handleShowAllClick = () => {
-        setShowAll(!showAll);
-    };
-
     useEffect(() => {
         if (!isAutoChanging) return;
 
         const interval = setInterval(() => {
             nextImage();
-        }, 5000); // Change image every 10 seconds
+        }, 2000); // Change image every 5 seconds
 
         return () => clearInterval(interval);
     }, [isAutoChanging, currentIndex, propertyImages.length]);
 
-    const displayedImages = showAll ? propertyImages : propertyImages.slice(0, 5);
-
     return (
-        <div className="flex sm:flex-col col-span-2">
+        <div className="relative w-full max-w-4xl mx-auto">
             {/* Main Image Display */}
-            <div className="flex-1 relative flex justify-between items-center">
-                <div className="relative w-full h-96">
+            <div className="relative w-full h-96 flex items-center justify-center">
+                {/* Button Wrapper */}
+                <div className="absolute inset-0 flex justify-between items-center px-4 z-50">
+                    {/* Previous Button */}
+                    <button
+                        onClick={prevImage}
+                        className="bg-black bg-opacity-50 text-white p-4 rounded-full shadow-lg 
+                                   hover:bg-opacity-80 transition duration-300"
+                    >
+                        ◀
+                    </button>
+
+                    {/* Next Button */}
+                    <button
+                        onClick={nextImage}
+                        className="bg-black bg-opacity-50 text-white p-4 rounded-full shadow-lg 
+                                   hover:bg-opacity-80 transition duration-300"
+                    >
+                        ▶
+                    </button>
+                </div>
+
+                <div className="relative w-full h-full">
                     <Image
                         src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${propertyImages[currentIndex]?.path}`}
                         alt={`Property Image ${currentIndex + 1}`}
                         layout="fill"
-                        className="object-cover rounded shadow"
+                        className="object-cover rounded-lg shadow"
                         sizes="(max-width: 768px) 100vw, 33vw"
                     />
                 </div>
             </div>
 
-            {/* Preview Thumbnails */}
-            <div className="flex flex-col justify-start mt-2 pl-4 h-96">
-                {displayedImages.map((image, index) => {
-                    const realIndex = showAll ? index : index; // Ensure proper indexing
-                    return (
-                        <div
-                            key={realIndex}
-                            className={`relative cursor-pointer border-2 pb-3 ${
-                                currentIndex === realIndex ? "border-blue-500" : "border-gray-300"
-                            }`}
-                            onClick={() => goToImage(realIndex)}
-                        >
-                            <Image
-                                src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
-                                alt={`Thumbnail ${realIndex + 1}`}
-                                width={80}
-                                height={80}
-                                className="object-cover"
-                                loading="lazy"
-                                quality={75}
-                            />
+            {/* Pagination Dots */}
+            <div className="flex justify-center mt-4">
+                {propertyImages.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => goToImage(index)}
+                        className={`w-3 h-3 mx-1 rounded-full transition-all duration-300 ${
+                            index === currentIndex ? "bg-blue-500 scale-125" : "bg-gray-300"
+                        }`}
+                    />
+                ))}
+            </div>
 
-                            {!showAll && propertyImages.length > 5 && index === 4 && (
-                                <div className="absolute inset-0 bg-black bg-opacity-50 text-white flex justify-center items-center text-sm font-bold">
-                                    {`+${propertyImages.length - 5} more`}
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-
-                {!showAll && propertyImages.length > 5 && (
+            {/* Thumbnail Preview */}
+            <div className="flex gap-2 mt-4 overflow-x-auto justify-center">
+                {propertyImages.map((image, index) => (
                     <div
-                        className="cursor-pointer text-blue-500 mt-2"
-                        onClick={handleShowAllClick}
+                        key={index}
+                        className={`w-16 h-16 relative cursor-pointer border-2 rounded-lg transition-all ${
+                            index === currentIndex ? "border-blue-500 scale-110" : "border-transparent"
+                        }`}
+                        onClick={() => goToImage(index)}
                     >
-                        Show all
+                        <Image
+                            src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
+                            alt={`Thumbnail ${index + 1}`}
+                            layout="fill"
+                            className="object-cover rounded-lg"
+                        />
                     </div>
-                )}
-
-                {showAll && propertyImages.length > 5 && (
-                    <div
-                        className="cursor-pointer text-blue-500 mt-2"
-                        onClick={handleShowAllClick}
-                    >
-                        Hide extra
-                    </div>
-                )}
+                ))}
             </div>
         </div>
     );
