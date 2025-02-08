@@ -49,30 +49,30 @@ const Accordion = ({ facilities }) => {
 
             return (
               <div key={index} className="w-full">
-                <div  id="detail"
+                <div
+                  id="detail"
                   className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
                   onClick={() => toggleAccordion(facilityType)}
                 >
-                 
-                    {/* Dynamically Render Icon */}
+                  {/* Dynamically Render Icon */}
 
-                    {facilityType !== "Options" && (
-                      <div className="flex items-center">
-                        {firstIcon && (
-                          <IconShow
-                            iconName={firstIcon}
-                            className="text-blue-800"
-                            size={30}
-                          />
-                        )}
-                        <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
-                          {facilityType}
-                        </span>
-                      </div>
-                    )}
-                 
+                  {facilityType !== "Options" && (
+                    <div className="flex items-center">
+                      {firstIcon && (
+                        <IconShow
+                          iconName={firstIcon}
+                          className="text-blue-800"
+                          size={30}
+                        />
+                      )}
+                      <span className="font-semibold ml-2 cursor-pointer text-blue-950 text-xl">
+                        {facilityType}
+                      </span>
+                    </div>
+                  )}
+
                   <div>
-                  {facilityType == "Options" && (
+                    {facilityType == "Options" && (
                       <div className="flex items-center" id="option">
                         {firstIcon && (
                           <IconShow
@@ -103,7 +103,7 @@ const Accordion = ({ facilities }) => {
                 </div>
 
                 <div
-                  className={`p-4 bg-gray-50 rounded-md shadow-inner leading-loose ${
+                  className={`p-4  rounded-md shadow-inner leading-loose ${
                     isOpen ? "block" : "hidden"
                   }`}
                 >
@@ -112,7 +112,9 @@ const Accordion = ({ facilities }) => {
                       key={itemIndex}
                       className="custom-content text-blue-900 text-sm leading-relaxed mb-2"
                     >
-                      <h1 className="font-bold mb-1">{item.facility_name}</h1>
+                      <h1 className="font-bold mb-1 text-blue-900 ">
+                        {item.facility_name}
+                      </h1>
                       <div dangerouslySetInnerHTML={{ __html: item.value }} />
                     </div>
                   ))}
