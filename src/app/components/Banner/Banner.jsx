@@ -11,7 +11,7 @@ export default function Banner() {
   const autoplayDelay = 3000;
 
   return (
-    <section className="relative -mt-6 h-[100vh] p-0 m-0">
+    <section className="relative -mt-6 h-[85vh] p-0 m-0">
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}
