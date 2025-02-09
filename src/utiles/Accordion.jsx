@@ -6,36 +6,50 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const Accordion = ({ facilities }) => {
+const Accordion = ({ facilities = { facilities: [] }, activeTab }) => {
   const [activeIndexes, setActiveIndexes] = useState({});
-  const [defaultOpen, setDefaultOpen] = useState(null);
 
-  const groupedFacilities = facilities.facilities.reduce((acc, facility) => {
-    if (!acc[facility.facility_type]) {
-      acc[facility.facility_type] = [];
-    }
-    acc[facility.facility_type] = acc[facility.facility_type].concat(
-      facility.facilities
-    );
-    return acc;
-  }, {});
+  const groupedFacilities = React.useMemo(() => {
+    return (facilities.facilities || []).reduce((acc, facility) => {
+      if (!acc[facility.facility_type]) {
+        acc[facility.facility_type] = [];
+      }
+      acc[facility.facility_type] = acc[facility.facility_type].concat(
+        facility.facilities
+      );
+      return acc;
+    }, {});
+  }, [facilities]);
 
   useEffect(() => {
-    const firstFacilityType = Object.keys(groupedFacilities)[0];
-    if (firstFacilityType) {
-      setActiveIndexes((prev) => ({
-        ...prev,
-        [firstFacilityType]: true,
-      }));
-      setDefaultOpen(firstFacilityType);
-    }
-  }, []);
+    const newActiveIndexes = {};
+    Object.entries(groupedFacilities).forEach(([facilityType, facilityItems]) => {
+      facilityItems.forEach((item) => {
+        console.log("Checking item:", item.facility_name);
+        if (
+          item.facility_name &&
+          item.facility_name.toLowerCase() === activeTab.toLowerCase()
+        ) {
+          if (facilityType) {
+            newActiveIndexes[facilityType] = true;
+          }
+        }
+      });
+    });
+    console.log("Active Tab:", activeTab);
+    console.log("New Active Indexes:", newActiveIndexes);
+    setActiveIndexes(newActiveIndexes);
+  }, [activeTab, groupedFacilities]);
 
   const toggleAccordion = (facilityType) => {
-    setActiveIndexes((prevState) => ({
-      ...prevState,
-      [facilityType]: !prevState[facilityType],
-    }));
+    setActiveIndexes((prevState) => {
+      const newState = {
+        ...prevState,
+        [facilityType]: !prevState[facilityType],
+      };
+      console.log("Toggled Accordion:", facilityType, newState);
+      return newState;
+    });
   };
 
   return (
@@ -43,8 +57,7 @@ const Accordion = ({ facilities }) => {
       <div className="flex flex-wrap gap-4">
         {Object.entries(groupedFacilities).map(
           ([facilityType, facilityItems], index) => {
-            const isOpen =
-              activeIndexes[facilityType] || defaultOpen === facilityType;
+            const isOpen = activeIndexes[facilityType];
             const firstIcon = facilityItems[0]?.icon || null;
 
             return (

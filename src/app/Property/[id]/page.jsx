@@ -1,3 +1,4 @@
+"use client"
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
@@ -6,27 +7,34 @@ import { getPropertyImages } from "@/utiles/getPropertyImages";
 import IconShow from "@/utiles/IconShow";
 import ImageCarousel from "@/utiles/ImageCarousel";
 import Image from "next/image";
-import { FaRegClock, FaRegUser } from "react-icons/fa";
+// import { FaRegClock, FaRegUser } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default async function Page({ params }) {
-  const { id } = await params;
+import { useEffect, useState, use } from "react";
 
-  const iconMap = {
-    FaRegUser: <FaRegUser size={25} />,
-    FaRegClock: <FaRegClock size={25} />,
-  };
+export default function Page({ params }) {
+  const { id } = use(params);
+  const [propertyImages, setPropertyImages] = useState([]);
+  const [propertyDetails, setPropertyDetails] = useState([]);
+  const [propertyFacilities, setPropertyFacilities] = useState([]);
 
-  // Fetch property data
-  const propertyImages = await getPropertyImages(id);
-  const propertyDetails = await getPropertyDetails(id);
-  const propertyFacilities = await getFacilities(id);
+  useEffect(() => {
+    async function fetchData() {
+      const images = await getPropertyImages(id);
+      const details = await getPropertyDetails(id);
+      const facilities = await getFacilities(id);
+      setPropertyImages(images);
+      setPropertyDetails(details);
+      setPropertyFacilities(facilities);
+    }
+    fetchData();
+  }, [id]);
 
   // Loading skeleton
   const loadingSkeleton = (
-    <div className="bg-white rounded shadow-md p-4" style="">
+    <div className="bg-white rounded shadow-md p-4" style={{}}>
       <div className="animate-pulse space-y-4">
         <div className="h-48 bg-gray-200 rounded-lg"></div>
         <div className="h-6 bg-gray-300 rounded w-3/4"></div>
@@ -37,13 +45,19 @@ export default async function Page({ params }) {
     </div>
   );
 
+  const [activeTab, setActiveTab] = useState("details");
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="bg-gray-200 -mt-4 ">
       <div className="container mx-auto w-[85%]">
         <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-1 pt-1">
           {/* Image Carousel or Fallback */}
           <div className="col-span-2 ">
-            {propertyImages && propertyImages.length > 0 ? (
+            {propertyImages?.length > 0 ? (
               <ImageCarousel propertyImages={propertyImages} />
             ) : (
               <div className="w-full h-96 bg-gray-200 flex justify-center items-center">
@@ -127,29 +141,44 @@ export default async function Page({ params }) {
           <div className="w-full pl-4 mt-5 pt-5">
             <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
               <a
-                href="#details"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-blue-500 text-blue-700 dark:border-gray-300 dark:text-gray-600"
+                href="#overview"
+                onClick={() => handleTabClick("Overview")}
+                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                  activeTab === "Overview"
+                    ? "border-blue-500 text-blue-700"
+                    : "border-transparent dark:border-gray-300 dark:text-gray-600"
+                }`}
               >
-                Details
+                Overview
               </a>
               <a
-                href="#option"
-                className="flex  items-center flex-shrink-0 px-5 py-2 border-b-4 border-transparent dark:border-gray-300 dark:text-gray-600"
+                href="#location"
+                onClick={() => handleTabClick("Location")}
+                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                  activeTab === "Location"
+                    ? "border-blue-500 text-blue-700"
+                    : "border-transparent dark:border-gray-300 dark:text-gray-600"
+                }`}
               >
-                Option
+                Location
               </a>
               <a
-                href="#policy"
-                className="flex items-center flex-shrink-0 px-5 py-2 border-b-4 border-transparent dark:border-violet-600 dark:text-gray-900"
+                href="#description"
+                onClick={() => handleTabClick("Description")}
+                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                  activeTab === "Description"
+                    ? "border-blue-500 text-blue-700"
+                    : "border-transparent dark:border-violet-600 dark:text-gray-900"
+                }`}
               >
-                Policy
+                Description
               </a>
             </div>
             <hr />
 
             <div className="lg:grid grid-cols-3 gap-10 rounded">
               <div className="col-span-2 pt-5">
-                <Accordion facilities={propertyFacilities} />
+                <Accordion facilities={propertyFacilities} activeTab={activeTab} setActiveTab={setActiveTab} />
               </div>
 
               <div className="col-span-1">
