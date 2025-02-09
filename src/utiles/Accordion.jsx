@@ -23,9 +23,11 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab }) => {
 
   useEffect(() => {
     const newActiveIndexes = {};
-    Object.entries(groupedFacilities).forEach(([facilityType, facilityItems]) => {
+    Object.entries(groupedFacilities).forEach(([facilityType, facilityItems], index) => {
+      if (index === 0) {
+        newActiveIndexes[facilityType] = true;
+      }
       facilityItems.forEach((item) => {
-        console.log("Checking item:", item.facility_name);
         if (
           item.facility_name &&
           item.facility_name.toLowerCase() === activeTab.toLowerCase()
@@ -36,8 +38,6 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab }) => {
         }
       });
     });
-    console.log("Active Tab:", activeTab);
-    console.log("New Active Indexes:", newActiveIndexes);
     setActiveIndexes(newActiveIndexes);
   }, [activeTab, groupedFacilities]);
 
@@ -47,7 +47,6 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab }) => {
         ...prevState,
         [facilityType]: !prevState[facilityType],
       };
-      console.log("Toggled Accordion:", facilityType, newState);
       return newState;
     });
   };
