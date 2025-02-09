@@ -45,7 +45,7 @@ export default function Page({ params }) {
     </div>
   );
 
-  const [activeTab, setActiveTab] = useState("details");
+  const [activeTab, setActiveTab] = useState("Overview");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -142,60 +142,45 @@ export default function Page({ params }) {
 
         {/* Property Facilities */}
         <div className="bg-white">
-          <div className="w-full pl-4 mt-5 pt-5">
-            <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-              <a
-                href="#overview"
-                onClick={() => handleTabClick("Overview")}
-                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
-                  activeTab === "Overview"
-                    ? "border-blue-500 text-blue-700"
-                    : "border-transparent dark:border-gray-300 dark:text-gray-600"
-                }`}
-              >
-                Overview
-              </a>
-              <a
-                href="#location"
-                onClick={() => handleTabClick("Location")}
-                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
-                  activeTab === "Location"
-                    ? "border-blue-500 text-blue-700"
-                    : "border-transparent dark:border-gray-300 dark:text-gray-600"
-                }`}
-              >
-                Location
-              </a>
-              <a
-                href="#description"
-                onClick={() => handleTabClick("Description")}
-                className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
-                  activeTab === "Description"
-                    ? "border-blue-500 text-blue-700"
-                    : "border-transparent dark:border-violet-600 dark:text-gray-900"
-                }`}
-              >
-                Description
-              </a>
-            </div>
-            <hr />
+      <div className="w-full pl-4 mt-5 pt-5">
+        {/* Tab Navigation */}
+        <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+          {["Overview", "Location", "Description"].map((tab) => (
+            <a
+              key={tab}
+              href={`#${tab.toLowerCase()}`}
+              onClick={() => handleTabClick(tab)}
+              className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                activeTab === tab
+                  ? "border-blue-500 text-blue-700"
+                  : "border-transparent dark:border-gray-300 dark:text-gray-600"
+              }`}
+            >
+              {tab}
+            </a>
+          ))}
+        </div>
+        <hr />
 
-            <div className="lg:grid grid-cols-3 gap-10 rounded">
-              <div className="col-span-2 pt-5">
-                <Accordion facilities={propertyFacilities} activeTab={activeTab} setActiveTab={setActiveTab} />
-              </div>
+        {/* Content Grid */}
+        <div className="lg:grid grid-cols-3 gap-10 rounded">
+          {/* Accordion */}
+          <div className="col-span-2 pt-5">
+            <Accordion facilities={propertyFacilities} activeTab={activeTab} />
+          </div>
 
-              <div className="col-span-1">
-                <div>
-                  <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
-                    Get Free Tour Consultation
-                  </h1>
-                  <ContactForm />
-                </div>
-              </div>
+          {/* Contact Form */}
+          <div className="col-span-1">
+            <div>
+              <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
+                Get Free Tour Consultation
+              </h1>
+              <ContactForm />
             </div>
           </div>
         </div>
+      </div>
+    </div>
       </div>
       <ToastContainer />
     </div>
