@@ -1,4 +1,3 @@
-// filepath: /w:/Freelance/goZayaan/gozayaan-frontend/src/app/Property/[id]/page.jsx
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
