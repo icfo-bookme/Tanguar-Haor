@@ -51,6 +51,10 @@ export default function Page({ params }) {
     setActiveTab(tab);
   };
 
+  useEffect(() => {
+    setActiveTab("Overview");
+  }, []);
+
   return (
     <div className="bg-gray-200 -mt-4 ">
       <div className="container mx-auto w-[85%]">
