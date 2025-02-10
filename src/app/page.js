@@ -13,7 +13,7 @@ export default function Home() {
       <Banner />
       </div>
       <div className="  -mt-10 pt-10 ">
-        <div className=" mt-10 w-[100%] lg:w-[80%] gap-5 mx-auto">
+        <div className=" mt-10 w-[100%] 2xl:w-[1440px]  gap-5 mx-auto">
           {/* Sidebar */}
           <div className="w-full  col-span-3 h-auto  ">
             <FilterSidebar />

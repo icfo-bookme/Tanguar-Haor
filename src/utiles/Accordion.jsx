@@ -57,7 +57,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
   };
 
   return (
-    <div className={`${inter.className} flex flex-col gap-4 mt-5`}>
+    <div className={`${inter.className} flex flex-col gap-4 mt-5 `}>
       <div className="flex flex-wrap gap-4">
         {Object.entries(groupedFacilities).map(
           ([facilityType, facilityItems], index) => {
