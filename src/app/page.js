@@ -8,11 +8,11 @@ import FilterSidebar from "./components/FilterSidebar/FilterSidebar";
 export default function Home() {
   return (
 
-    <main className="max-w-[1440px] mx-auto">
+    <main className=" ">
       <div className="  ">
       <Banner />
       </div>
-      <div className="bg-[#EBF0F4] -mt-10 pt-10 ">
+      <div className="  -mt-10 pt-10 ">
         <div className=" mt-10 w-[100%] lg:w-[80%] gap-5 mx-auto">
           {/* Sidebar */}
           <div className="w-full  col-span-3 h-auto  ">
