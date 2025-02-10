@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }) {
         <div className="">
         
         <main className="py-6 ">
-        <div className="mb-[40px]">
+        <div className="md:mb-[40px] mb-[30px]">
         
         </div>
           {children}
