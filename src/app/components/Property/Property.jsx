@@ -116,7 +116,7 @@ export default function Property() {
                   className="object-cover w-full md:w-[300px] md:h-[230px] h-[200px] mx-auto"
                 />
                 <div className="flex flex-col w-full pr-4">
-                  <h1 className="font-semibold text-xl mt-5 text-[#00026E]">
+                  <h1 className="font-semibold text-lg text-[#00026E] mt-4">
                     {property.property_name}
                   </h1>
                   <h1 className="font-normal text-sm text-[#00026E] text-right">
@@ -130,8 +130,8 @@ export default function Property() {
                       })()}
                     </span>
                   </h1>
-                   {property.property_summaries && (
-                    <div className="flex flex-col gap-3 -mt-5 ">
+                  {property.property_summaries && (
+                    <div className="flex flex-col gap-3 -mt-4">
                       <div className="flex flex-wrap gap-4">
                         {property.property_summaries.slice(0, 1).map((summary) => (
                           <div key={summary.id} className="flex items-center text-blue-700">
@@ -173,8 +173,4 @@ export default function Property() {
       )}
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0604c916b8ce4e7b012d6e35e08b54622f86c4f9
