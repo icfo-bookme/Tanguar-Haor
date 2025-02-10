@@ -5,12 +5,13 @@ import { Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
+import Image from "next/image";
 
 export default function Banner() {
   const autoplayDelay = 3000;
 
   return (
-    <section className="relative  h-[56vh] p-0 m-0">
+    <section className="relative h-[56vh] p-0 m-0">
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}
@@ -18,28 +19,34 @@ export default function Banner() {
         className="h-full"
       >
         <SwiperSlide>
-          <img
-            src="https://images.unsplash.com/photo-1735627062325-c978986b1871?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fEZ6bzN6dU9ITjZ3fHxlbnwwfHx8fHw%3D"
-            alt="Slide 1"
-            className="object-cover w-full h-full"
-           
-          />
+          <div>
+            <Image
+              src="/assets/images/gallery/home-slider-top/slider1.jpg"
+              alt="Slide 1"
+              fill
+              className="object-cover w-full h-full"
+            />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="https://plus.unsplash.com/premium_photo-1700346339061-9755dcc26bd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE0fEZ6bzN6dU9ITjZ3fHxlbnwwfHx8fHw%3D"
-            alt="Slide 2"
-            className="object-cover w-full h-full"
-           
-          />
+          <div>
+            <Image
+              src="/assets/images/gallery/home-slider-top/slider2.jpg"
+              alt="Slide 2"
+              fill
+              className="object-cover w-full h-full"
+            />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img
-            src="https://images.unsplash.com/photo-1738599778390-af77d7cf10e6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDF8RnpvM3p1T0hONnd8fGVufDB8fHx8fA%3D%3D"
-            alt="Slide 3"
-            className="object-cover w-full h-full"
-           
-          />
+          <div>
+            <Image
+              src="/assets/images/gallery/home-slider-top/slider3.jpg"
+              alt="Slide 3"
+              fill
+              className="object-cover w-full h-full"
+            />
+          </div>
         </SwiperSlide>
       </Swiper>
 
