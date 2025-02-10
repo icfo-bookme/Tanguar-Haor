@@ -16,7 +16,7 @@ export default function Home() {
         <div className=" mt-10 w-[80%] 2xl:w-[1440px]  gap-5 mx-auto">
           {/* Sidebar */}
           <div className="w-full  col-span-3 h-auto  ">
-            <FilterSidebar />
+            {/* <FilterSidebar /> */}
           </div>
 
           {/* Main Content */}
