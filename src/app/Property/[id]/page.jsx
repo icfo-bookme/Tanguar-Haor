@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
@@ -142,45 +142,49 @@ export default function Page({ params }) {
 
         {/* Property Facilities */}
         <div className="bg-white">
-      <div className="w-full pl-4 mt-5 pt-5">
-        {/* Tab Navigation */}
-        <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-          {["Overview", "Location", "Description"].map((tab) => (
-            <a
-              key={tab}
-              href={`#${tab.toLowerCase()}`}
-              onClick={() => handleTabClick(tab)}
-              className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
-                activeTab === tab
-                  ? "border-blue-500 text-blue-700"
-                  : "border-transparent dark:border-gray-300 dark:text-gray-600"
-              }`}
-            >
-              {tab}
-            </a>
-          ))}
-        </div>
-        <hr />
+          <div className="w-full pl-4 mt-5 pt-5">
+            {/* Tab Navigation */}
+            <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+              {["Overview", "Location", "Description"].map((tab) => (
+                <a
+                  key={tab}
+                  href={`#${tab.toLowerCase()}`}
+                  onClick={() => handleTabClick(tab)}
+                  className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                    activeTab === tab
+                      ? "border-blue-500 text-blue-700"
+                      : "border-transparent dark:border-gray-300 dark:text-gray-600"
+                  }`}
+                >
+                  {tab}
+                </a>
+              ))}
+            </div>
+            <hr />
 
-        {/* Content Grid */}
-        <div className="lg:grid grid-cols-3 gap-10 rounded">
-          {/* Accordion */}
-          <div className="col-span-2 pt-5">
-            <Accordion facilities={propertyFacilities} activeTab={activeTab} />
-          </div>
+            {/* Content Grid */}
+            <div className="lg:grid grid-cols-3 gap-10 rounded">
+              {/* Accordion */}
+              <div className="col-span-2 pt-5">
+                <Accordion
+                  facilities={propertyFacilities}
+                  activeTab={activeTab}
+                  href={`#${activeTab.toLowerCase()}`}
+                />
+              </div>
 
-          {/* Contact Form */}
-          <div className="col-span-1">
-            <div>
-              <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
-                Get Free Tour Consultation
-              </h1>
-              <ContactForm />
+              {/* Contact Form */}
+              <div className="col-span-1">
+                <div>
+                  <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
+                    Get Free Tour Consultation
+                  </h1>
+                  <ContactForm />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
       </div>
       <ToastContainer />
     </div>
