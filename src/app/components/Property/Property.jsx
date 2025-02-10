@@ -173,4 +173,8 @@ export default function Property() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0604c916b8ce4e7b012d6e35e08b54622f86c4f9
