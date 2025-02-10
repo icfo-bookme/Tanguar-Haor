@@ -83,7 +83,7 @@ export default function Property() {
             max="1000"
             step="50"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(Number(e.target.value))}
             style={{ WebkitAppearance: "none" }}
           />
         </div>
@@ -96,7 +96,6 @@ export default function Property() {
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
-            {/* <option value="1">Popularity</option> */}
             <option value="2">Low to High</option>
             <option value="3">High to Low</option>
           </select>
@@ -117,24 +116,22 @@ export default function Property() {
                   className="object-cover w-full md:w-[300px] md:h-[230px] h-[200px] mx-auto"
                 />
                 <div className="flex flex-col w-full pr-4">
-                  <div className="flex justify-between items-center w-full">
-                    <h1 className="font-semibold text-lg text-[#00026E]">
-                      {property.property_name}
-                    </h1>
-                    <h1 className="font-normal text-sm text-[#00026E] text-right">
-                      Starting from <br />
-                      <span className="font-bold text-lg text-blue-900">
-                        {(() => {
-                          const prices = property.property_uinit?.flatMap((unit) =>
-                            unit.price?.map((priceObj) => priceObj.price)
-                          ) || [];
-                          return prices.length > 0 ? `${Math.min(...prices)} BDT` : "N/A";
-                        })()}
-                      </span>
-                    </h1>
-                  </div>
+                  <h1 className="font-semibold text-lg text-[#00026E] mt-4">
+                    {property.property_name}
+                  </h1>
+                  <h1 className="font-normal text-sm text-[#00026E] text-right">
+                    Starting from <br />
+                    <span className="font-bold text-lg text-blue-900">
+                      {(() => {
+                        const prices = property.property_uinit?.flatMap((unit) =>
+                          unit.price?.map((priceObj) => priceObj.price)
+                        ) || [];
+                        return prices.length > 0 ? `${Math.min(...prices)} BDT` : "N/A";
+                      })()}
+                    </span>
+                  </h1>
                   {property.property_summaries && (
-                    <div className="flex flex-col gap-3 mt-3">
+                    <div className="flex flex-col gap-3 -mt-4">
                       <div className="flex flex-wrap gap-4">
                         {property.property_summaries.slice(0, 1).map((summary) => (
                           <div key={summary.id} className="flex items-center text-blue-700">
