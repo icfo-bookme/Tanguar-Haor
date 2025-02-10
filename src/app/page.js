@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Banner from "./components/Banner/Banner";
 import Property from "./components/Property/Property";
-import FilterSidebar from "./components/FilterSidebar/FilterSidebar";
 
 
 export default function Home() {
