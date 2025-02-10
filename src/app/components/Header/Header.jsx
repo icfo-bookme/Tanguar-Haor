@@ -23,11 +23,11 @@ const Header = () => {
 
   return (
     <header className={`header-area-three ${inter.className}`}>
-      <div className="main-header fixed w-full z-50 bg-gray-100 max-w-[1440px] ">
+      <div className="main-header fixed w-full z-50  bg-white shadow-md shadow-slate-500">
         {/* Header Top */}
 
         {/* Header Bottom */}
-        <div className="header-bottom shadow-xl text-[#00026E]  ">
+        <div className="header-bottom  text-[#00026E]  ">
           <div className="container  w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
