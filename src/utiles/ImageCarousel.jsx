@@ -42,8 +42,8 @@ const ImageCarousel = ({ propertyImages }) => {
     onSlideChange={handleSlideChange}
     className="swiper mySwiper"
     breakpoints={{
-        320: { slidesPerView: 1 }, // Show 1 image on small screens
-        768: { slidesPerView: 3 }, // Show 3 images on medium+ screens
+        320: { slidesPerView: 1 }, 
+        768: { slidesPerView: 3 }, 
     }}
 >
 

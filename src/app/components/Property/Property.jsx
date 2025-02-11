@@ -120,7 +120,7 @@ export default function Property() {
                   <h1 className="font-semibold text-lg text-[#00026E] mt-4">
                     {property.property_name}
                   </h1>
-                  <h1 className="font-normal text-sm text-[#00026E] text-right">
+                  <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[10px]">
                     Starting from <br />
                     <span className="font-bold text-lg text-blue-900">
                       {(() => {
