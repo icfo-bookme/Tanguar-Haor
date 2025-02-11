@@ -156,10 +156,10 @@ export default function Property() {
                       </div>
                       <div className="flex gap-4 w-full md:w-auto">
                         {property.property_summaries.slice(3, 4).map((summary) => (
-                          <div key={summary.id} className="flex items-center text-gray-700">
+                          <span key={summary.id} className="flex items-center text-gray-700">
                             <IconShow iconName={summary.icons.icon_name} />
                             <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
-                          </div>
+                          </span>
                         ))}
                       </div>
                     </div>
