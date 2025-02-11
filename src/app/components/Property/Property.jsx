@@ -150,18 +150,19 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
+                        <div className="flex gap-4 w-full md:w-auto">
+                        {property.property_summaries.slice(3, 4).map((summary) => (
+                          <div key={summary.id} className="flex items-center text-gray-700">
+                            <IconShow iconName={summary.icons.icon_name} />
+                            <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
+                          </div>
+                        ))}
+                      </div>
                         <button className="px-4 py-2 mt-3 md:mt-0 bg-blue-900 text-white font-semibold rounded-md w-full md:w-auto">
                           Book Now
                         </button>
                       </div>
-                      <div className="flex gap-4 w-full md:w-auto">
-                        {property.property_summaries.slice(3, 4).map((summary) => (
-                          <span key={summary.id} className="flex items-center text-gray-700">
-                            <IconShow iconName={summary.icons.icon_name} />
-                            <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
-                          </span>
-                        ))}
-                      </div>
+                      
                     </div>
                   )}
                 </div>
