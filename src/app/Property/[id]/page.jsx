@@ -57,7 +57,7 @@ export default function Page({ params }) {
 
   return (
     <div className=" mt-[70px] ">
-      <div className="container mx-auto w-[85%]">
+      <div className="container mx-auto w-[98%] md:w-[85%]">
         <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-1 pt-1">
           {/* Image Carousel or Fallback */}
           <div className="col-span-2 ">
