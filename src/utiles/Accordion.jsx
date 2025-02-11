@@ -37,12 +37,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
   
           newActiveIndexes[facilityType] = matchesHref;
   
-          if (matchesHref) {
-            const section = document.getElementById(facilityType.toLowerCase().replace(/\s+/g, "-"));
-            if (section) {
-              section.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }
+         
         }
       );
   
@@ -69,13 +64,16 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
           <div
             key={index}
             className="w-full"
-            id={facilityType.toLowerCase().replace(/\s+/g, "-")}
           >
             <div
               className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
               onClick={() => toggleAccordion(facilityType)}
             >
-              <div className="flex items-center">
+              
+              <div className="flex items-center" 
+            // id={facilityType.toLowerCase().replace(/\s+/g, "-")}
+
+              >
                 {firstIcon && (
                   <IconShow
                     iconName={firstIcon}
@@ -110,9 +108,9 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                 <div
                   key={itemIndex}
                   className="text-blue-900 text-sm mb-2"
-                  id={item.facility_name
-                    ?.toLowerCase()
-                    .replace(/\s+/g, "-")}
+                  // id={item.facility_name
+                  //   ?.toLowerCase()
+                  //   .replace(/\s+/g, "-")}
                 >
                   <h1 className="font-bold mb-1">{item.facility_name}</h1>
                   <div dangerouslySetInnerHTML={{ __html: item.value }} />
