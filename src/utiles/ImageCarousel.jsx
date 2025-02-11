@@ -23,26 +23,30 @@ const ImageCarousel = ({ propertyImages }) => {
 
      return (
           <div className="relative w-full max-w-5xl mx-auto mt-7">
-               <Swiper
-                    effect="coverflow"
-                    grabCursor={true}
-                    centeredSlides={true}
-                    slidesPerView={3} // Show 3 images at a time
-                    spaceBetween={30} // Space between images
-                    initialSlide={1} // Start with second image active
-                    autoplay={{ delay: 3000, disableOnInteraction: false }} // Auto-scroll every 3 seconds
-                    coverflowEffect={{
-                         rotate: 0,
-                         stretch: 0,
-                         depth: 150,
-                         modifier: 1.2,
-                         slideShadows: false,
-                    }}
-                    pagination={{ clickable: true }}
-                    modules={[EffectCoverflow, Pagination, Autoplay]}
-                    onSlideChange={handleSlideChange}
-                    className="swiper mySwiper"
-               >
+              
+<Swiper
+    effect="coverflow"
+    grabCursor={true}
+    centeredSlides={true}
+    spaceBetween={30}
+    autoplay={{ delay: 3000, disableOnInteraction: false }}
+    coverflowEffect={{
+        rotate: 0,
+        stretch: 0,
+        depth: 150,
+        modifier: 1.2,
+        slideShadows: false,
+    }}
+    pagination={{ clickable: true }}
+    modules={[EffectCoverflow, Pagination, Autoplay]}
+    onSlideChange={handleSlideChange}
+    className="swiper mySwiper"
+    breakpoints={{
+        320: { slidesPerView: 1 }, // Show 1 image on small screens
+        768: { slidesPerView: 3 }, // Show 3 images on medium+ screens
+    }}
+>
+
                     {propertyImages.map((image, index) => (
                          <SwiperSlide key={index}>
                               <div
