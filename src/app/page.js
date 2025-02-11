@@ -8,7 +8,7 @@ export default function Home() {
   return (
 
     <main className=" ">
-      <div className="  ">
+      <div className=" w-[100%] ">
       <Banner />
       </div>
       <div className="  -mt-10 pt-10 ">

@@ -16,8 +16,9 @@ export default function Property() {
     async function fetchData() {
       try {
         const result = await propertySummary();
-        setData(result);
-        setFilteredData(result);
+        console.log("all property", result);
+        setData(result); // Set all data
+        setFilteredData(result); // Also set filteredData to all data initially
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
@@ -62,9 +63,8 @@ export default function Property() {
 
     setFilteredData(filtered);
   }, [price, data, sortOption]);
-
   return (
-    <div className="container lg:w-full w-screen mx-auto px-4">
+    <div className="lg:container  lg:w-full mx-auto px-4">
       {/* Filter & Sorting Section */}
       <div className="flex flex-wrap justify-between items-center mb-5">
         {/* Price Filter */}
@@ -105,9 +105,10 @@ export default function Property() {
       {/* Property List */}
       {filteredData.length > 0 ? (
         filteredData.map((property) => (
+          <>
           <div key={property.property_id} className="mb-5">
             <Link href={`/Property/${property.property_id}`} prefetch={true}>
-              <div className="shadow-custom flex flex-col md:flex-row gap-5 p-5 rounded bg-white">
+              <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${property.main_img}`}
                   alt={property.property_name}
@@ -167,6 +168,7 @@ export default function Property() {
               </div>
             </Link>
           </div>
+          </>
         ))
       ) : (
         <div className="text-center text-gray-500">No properties found within this price range.</div>
