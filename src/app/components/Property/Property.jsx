@@ -105,8 +105,7 @@ export default function Property() {
       {/* Property List */}
       {filteredData.length > 0 ? (
         filteredData.map((property) => (
-          <>
-          <div key={property.property_id} className="mb-5">
+          <div key={property.property_id} className="mb-5"> {/* ✅ এখানে key প্রপার্টি থাকছে */}
             <Link href={`/Property/${property.property_id}`} prefetch={true}>
               <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
                 <Image
@@ -150,30 +149,31 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex gap-4 w-full md:w-auto">
-                        {property.property_summaries.slice(3, 4).map((summary) => (
-                          <div key={summary.id} className="flex items-center text-gray-700">
-                            <IconShow iconName={summary.icons.icon_name} />
-                            <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                        <button className="px-4 py-2 mt-3 md:mt-0 bg-blue-900 text-white font-semibold rounded-md w-full md:w-auto">
+
+                        <button className="px-4 -mr-5 py-2 mt-3 md:mt-0 bg-blue-900 text-white font-semibold rounded-md w-full md:w-auto">
                           Book Now
                         </button>
+
+                        <div className="flex gap-4 w-full md:w-auto">
+                          {property.property_summaries.slice(3, 4).map((summary) => (
+                            <div key={summary.id} className="flex items-center text-gray-700">
+                              <IconShow iconName={summary.icons.icon_name} />
+                              <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      
                     </div>
                   )}
                 </div>
               </div>
             </Link>
           </div>
-          </>
         ))
       ) : (
         <div className="text-center text-gray-500">No properties found within this price range.</div>
       )}
+
     </div>
   );
 }

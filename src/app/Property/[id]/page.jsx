@@ -58,9 +58,30 @@ export default function Page({ params }) {
   return (
     <div className=" mt-[70px] ">
       <div className="container mx-auto w-[98%] md:w-[85%]">
-        <div className="lg:grid grid-cols-3 bg-white rounded gap-8 pr-1 pt-1">
+        <div className="lg:grid grid-cols-1 bg-white rounded gap-8 pr-1 pt-1">
+          {/* Property Details */}
+          <div className="col-span-1 p-4">
+            {propertyDetails?.length === 0
+              ? loadingSkeleton
+              : propertyDetails?.map((property, index) => (
+                <div key={index}>
+                  <h2 className="text-xl text-blue-900 font-semibold">
+                    {property.property_name}
+                  </h2>
+                  <p className="flex  items-center">
+                    <strong>
+                      <IoLocation />
+                    </strong>{" "}
+                    {property.address}
+                  </p>
+                  
+                 
+                </div>
+              ))}
+          </div>
           {/* Image Carousel or Fallback */}
-          <div className="col-span-2 ">
+
+          <div className=" ">
             {propertyImages?.length > 0 ? (
               <ImageCarousel propertyImages={propertyImages} />
             ) : (
@@ -68,76 +89,10 @@ export default function Page({ params }) {
                 <span className="text-gray-500">No images available</span>
               </div>
             )}
+
           </div>
 
-          {/* Property Details */}
-          <div className="col-span-1 p-4">
-            {propertyDetails?.length === 0
-              ? loadingSkeleton
-              : propertyDetails?.map((property, index) => (
-                  <div key={index}>
-                    <h2 className="text-xl text-blue-700 font-semibold">
-                      {property.property_name}
-                    </h2>
-                    <p className="flex pb-3 items-center">
-                      <strong>
-                        <IoLocation />
-                      </strong>{" "}
-                      {property.address}
-                    </p>
-                    <Image
-                      src="/map.png"
-                      alt="map"
-                      width={400}
-                      height={200}
-                      loading="lazy"
-                      quality={75}
-                    />
-                    {property?.property_summaries &&
-                      property.property_summaries.length > 0 && (
-                        <div className="flex flex-col gap-3 mt-3">
-                          <div className="flex flex-wrap gap-4">
-                            {property.property_summaries
-                              .slice(0, 1)
-                              .map((summary) => (
-                                <div
-                                  key={summary.id}
-                                  className="flex items-center text-blue-700"
-                                >
-                                  <IconShow
-                                    iconName={summary.icons.icon_name}
-                                  />
-                                  <span className="ml-2 text-blue-900">
-                                    {summary.value}
-                                  </span>
-                                </div>
-                              ))}
-                          </div>
 
-                          <div className="flex flex-wrap justify-between items-center gap-4">
-                            <div className="flex gap-4 w-full md:w-auto">
-                              {property.property_summaries
-                                .slice(1, 3)
-                                .map((summary) => (
-                                  <div
-                                    key={summary.id}
-                                    className="flex items-center text-gray-700"
-                                  >
-                                    <IconShow
-                                      iconName={summary?.icons?.icon_name}
-                                    />
-                                    <span className="ml-2 text-gray-900">
-                                      {summary.value}
-                                    </span>
-                                  </div>
-                                ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                  </div>
-                ))}
-          </div>
         </div>
 
         {/* Property Facilities */}
@@ -150,11 +105,10 @@ export default function Page({ params }) {
                   key={tab}
                   href={`#${tab.toLowerCase()}`}
                   onClick={() => handleTabClick(tab)}
-                  className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
-                    activeTab === tab
+                  className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${activeTab === tab
                       ? "border-blue-500 text-blue-700"
                       : "border-transparent dark:border-gray-300 dark:text-gray-600"
-                  }`}
+                    }`}
                 >
                   {tab}
                 </a>
