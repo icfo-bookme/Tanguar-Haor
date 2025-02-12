@@ -44,7 +44,7 @@ const ImageCarousel = ({ propertyImages }) => {
                 initialSlide={2} // Start with the third image
                 className="swiper mySwiper"
                 breakpoints={{
-                    320: { slidesPerView: 1 }, // Mobile view
+                    320: { slidesPerView: 2 }, // Mobile view
                     768: { slidesPerView: 5 }, // Desktop view
                 }}
             >

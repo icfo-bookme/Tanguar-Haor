@@ -60,7 +60,7 @@ export default function Page({ params }) {
       <div className="container mx-auto w-[98%] md:w-[85%]">
         <div className="lg:grid grid-cols-1 bg-white rounded gap-8 pr-1 pt-1">
           {/* Property Details */}
-          <div className="col-span-1 p-4">
+          <div className="col-span-1 p-2">
             {propertyDetails?.length === 0
               ? loadingSkeleton
               : propertyDetails?.map((property, index) => (
