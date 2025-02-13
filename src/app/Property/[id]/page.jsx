@@ -1,4 +1,5 @@
 "use client";
+import { use, useEffect, useState } from "react";
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
@@ -7,81 +8,70 @@ import { getPropertyImages } from "@/utiles/getPropertyImages";
 import IconShow from "@/utiles/IconShow";
 import ImageCarousel from "@/utiles/ImageCarousel";
 import Image from "next/image";
-// import { FaRegClock, FaRegUser } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { useEffect, useState, use } from "react";
+import getPropertyPackages from "@/utiles/getPropertyPackages";
+import { PropertyPackages } from "@/app/components/PropertyPackages/PropertyPackages";
 
 export default function Page({ params }) {
-  const { id } = use(params);
+  const { id } = use(params); // ✅ `use(params)` ব্যবহার করে Promise আনর‍্যাপ করা হয়েছে
+
   const [propertyImages, setPropertyImages] = useState([]);
   const [propertyDetails, setPropertyDetails] = useState([]);
   const [propertyFacilities, setPropertyFacilities] = useState([]);
+  const [propertyPackages, setPropertyPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const images = await getPropertyImages(id);
-      const details = await getPropertyDetails(id);
-      const facilities = await getFacilities(id);
-      setPropertyImages(images);
-      setPropertyDetails(details);
-      setPropertyFacilities(facilities);
+      try {
+        const [images, details, facilities, packages] = await Promise.all([
+          getPropertyImages(id),
+          getPropertyDetails(id),
+          getFacilities(id),
+          getPropertyPackages(id),
+        ]);
+        setPropertyImages(images);
+        setPropertyDetails(details);
+        setPropertyFacilities(facilities);
+        setPropertyPackages(packages);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
   }, [id]);
 
-  // Loading skeleton
-  const loadingSkeleton = (
-    <div className="bg-white rounded shadow-md p-4" style={{}}>
-      <div className="animate-pulse space-y-4">
-        <div className="h-48 bg-gray-200 rounded-lg"></div>
-        <div className="h-6 bg-gray-300 rounded w-3/4"></div>
-        <div className="h-6 bg-gray-300 rounded w-1/2"></div>
-        <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-      </div>
-    </div>
-  );
-
-  const [activeTab, setActiveTab] = useState("Overview");
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
-  useEffect(() => {
-    setActiveTab("Overview");
-  }, []);
-
   return (
-    <div className=" mt-[70px] ">
+    <div className="mt-[70px]">
       <div className="container mx-auto w-[98%] md:w-[85%]">
         <div className="lg:grid grid-cols-1 bg-white rounded gap-8 pr-1 pt-1">
           {/* Property Details */}
           <div className="col-span-1 p-2">
-            {propertyDetails?.length === 0
-              ? loadingSkeleton
-              : propertyDetails?.map((property, index) => (
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              propertyDetails?.map((property, index) => (
                 <div key={index}>
                   <h2 className="text-xl text-blue-900 font-semibold">
                     {property.property_name}
                   </h2>
-                  <p className="flex  items-center">
+                  <p className="flex items-center">
                     <strong>
                       <IoLocation />
                     </strong>{" "}
                     {property.address}
                   </p>
-                  
-                 
                 </div>
-              ))}
+              ))
+            )}
           </div>
-          {/* Image Carousel or Fallback */}
 
-          <div className=" ">
+          {/* Image Carousel */}
+          <div>
             {propertyImages?.length > 0 ? (
               <ImageCarousel propertyImages={propertyImages} />
             ) : (
@@ -89,45 +79,16 @@ export default function Page({ params }) {
                 <span className="text-gray-500">No images available</span>
               </div>
             )}
-
           </div>
-
-
         </div>
 
-        {/* Property Facilities */}
+        {/* Property Packages */}
         <div className="bg-white">
           <div className="w-full pl-4 mt-5 pt-5">
-            {/* Tab Navigation */}
-            <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-              {["Overview", "Location", "Description"].map((tab) => (
-                <a
-                  key={tab}
-                  href={`#${tab.toLowerCase()}`}
-                  onClick={() => handleTabClick(tab)}
-                  className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${activeTab === tab
-                      ? "border-blue-500 text-blue-700"
-                      : "border-transparent dark:border-gray-300 dark:text-gray-600"
-                    }`}
-                >
-                  {tab}
-                </a>
-              ))}
-            </div>
-            <hr />
-
-            {/* Content Grid */}
             <div className="lg:grid grid-cols-3 gap-10 rounded">
-              {/* Accordion */}
               <div className="col-span-2 pt-5">
-                <Accordion
-                  facilities={propertyFacilities}
-                  activeTab={activeTab}
-                  href={`#${activeTab.toLowerCase()}`}
-                />
+                {loading ? <div>Loading...</div> : <PropertyPackages packages={propertyPackages} />}
               </div>
-
-              {/* Contact Form */}
               <div className="col-span-1">
                 <div>
                   <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
