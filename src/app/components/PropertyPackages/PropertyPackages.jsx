@@ -23,7 +23,7 @@ export const PropertyPackages = ({ packages }) => {
             </p>
 
             <div className="flex gap-2 mt-3 mb-4 ">
-              <div className="px-3 py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[90px] text-center">
+              <div className="px-3 flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[90px] text-center">
                 Call Now
               </div>
               <div className="px-3 py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[130px] flex items-center justify-center gap-2">
@@ -41,7 +41,14 @@ export const PropertyPackages = ({ packages }) => {
                 <p className="text-red-500">Price: Not Available</p>
               )}
               <button className="px-3 py-1 text-sm sm:text-base rounded-full bg-blue-900 text-white">
-                Add Cart
+                <span>
+                Add 
+
+                  </span>
+                  <span>
+                  Cart
+
+                  </span>
               </button>
             </div>
 
