@@ -119,7 +119,7 @@ export default function Property() {
                   <h1 className="font-semibold text-lg text-[#00026E] mt-4">
                     {property.property_name}
                   </h1>
-                  <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[10px]">
+                  <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[20px]">
                     Starting from <br />
                     <span className="font-bold text-lg text-blue-900">
                       {(() => {
@@ -156,9 +156,13 @@ export default function Property() {
 
                         <div className="flex gap-4 w-full md:w-auto">
                           {property.property_summaries.slice(3, 4).map((summary) => (
-                            <div key={summary.id} className="flex items-center text-gray-700">
+                            <div key={summary.id} className=" flex items-center text-gray-700">
+                              <span className="w-[20px] h-[20px]">
+
                               <IconShow iconName={summary.icons.icon_name} />
-                              <span className="ml-2 text-sm text-blue-900">{summary.value}</span>
+                              </span>
+
+                              <span className="ml-2 text-sm  text-blue-900">{summary.value}</span>
                             </div>
                           ))}
                         </div>
