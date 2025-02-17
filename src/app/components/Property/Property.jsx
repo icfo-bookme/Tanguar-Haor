@@ -6,9 +6,9 @@ import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
 import IconShow from "@/utiles/IconShow";
 
-import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
+import { Hourglass } from "react-loader-spinner";
 
 export default function Property() {
   const [data, setData] = useState([]);
@@ -212,9 +212,23 @@ export default function Property() {
             </Link>
           </div>
         ))
-      ) : (
-        <div className="text-center text-gray-500">No properties found within this price range.</div>
-      )}
+      ) : 
+        <div className="flex justify-center items-center">
+
+
+
+        <Hourglass
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="hourglass-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          colors={['#306cce', '#72a1ed']}
+          />
+        </div>
+        
+      }
 
     </div>
   );
