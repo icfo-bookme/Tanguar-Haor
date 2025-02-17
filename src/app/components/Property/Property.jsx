@@ -153,7 +153,7 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex flex-row w-[100%] md:w-[40%] xl:w-[38%] justify-between sm:justify-end">
+                        <div className="flex flex-row w-[100%] md:w-[42%] xl:w-[38%] justify-between sm:justify-end">
 <div className=" mr-[5px]  md:mr-[75px] xl:mr-[30px]  w-[100%]">
 
 
