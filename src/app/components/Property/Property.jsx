@@ -153,13 +153,13 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex flex-row w-[100%]  md:w-[38%] justify-between sm:justify-end">
-<div className=" mr-[5px] sm:mr-[30px]  w-[100%]">
+                        <div className="flex flex-row w-[100%] md:w-[40%] xl:w-[38%] justify-between sm:justify-end">
+<div className=" mr-[5px]  md:mr-[75px] xl:mr-[30px]  w-[100%]">
 
 
 <button  
   style={{ background: "linear-gradient(90deg, #313881, #0678B4)" }}  
-  className="w-[100%] text-[11px] sm:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0 text-white font-semibold rounded-md md:w-auto"
+  className="w-[100%] text-[11px] md:[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0 text-white font-semibold rounded-md md:w-auto"
 >
   See Details
 </button>
@@ -169,7 +169,7 @@ export default function Property() {
                         <br/>
                         <div className="w-[100%] ">
 
-                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[100%] text-[11px] sm:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
+                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[100%] text-[11px] md:[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
                           Book Now
                         </button>
                         </div>
