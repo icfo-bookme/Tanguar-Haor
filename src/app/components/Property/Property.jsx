@@ -70,18 +70,18 @@ export default function Property() {
   return (
     <div className="lg:container  lg:w-full mx-auto px-4">
       {/* Filter & Sorting Section */}
-      <div className="flex flex-wrap justify-between items-center mb-5">
+      <div className="flex flex-wrap justify-center sm:justify-between items-center mb-5">
         {/* Price Filter */}
         <div className="flex items-center gap-2">
-          <h4 className="text-lg text-[#00026E] font-semibold">Filter by :</h4>
-          <h4 className="text-sm hidden md:block font-medium text-[#00026E]">
+          <h4 className="text-[12px] sm:text-lg text-[#00026E] font-semibold">Filter by :</h4>
+          <h4 className="text-[12px] sm:text-sm hidden md:block font-medium text-[#00026E]">
             Price Range:
           </h4>
-          <span className="text-sm font-medium text-blue-600">
+          <span className="text-[12px] sm:text-sm font-medium text-blue-600">
             {parseInt(price).toLocaleString()} BDT
           </span>
           <input
-            className="w-40 appearance-none h-2 rounded-lg bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-[45%] sm:w-40 appearance-none h-2 rounded-lg bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="range"
             min="0"
             max="1000"
@@ -154,7 +154,7 @@ export default function Property() {
                           ))}
                         </div>
                         <div className="flex flex-row w-[100%]  md:w-[38%] justify-between sm:justify-end">
-<div className="mr-[30px]  w-[100%]">
+<div className=" mr-[5px] sm:mr-[30px]  w-[100%]">
 
 
 <button  
