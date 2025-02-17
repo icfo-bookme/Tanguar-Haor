@@ -8,6 +8,7 @@ import IconShow from "@/utiles/IconShow";
 
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LuPhoneCall } from "react-icons/lu";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Property() {
   const [data, setData] = useState([]);
@@ -191,7 +192,7 @@ export default function Property() {
 
                         </div>
                         <div>
-                <FaSquareWhatsapp  className="text-green-500 text-[30px] rounded-3xl" />
+                <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" />
 
                         </div>
                       </div>
