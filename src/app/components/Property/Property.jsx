@@ -6,6 +6,9 @@ import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
 import IconShow from "@/utiles/IconShow";
 
+import { FaSquareWhatsapp } from "react-icons/fa6";
+import { LuPhoneCall } from "react-icons/lu";
+
 export default function Property() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -149,10 +152,22 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
+                        <div className="flex flex-row">
+<div className="mr-[30px]">
 
-                        <button className="px-4 -mr-5 py-2 mt-3 md:mt-0 bg-blue-900 text-white font-semibold rounded-md w-full md:w-auto">
+
+                        <button   c style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md w-full md:w-auto">
+                         See Details
+                        </button>
+</div>
+
+                        <br/>
+                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md w-full md:w-auto">
                           Book Now
                         </button>
+                        </div>
+
+
 
                         <div className="flex gap-4 w-full md:w-auto">
                           {property.property_summaries.slice(3, 4).map((summary) => (
@@ -167,6 +182,21 @@ export default function Property() {
                           ))}
                         </div>
                       </div>
+                      <div className="flex justify-end">
+
+                      <div className="flex  items-center">
+                        <span className="text-blue-400 text-[15px]">For instant service: </span>
+                        <div className="mx-[5px]">
+                        <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" />
+
+                        </div>
+                        <div>
+                <FaSquareWhatsapp  className="text-green-500 text-[30px] rounded-3xl" />
+
+                        </div>
+                      </div>
+                      </div>
+
                     </div>
                   )}
                 </div>
