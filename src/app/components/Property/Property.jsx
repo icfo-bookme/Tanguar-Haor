@@ -157,13 +157,17 @@ export default function Property() {
 <div className="mr-[30px]">
 
 
-                        <button   c style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className=" w-[141px] h-[50px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
-                         See Details
-                        </button>
+<button  
+  style={{ background: "linear-gradient(90deg, #313881, #0678B4)" }}  
+  className="w-[80px] text-[12px] sm:text-[16px] sm:w-[141px] h-[50px] px-4 -mr-5 py-2 mt-3 md:mt-0 text-white font-semibold rounded-md md:w-auto"
+>
+  See Details
+</button>
+
 </div>
 
                         <br/>
-                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[141px] h-[50px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
+                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[80px] text-[12px] sm:text-[16px] xs:w-[141px] h-[50px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
                           Book Now
                         </button>
                         </div>
