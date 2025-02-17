@@ -93,8 +93,8 @@ export default function Property() {
         </div>
 
         {/* Sorting Dropdown */}
-        <div className="flex items-center gap-2 justify-center mx-auto lg:mx-0">
-          <h4 className="text-sm font-medium text-[#00026E]">Sort Listing:</h4>
+        <div className="flex items-center gap-2 justify-center mx-auto lg:mx-0 sm:mt-[0px] mt-[20px]">
+          <h4 className="text-[12px]  sm:text-sm font-medium text-[#00026E]">Sort Listing:</h4>
           <select
             className="w-40 border border-gray-300 rounded-md text-[#00026E] px-3 py-1.5 text-sm focus:ring-blue-400 focus:border-blue-400"
             value={sortOption}
