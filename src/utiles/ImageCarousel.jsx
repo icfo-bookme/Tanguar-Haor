@@ -44,17 +44,17 @@ const ImageCarousel = ({ propertyImages }) => {
                 initialSlide={2} // Start with the third image
                 className="swiper mySwiper"
                 breakpoints={{
-                    320: { slidesPerView: 2 }, // Mobile view
+                    200: { slidesPerView: 1 }, // Mobile view
                     768: { slidesPerView: 5 }, // Desktop view
                 }}
             >
                 {propertyImages.map((image, index) => (
                     <SwiperSlide key={index}>
                         <div
-                            className={`relative w-full h-96 transition-all ${index === currentIndex ? "scale-105" : "opacity-80"}`}
-                            style={{ marginLeft: "10px" }}
+                            className={`relative w-full  transition-all ${index === currentIndex ? "scale-105" : "opacity-80"}`}
+                            style={{ marginLeft: "10px",height:"22rem" }}
                         >
-                            <div className="relative w-full h-full bg-black rounded-xl">
+                            <div className="relative w-full h-full  bg-black rounded-xl">
                                 {/* Image without opacity, so the overlay is visible */}
                                 <Image
                                     src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
