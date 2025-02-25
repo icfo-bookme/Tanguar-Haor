@@ -20,7 +20,6 @@ export default function Property() {
     async function fetchData() {
       try {
         const result = await propertySummary();
-        console.log("all property", result);
         setData(result); // Set all data
         setFilteredData(result); // Also set filteredData to all data initially
       } catch (error) {
@@ -32,23 +31,31 @@ export default function Property() {
 
   useEffect(() => {
     let filtered = data.filter((property) => {
-      const prices = property.property_uinit?.flatMap((unit) =>
-        unit.price?.map((priceObj) => priceObj.price)
-      ) || [];
+      // Include properties with an empty property_uinit array
+      if (!property.property_uinit || property.property_uinit.length === 0) {
+        return true;
+      }
+  
+      // Extract prices from units
+      const prices = property.property_uinit.flatMap((unit) =>
+        unit.price?.map((priceObj) => priceObj.price) || []
+      );
+  
+      // Show properties where at least one unit has a price <= selected price
       return prices.some((p) => p <= price);
     });
-
+  
     // Sorting Logic
     if (sortOption === "2") {
       filtered = filtered.sort((a, b) => {
         const minA = Math.min(...(a.property_uinit?.flatMap((unit) =>
           unit.price?.map((priceObj) => priceObj.price)
         ) || [Infinity]));
-
+  
         const minB = Math.min(...(b.property_uinit?.flatMap((unit) =>
           unit.price?.map((priceObj) => priceObj.price)
         ) || [Infinity]));
-
+  
         return minA - minB; // Low to High
       });
     } else if (sortOption === "3") {
@@ -56,17 +63,18 @@ export default function Property() {
         const minA = Math.min(...(a.property_uinit?.flatMap((unit) =>
           unit.price?.map((priceObj) => priceObj.price)
         ) || [0]));
-
+  
         const minB = Math.min(...(b.property_uinit?.flatMap((unit) =>
           unit.price?.map((priceObj) => priceObj.price)
         ) || [0]));
-
+  
         return minB - minA; // High to Low
       });
     }
-
+  
     setFilteredData(filtered);
   }, [price, data, sortOption]);
+  
   return (
     <div className="lg:container  lg:w-full mx-auto px-4">
       {/* Filter & Sorting Section */}
@@ -128,6 +136,7 @@ export default function Property() {
                     <span className="font-bold text-lg text-blue-900">
                       {(() => {
                         const prices = property.property_uinit?.flatMap((unit) =>
+                          // console.log("property price",unit),
                           unit.price?.map((priceObj) => priceObj.price)
                         ) || [];
                         return prices.length > 0 ? `${Math.min(...prices)} BDT` : "N/A";

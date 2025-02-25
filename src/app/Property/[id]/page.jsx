@@ -22,6 +22,7 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("Overview");
 
   useEffect(() => {
     async function fetchData() {
@@ -45,6 +46,13 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  useEffect(() => {
+    setActiveTab("Overview");
+  }, []);
   return (
     <div className="mt-[70px]">
       <div className="container mx-auto w-[98%] md:w-[85%]">
@@ -81,7 +89,29 @@ export default function Page({ params }) {
             )}
           </div>
         </div>
-
+        {/* <div className="flex -ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+              {["Overview", "Location", "Description"].map((tab) => (
+                <a
+                  key={tab}
+                  href={`#${tab.toLowerCase()}`}
+                  onClick={() => handleTabClick(tab)}
+                  className={`flex items-center flex-shrink-0 px-5 py-2 border-b-4 ${
+                    activeTab === tab
+                      ? "border-blue-500 text-blue-700"
+                      : "border-transparent dark:border-gray-300 dark:text-gray-600"
+                  }`}
+                >
+                  {tab}
+                </a>
+              ))}
+            </div>
+            <div className="col-span-2 pt-5">
+                <Accordion
+                  facilities={propertyFacilities}
+                  activeTab={activeTab}
+                  href={`#${activeTab.toLowerCase()}`}
+                />
+              </div> */}
         {/* Property Packages */}
         <div className="bg-white">
           <div className="w-full pl-4 mt-5 pt-5">
