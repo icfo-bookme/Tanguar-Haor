@@ -119,14 +119,19 @@ export default function Property() {
         filteredData.map((property) => (
           <div key={property.property_id} className="mb-5"> {/* ✅ এখানে key প্রপার্টি থাকছে */}
             <Link href={`/Property/${property.property_id}`} prefetch={true}>
-              <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
+              <div className=" shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
+                <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
+
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${property.main_img}`}
                   alt={property.property_name}
-                  width={600}
+                  
+                  width={500}
                   height={300}
                   className="object-cover w-full md:w-[300px] md:h-[230px] h-[200px] mx-auto"
                 />
+                </div>
+
                 <div className="flex flex-col w-full pr-4">
                   <h1 className="font-semibold text-lg text-[#00026E] mt-4">
                     {property.property_name}
