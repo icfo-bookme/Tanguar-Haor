@@ -2,9 +2,9 @@
 import IconShow from "@/app/components/IconShow/IconShow";
 import React, { useEffect, useState, useMemo } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { Inter } from "next/font/google";
+import { Raleway } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"] });
 
 const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
   const [activeIndex, setActiveIndex] = useState(null); // Changed from object to a single active item
@@ -47,7 +47,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
   };
 
   return (
-    <div className={`${inter.className} flex flex-col gap-4 mt-5`}>
+    <div className={`${raleway.className} flex flex-col gap-4 mt-5`}>
       <div className="flex flex-wrap gap-4">
         {Object.entries(groupedFacilities).map(
           ([facilityType, facilityItems], index) => {
@@ -68,7 +68,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                         size={30}
                       />
                     )}
-                    <span className="font-semibold ml-2 text-blue-950 text-xl">
+                    <span className="font-bold ml-2 text-blue-950  text-xl">
                       {facilityType}
                     </span>
                   </div>
@@ -92,7 +92,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                   }}
                 >
                   {facilityItems.map((item, itemIndex) => (
-                    <div key={itemIndex} className="text-blue-900 text-sm mb-2 ">
+                    <div key={itemIndex} className=" text-sm mb-2 ">
                       <h1 className="font-bold mb-1">{item.facility_name}</h1>
                       <div dangerouslySetInnerHTML={{ __html: item.value }} />
                     </div>
