@@ -9,8 +9,14 @@ import IconShow from "@/utiles/IconShow";
 
 import { Hourglass, TailSpin } from "react-loader-spinner";
 import { Roboto } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
+import { Raleway } from "next/font/google";
+
+const raleway = Raleway({ subsets: ["latin"], weight: ['800',], });
+
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 
+const josefin = Josefin_Sans({ subsets: ["latin"] });
 export default function Property() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -134,7 +140,7 @@ export default function Property() {
                 </div>
 
                 <div className="flex flex-col w-full pr-4">
-                  <h1 className="font-semibold text-lg text-[#00026E] mt-4">
+                  <h1 className={`${raleway.className} font-semibold text-lg text-[#00026E] mt-4 `}>
                     {property.property_name}
                   </h1>
                   <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[20px]">
@@ -168,7 +174,7 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex flex-row w-[100%] md:w-[80%] xl:w-[38%] justify-between sm:justify-end">
+                        <div className="flex flex-row w-[100%] md:w-[80%]  xl:w-[38%] 2xl:w-[23%] justify-between sm:justify-end">
 <div className=" mr-[5px]  md:mr-[75px] xl:mr-[25px]  w-[100%]">
 
 
