@@ -95,7 +95,7 @@ export default function Page({ params }) {
           <h1 className={`${josefin.className}  text-[32px] font-bold my-[32px]`}>
              Packages:
           </h1>
-          <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap">
+          <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap md:px-0 px-[10px]">
             {loading ? (
               <div>Loading...</div>
             ) : (
