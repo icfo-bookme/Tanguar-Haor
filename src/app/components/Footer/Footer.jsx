@@ -102,12 +102,13 @@ const Footer = () => {
         <div className="footer-content space-y-4 flex-1 text-center md:text-left">
             <div className="logo">
                 <Image 
-                    src="/assets/images/logo/logo.png" 
+                    src="/assets/images/tangular-logo.svg"
                     alt="travello" 
                     className="changeLogo mx-auto md:mx-0"
                     width={150}
                     height={100}
                 />
+                
             </div>
             <p className="pera text-gray-700">
                 Travel is a transformative and enriching experience that allows individuals to explore new destinations, cultures, and landscapes.
