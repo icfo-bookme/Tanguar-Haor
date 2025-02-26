@@ -45,7 +45,7 @@ const Header = () => {
               </div>
 
               {/* Navigation - Desktop and Tablet */}
-              <nav className="hidden lg:flex space-x-10 font-semibold">
+              {/* <nav className="hidden lg:flex space-x-10 font-semibold">
                 <Link href="/" className="text-gray-900 hover:text-blue-500">
                   Home
                 </Link>
@@ -79,29 +79,14 @@ const Header = () => {
                 >
                   Contact
                 </Link>
-              </nav>
+              </nav> */}
               <div className="ml-3 hidden md:flex items-center justify-center gap-2">
-              <Link href="/" className="">
+              {/* <Link href="/" className="">
               <FaSquarePhone size={35} className="text-[#0F5393]" />
               
-                </Link>
-                  <div>
-                    <p className="text-sm text-gray-900">Call Anytime</p>
-                    <h4 className="text-lg font-semibold">
-                      <a href="#" className="text-gray-800">
-                        00 (888) +123456
-                      </a>
-                    </h4>
-                  </div>
-                  <div className="flex ">
-                  <Link href="/" className="w-[36px] h-[36px] mr-[10px]">
-                  <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
-                </Link>
+                </Link> */}
+                  
+                  <div className="flex items-center ">
                   <Link href="/" className="w-[36px] h-[36px]">
                   <Image
                     src="/assets/images/w.svg"
@@ -110,6 +95,23 @@ const Header = () => {
                     height={40}
                   />
                 </Link>
+                  <Link href="/" className="w-[36px] h-[36px] mr-[10px] mx-[20px]">
+                  <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                  />
+                </Link>
+                  
+                <div>
+                    <p className="text-sm text-gray-900">Call Anytime</p>
+                    <h4 className="text-lg font-semibold">
+                      <a href="#" className="text-gray-800">
+                        00 (888) +123456
+                      </a>
+                    </h4>
+                  </div>
                   </div>
                 
                 </div>
@@ -144,6 +146,14 @@ const Header = () => {
             </div>
             <nav className="flex flex-col items-center space-y-4 py-4 bg-white">
             <div className="flex items-center justify-center gap-2">
+            <Link href="/" className="w-[36px] h-[36px]">
+                  <Image
+                    src="/assets/images/w.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                  />
+                </Link>
               <Link href="/" className="w-[36px] h-[36px]">
                   <Image
                     src="/assets/images/c.svg"
@@ -160,52 +170,9 @@ const Header = () => {
                       </a>
                     </h4>
                   </div>
-                  <div className="flex ">
-                  <Link href="/" className="w-[36px] h-[36px] mr-[10px]">
-                  <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
-                </Link>
-                  <Link href="/" className="w-[36px] h-[36px]">
-                  <Image
-                    src="/assets/images/w.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
-                </Link>
-                  </div>
+               
                 </div>
-              <Link href="/" className="text-gray-700 hover:text-blue-500">
-                Home
-              </Link>
-              <Link
-                href="/places"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                Places to Visit
-              </Link>
-              <Link
-                href="/how-it-works"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                How it Works
-              </Link>
-              <Link href="/tips" className="text-gray-700 hover:text-blue-500">
-                Tips
-              </Link>
-              <Link href="/news" className="text-gray-700 hover:text-blue-500">
-                News
-              </Link>
-              <Link
-                href="/contact"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                Contact
-              </Link>
+             
             </nav>
           </div>
         )}

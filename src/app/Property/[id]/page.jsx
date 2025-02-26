@@ -59,9 +59,9 @@ export default function Page({ params }) {
     setActiveTab("Overview");
   }, []);
   return (
-    <div className={`${roboto.className} mt-[70px] `}>
-      <div className="container mx-auto w-[98%] md:w-[85%]">
-        <div className="lg:grid grid-cols-1 bg-white rounded gap-8 pr-1 pt-1">
+    <div className={`${roboto.className} pt-[50px] bg-[#EBF0F4] pb-[20px]`}>
+      <div className=" container mx-auto w-[98%] md:w-[85%]">
+        <div className="lg:grid grid-cols-1  rounded gap-8 pr-1 pt-1">
           {/* Property Details */}
           <div className="col-span-1 p-2">
             {loading ? (
@@ -155,16 +155,17 @@ export default function Page({ params }) {
             )}
           </div>
         </div>
+<div className="bg-white p-[15px] rounded-lg ">
 
-        <div className="flex -ml-0 md:-ml-4 space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+        <div className=" flex  space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
           {["Overview", "Location", "Description"].map((tab) => (
             <a
               key={tab}
               href={`#${tab.toLowerCase()}`}
               onClick={() => handleTabClick(tab)}
-              className={`flex font-bold items-center flex-shrink-0 px-[3px] md:px-5 py-2 border-b-4 ${activeTab === tab
-                ? "border-blue-500 text-[#00026E]"
-                : "border-transparent dark:border-gray-300 dark:text-gray-600"
+              className={`bg-white flex font-bold items-center flex-shrink-0 px-[3px] md:pr-5 mr-[0px] md:mr-[40px] py-2 border-b-4 ${activeTab === tab
+                ? "border-blue-500 bg-white text-[#00026E]"
+                : "border-transparent  dark:border-gray-300 dark:text-gray-600"
                 }`}
             >
               {tab}
@@ -173,7 +174,7 @@ export default function Page({ params }) {
         </div>
         <hr />
         {/* Property Packages */}
-        <div className="bg-white">
+        <div className="">
           <div className="w-full  mt-[30px] ">
             <div className="lg:grid grid-cols-3 gap-10 rounded">
               {<>
@@ -197,6 +198,8 @@ export default function Page({ params }) {
             </div>
           </div>
         </div>
+</div>
+
       </div>
       <ToastContainer />
     </div>
