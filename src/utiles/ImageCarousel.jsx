@@ -45,7 +45,7 @@ const ImageCarousel = ({ propertyImages }) => {
     }
 
     return (
-        <div className="relative w-full max-w-5xl mx-auto  bg-[#EBF0F4]">
+        <div className="relative w-full max-w-[71rem] mx-auto  bg-[#EBF0F4]">
             {/* Main Image Swiper */}
             <div className="relative w-full h-full">
                 <Swiper

@@ -205,37 +205,8 @@ export default function Property() {
                           ))}
                         </div>
                       </div>
-                      <div className=" block md:hidden">
-
-<div className="flex justify-start md:justify-end">
-
-<div className="flex  items-center">
-  <div className="">
-  <Image
-src="/assets/images/c.svg"
-alt="logo"
-width={30}
-height={30}
-/>
-  {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
-
-  </div>
-  <div className="mx-[10px]">
-  <Image
-src="/assets/images/w.svg"
-alt="logo"
-width={30}
-height={30}
-/>
-{/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}
-
-  </div>
-  <span className="text-blue-400 text-[15px]">For instant service </span>
-
-</div>
-</div>
-</div>
-                      <div className=" hidden md:block">
+                     
+                      <div className=" ">
 
                       <div className="flex justify-start md:justify-end">
 

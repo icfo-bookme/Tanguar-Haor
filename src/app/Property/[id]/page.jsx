@@ -95,7 +95,7 @@ export default function Page({ params }) {
           <h1 className={`${josefin.className}  text-[32px] font-bold my-[32px]`}>
             Additional Packages :
           </h1>
-          <div className="flex flex-wrap md:flex-nowrap">
+          <div className="flex  mx-0 md:mx-[-10px] flex-wrap md:flex-nowrap">
             {loading ? (
               <div>Loading...</div>
             ) : (
@@ -106,7 +106,7 @@ export default function Page({ params }) {
                 >
                   {/* Discount Badge */}
                   {pkg.discount?.length > 0 && (
-                    <div className="absolute text-white z-40 -top-4 -right-3 bg-red-700 p-2 rounded-full text-xs font-semibold w-14 h-14 flex flex-col items-center justify-center shadow-md">
+                    <div className="absolute text-white z-40 -top-4 -right-3 bg-red-700 py-2 rounded-full text-xs font-semibold w-14 h-14 flex flex-col items-center justify-center shadow-md">
                       <span>{Math.floor(pkg.discount[0].discount_percent)}%</span>
                       <span className="text-[10px]">OFF</span>
                     </div>
@@ -141,8 +141,8 @@ export default function Page({ params }) {
                           <p className="text-red-500 text-[16px]">Price: Not Available</p>
                         )}
                         <button className="px-3 py-1 text-sm sm:text-base rounded-full bg-blue-900 text-white shadow-md">
-                          <span>Add</span>
-                          <span>Cart</span>
+                          <span>Book </span>
+                          <span>Now</span>
                         </button>
                       </div>
                     </div>
