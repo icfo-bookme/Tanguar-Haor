@@ -163,7 +163,7 @@ export default function Page({ params }) {
               key={tab}
               href={`#${tab.toLowerCase()}`}
               onClick={() => handleTabClick(tab)}
-              className={`bg-white flex font-bold items-center flex-shrink-0 px-[3px] md:pr-5 mr-[0px] md:mr-[40px] py-2 border-b-4 ${activeTab === tab
+              className={`bg-white flex font-bold items-center flex-shrink-0 px-[3px] md:pr-5  py-2 border-b-4 ${activeTab === tab
                 ? "border-blue-500 bg-white text-[#00026E]"
                 : "border-transparent  dark:border-gray-300 dark:text-gray-600"
                 }`}
