@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -24,11 +26,34 @@ export const PropertyPackages = ({ packages }) => {
 
             <div className="flex gap-2 mt-3 mb-4 ">
               <div className="px-3 flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[90px] text-center">
+              <Link href="/" className="">
+                  <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={25}
+                    height={25}
+                  />
+                </Link>
+                <p>
+
                 Call Now
+                </p>
+
               </div>
               <div className="px-3 py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[130px] flex items-center justify-center gap-2">
-                <FaWhatsapp className="text-green-500 text-xl" />
+              <Link href="/" className="">
+                  <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={25}
+                    height={25}
+                  />
+                </Link>
+                <p>
+
                 Book Now
+                </p>
+
               </div>
             </div>
 
