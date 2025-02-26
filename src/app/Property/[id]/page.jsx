@@ -59,7 +59,7 @@ export default function Page({ params }) {
     setActiveTab("Overview");
   }, []);
   return (
-    <div className={`${roboto.className} mt-[70px] bg-[#EBF0F4]`}>
+    <div className={`${roboto.className} mt-[70px] `}>
       <div className="container mx-auto w-[98%] md:w-[85%]">
         <div className="lg:grid grid-cols-1 bg-white rounded gap-8 pr-1 pt-1">
           {/* Property Details */}
@@ -94,9 +94,9 @@ export default function Page({ params }) {
             )}
           </div>
         </div>
-        <div className="my-[30px]">
-          <h1 className={`${josefin.className} text-center text-[32px] font-bold my-[12px]`}>
-            Additional Packages
+        <div className="my-[30px] ">
+          <h1 className={`${josefin.className}  text-[32px] font-bold my-[32px]`}>
+            Additional Packages :
           </h1>
           <div className="flex flex-wrap md:flex-nowrap">
             {loading ? (

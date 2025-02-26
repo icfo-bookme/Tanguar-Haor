@@ -39,7 +39,7 @@ const ImageCarousel = ({ propertyImages }) => {
     }
 
     return (
-        <div className="relative w-full max-w-5xl mx-auto mt-7">
+        <div className="relative w-full max-w-5xl mx-auto  ">
             {/* Main Image Swiper */}
             <div className="relative w-full h-full "> {/* Set height here */}
                 <Swiper
@@ -53,7 +53,7 @@ const ImageCarousel = ({ propertyImages }) => {
                 >
                     {propertyImages.map((image, index) => (
                         <SwiperSlide key={index } className="w-[100%] h-[100%]">
-                            <div className="relative bg-white rounded-xl w-full h-full">
+                            <div className="relative  rounded-xl w-full h-full">
                                 <div className="relative w-full h-full">
                                     <Image
                                         src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
