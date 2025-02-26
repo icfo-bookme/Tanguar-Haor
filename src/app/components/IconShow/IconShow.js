@@ -46,7 +46,7 @@ const IconShow = ({ iconName }) => {
   }, [iconName]);
 
   // Return the icon component, or null if not loaded
-  return IconComponent ? <IconComponent size={25} /> : null;
+  return IconComponent ? <IconComponent size={25} style={{"color":"#284673"}} /> : null;
 };
 
 export default IconShow;

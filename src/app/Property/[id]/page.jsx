@@ -163,7 +163,7 @@ export default function Page({ params }) {
               href={`#${tab.toLowerCase()}`}
               onClick={() => handleTabClick(tab)}
               className={`flex font-bold items-center flex-shrink-0 px-[3px] md:px-5 py-2 border-b-4 ${activeTab === tab
-                ? "border-blue-500 text-blue-700"
+                ? "border-blue-500 text-[#00026E]"
                 : "border-transparent dark:border-gray-300 dark:text-gray-600"
                 }`}
             >
@@ -174,7 +174,7 @@ export default function Page({ params }) {
         <hr />
         {/* Property Packages */}
         <div className="bg-white">
-          <div className="w-full  mt-[5px] ">
+          <div className="w-full  mt-[30px] ">
             <div className="lg:grid grid-cols-3 gap-10 rounded">
               {<>
                 <div className="col-span-2 ">

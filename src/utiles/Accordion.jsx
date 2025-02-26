@@ -55,16 +55,16 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
             const firstIcon = facilityItems[0]?.icon || null;
 
             return (
-              <div key={index} className="w-full">
+              <div key={index} className="w-full mt-[10px]">
                 <div
                   className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
                   onClick={() => toggleAccordion(facilityType)}
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     {firstIcon && (
                       <IconShow
                         iconName={firstIcon}
-                        className="text-blue-800"
+                        className="text-[#284673]"
                         size={30}
                       />
                     )}
@@ -84,7 +84,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
 
                 <div
                   className={`transition-all duration-1000 ease-in-out overflow-visible rounded-md shadow-inner leading-loose ${
-                    isOpen ? "opacity-100 p-4 block mt-4" : "opacity-0 p-0 hidden"
+                    isOpen ? "opacity-100 p-4 block mt-[10px]" : "opacity-0 p-0 hidden"
                   }`}
                   style={{
                     transitionProperty: "max-height, opacity, transform",
@@ -92,7 +92,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                   }}
                 >
                   {facilityItems.map((item, itemIndex) => (
-                    <div key={itemIndex} className=" text-sm mb-2 ">
+                    <div key={itemIndex} className=" text-sm text-[#00026E] mb-2 ">
                       <h1 className="font-bold mb-1">{item.facility_name}</h1>
                       <div dangerouslySetInnerHTML={{ __html: item.value }} />
                     </div>
