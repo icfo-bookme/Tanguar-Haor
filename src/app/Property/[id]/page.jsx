@@ -157,7 +157,7 @@ export default function Page({ params }) {
         </div>
 <div className="bg-white p-[15px] rounded-lg ">
 
-        <div className=" flex  space-x-2 font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+        <div className=" flex gap-x-[40px]  font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
           {["Overview", "Location", "Description"].map((tab) => (
             <a
               key={tab}
