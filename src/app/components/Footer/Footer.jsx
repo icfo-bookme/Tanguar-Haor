@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white">
+        <footer className={` ${roboto.className} bg-gray-800 text-white`}>
             <div className="footer-wrapper bg-gray-900">
                 <div className="container py-8 w-[85%] mx-auto">
                     <div className="footer-area">
@@ -105,7 +107,7 @@ const Footer = () => {
                     src="/assets/images/tangular-logo.svg"
                     alt="travello" 
                     className="changeLogo mx-auto md:mx-0"
-                    width={150}
+                    width={180}
                     height={100}
                 />
                 

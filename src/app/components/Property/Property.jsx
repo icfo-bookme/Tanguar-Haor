@@ -9,6 +9,8 @@ import IconShow from "@/utiles/IconShow";
 import { LuPhoneCall } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
 import { Hourglass } from "react-loader-spinner";
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 
 export default function Property() {
   const [data, setData] = useState([]);
@@ -76,7 +78,7 @@ export default function Property() {
   }, [price, data, sortOption]);
   
   return (
-    <div className="lg:container  lg:w-full mx-auto px-4">
+    <div className={`${roboto.className} lg:container  lg:w-full mx-auto px-4`}>
       {/* Filter & Sorting Section */}
       <div className="flex flex-wrap justify-center sm:justify-between items-center mb-5">
         {/* Price Filter */}
@@ -204,16 +206,28 @@ export default function Property() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex justify-end">
+                      <div className="flex justify-start md:justify-end">
 
                       <div className="flex  items-center">
                         <span className="text-blue-400 text-[15px]">For instant service: </span>
                         <div className="mx-[5px]">
-                        <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" />
+                        <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={30}
+                    height={30}
+                  />
+                        {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
 
                         </div>
                         <div>
-                <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" />
+                        <Image
+                    src="/assets/images/w.svg"
+                    alt="logo"
+                    width={30}
+                    height={30}
+                  />
+                {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}
 
                         </div>
                       </div>

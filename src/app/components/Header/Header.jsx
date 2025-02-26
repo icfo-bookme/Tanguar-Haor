@@ -36,8 +36,8 @@ const Header = () => {
                   <Image
                     src="/assets/images/tangular-logo.svg" // Adjust the path based on your public folder structure
                     alt="logo"
-                    width={150}
-                    height={50}
+                    width={190}
+                    height={60}
                     className="changeLogo"
                   />
                 </Link>
@@ -80,8 +80,9 @@ const Header = () => {
                 </Link>
               </nav>
               <div className="ml-3 hidden md:flex items-center justify-center gap-2">
-              <Link href="/" className="w-[36px] h-[36px]">
-                  <Image
+              <Link href="/" className="">
+              {/* <FaSquarePhone size={35} className="text-[#0F5393]" /> */}
+              <Image
                     src="/assets/images/c.svg"
                     alt="logo"
                     width={40}
