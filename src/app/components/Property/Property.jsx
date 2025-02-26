@@ -6,9 +6,8 @@ import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
 import IconShow from "@/utiles/IconShow";
 
-import { LuPhoneCall } from "react-icons/lu";
-import { FaWhatsapp } from "react-icons/fa";
-import { Hourglass } from "react-loader-spinner";
+
+import { Hourglass, TailSpin } from "react-loader-spinner";
 import { Roboto } from "next/font/google";
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 
@@ -278,15 +277,16 @@ height={30}
 
 
 
-        <Hourglass
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="hourglass-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          colors={['#306cce', '#72a1ed']}
-          />
+<TailSpin
+  visible={true}
+  height="80"
+  width="80"
+  color="#4fa94d"
+  ariaLabel="tail-spin-loading"
+  radius="1"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
         </div>
         
       }

@@ -5,14 +5,11 @@ import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
 import getPropertyDetails from "@/utiles/getPropertyDetails";
 import { getPropertyImages } from "@/utiles/getPropertyImages";
-import IconShow from "@/utiles/IconShow";
 import ImageCarousel from "@/utiles/ImageCarousel";
-import Image from "next/image";
 import { IoLocation } from "react-icons/io5";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import getPropertyPackages from "@/utiles/getPropertyPackages";
-import { PropertyPackages } from "@/app/components/PropertyPackages/PropertyPackages";
 import { FaWhatsapp } from "react-icons/fa";
 import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
@@ -157,13 +154,13 @@ export default function Page({ params }) {
         </div>
 <div className="bg-white p-[15px] rounded-lg ">
 
-        <div className=" flex gap-x-[40px]  font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
+        <div className=" flex gap-x-[20px] md:gap-x-[40px]  font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
           {["Overview", "Location", "Description"].map((tab) => (
             <a
               key={tab}
               href={`#${tab.toLowerCase()}`}
               onClick={() => handleTabClick(tab)}
-              className={`bg-white flex font-bold items-center flex-shrink-0  py-2 border-b-4 ${activeTab === tab
+              className={`bg-white flex font-bold items-center flex-shrink-0 cursor-pointer py-2 border-b-4 ${activeTab === tab
                 ? "border-blue-500 bg-white text-[#00026E] md:mr-5"
                 : "border-transparent  dark:border-gray-300 dark:text-gray-600 md:mr-5"
                 }`}
@@ -187,7 +184,7 @@ export default function Page({ params }) {
                 </div>
                 {/* {loading ? <div>Loading...</div> : <PropertyPackages packages={propertyPackages} />} */}
               </>}
-              <div className="col-span-1">
+              <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                 <div>
                   <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]">
                     Get Free Tour Consultation

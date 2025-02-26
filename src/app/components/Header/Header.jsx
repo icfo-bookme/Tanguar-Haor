@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { FaSquarePhone } from "react-icons/fa6";
 import { Inter } from "next/font/google";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
@@ -95,7 +94,7 @@ const Header = () => {
                     height={40}
                   />
                 </Link>
-                  <Link href="/" className="w-[36px] h-[36px] mr-[10px] mx-[20px]">
+                  <Link href="/" className="w-[36px] h-[36px] mx-[20px]">
                   <Image
                     src="/assets/images/c.svg"
                     alt="logo"

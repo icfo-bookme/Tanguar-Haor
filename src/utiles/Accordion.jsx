@@ -55,7 +55,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
             const firstIcon = facilityItems[0]?.icon || null;
 
             return (
-              <div key={index} className="w-full mt-[10px]">
+              <div key={index} className="w-full mt-[10px] cursor-pointer">
                 <div
                   className="cursor-pointer p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between"
                   onClick={() => toggleAccordion(facilityType)}
