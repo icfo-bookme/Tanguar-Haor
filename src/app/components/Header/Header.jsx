@@ -160,6 +160,15 @@ const Header = () => {
                       </a>
                     </h4>
                   </div>
+                  <div className="flex ">
+                  <Link href="/" className="w-[36px] h-[36px] mr-[10px]">
+                  <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                  />
+                </Link>
                   <Link href="/" className="w-[36px] h-[36px]">
                   <Image
                     src="/assets/images/w.svg"
@@ -168,6 +177,7 @@ const Header = () => {
                     height={40}
                   />
                 </Link>
+                  </div>
                 </div>
               <Link href="/" className="text-gray-700 hover:text-blue-500">
                 Home
