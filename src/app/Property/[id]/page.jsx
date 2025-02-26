@@ -95,14 +95,14 @@ export default function Page({ params }) {
           <h1 className={`${josefin.className}  text-[32px] font-bold my-[32px]`}>
              Packages:
           </h1>
-          <div className="flex  mx-0 md:mx-[-10px] flex-wrap md:flex-nowrap">
+          <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap">
             {loading ? (
               <div>Loading...</div>
             ) : (
               propertyPackages?.slice(0, 4).map((pkg, dd) => (
                 <div
                   key={pkg.unit_id}
-                  className="relative z-10 md:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible"
+                  className="relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible"
                 >
                   {/* Discount Badge */}
                   {pkg.discount?.length > 0 && (
