@@ -82,13 +82,8 @@ const Header = () => {
               </nav>
               <div className="ml-3 hidden md:flex items-center justify-center gap-2">
               <Link href="/" className="">
-              {/* <FaSquarePhone size={35} className="text-[#0F5393]" /> */}
-              <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
+              <FaSquarePhone size={35} className="text-[#0F5393]" />
+              
                 </Link>
                   <div>
                     <p className="text-sm text-gray-900">Call Anytime</p>
@@ -98,6 +93,15 @@ const Header = () => {
                       </a>
                     </h4>
                   </div>
+                  <div className="flex ">
+                  <Link href="/" className="w-[36px] h-[36px] mr-[10px]">
+                  <Image
+                    src="/assets/images/c.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                  />
+                </Link>
                   <Link href="/" className="w-[36px] h-[36px]">
                   <Image
                     src="/assets/images/w.svg"
@@ -106,6 +110,8 @@ const Header = () => {
                     height={40}
                   />
                 </Link>
+                  </div>
+                
                 </div>
               {/* Mobile Menu Icon */}
               <div className="lg:hidden flex items-center">
