@@ -7,7 +7,8 @@ import { Inter } from "next/font/google";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import Link from "next/link";
-
+import { Roboto } from "next/font/google";
+const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 // Initialize the font loader at the module scope
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`header-area-three ${inter.className}`}>
+    <header className={`header-area-three ${roboto.className}`}>
       <div className="main-header fixed w-full z-50  bg-white shadow-md shadow-slate-500">
         {/* Header Top */}
 
