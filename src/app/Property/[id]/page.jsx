@@ -189,7 +189,7 @@ export default function Page({ params }) {
               </>}
               <div className="col-span-1">
                 <div>
-                  <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 mt-10">
+                  <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]">
                     Get Free Tour Consultation
                   </h1>
                   <ContactForm />
