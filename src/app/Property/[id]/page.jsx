@@ -13,6 +13,9 @@ import getPropertyPackages from "@/utiles/getPropertyPackages";
 import { FaWhatsapp } from "react-icons/fa";
 import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
+import { Raleway } from "next/font/google";
+
+const raleway = Raleway({ subsets: ["latin"] });
 
 const josefin = Josefin_Sans({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
@@ -66,7 +69,7 @@ export default function Page({ params }) {
             ) : (
               propertyDetails?.map((property, index) => (
                 <div key={index}>
-                  <h2 className="text-xl text-blue-900 font-semibold">
+                <h2 className={`${raleway.className} text-xl text-blue-900 font-bold`}>
                     {property.property_name}
                   </h2>
                   <p className="flex items-center">
@@ -92,7 +95,7 @@ export default function Page({ params }) {
           </div>
         </div>
         <div className="my-[30px] ">
-          <h1 className={`${josefin.className}  text-[32px] font-bold my-[32px]`}>
+          <h1 className={`${raleway.className}  text-[32px] font-bold my-[32px]`}>
              Packages:
           </h1>
           <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap md:px-0 px-[10px]">
@@ -115,7 +118,7 @@ export default function Page({ params }) {
                   {/* Package Content */}
                   <div className="flex flex-col items-center pt-[10px] mx-auto">
                     <div className="p-[12px] flex flex-col flex-1 shadow-lg">
-                      <h2 className={`${josefin.className} text-[17px] font-bold text-blue-900 pb-2`}>
+                      <h2 className={`${raleway.className} text-[17px] font-bold text-blue-900 pb-2`}>
                         {pkg.unit_name}
                       </h2>
                       <p className={`${roboto.className} text-gray-600 text-[16px]`}>
@@ -186,7 +189,7 @@ export default function Page({ params }) {
               </>}
               <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                 <div>
-                  <h1 className="text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]">
+                  <h1 className={`${raleway.className} text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}>
                     Get Free Tour Consultation
                   </h1>
                   <ContactForm />

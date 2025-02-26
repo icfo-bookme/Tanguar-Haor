@@ -68,7 +68,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                         size={30}
                       />
                     )}
-                    <span className="font-bold ml-2 text-blue-950  text-xl">
+                    <span className={`${raleway.className} font-bold ml-2 text-blue-950  text-xl`}>
                       {facilityType}
                     </span>
                   </div>

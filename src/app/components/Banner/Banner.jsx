@@ -6,13 +6,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import Image from "next/image";
-import { Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";import { Raleway } from "next/font/google";
+
+const raleway = Raleway({ subsets: ["latin"] });
+
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 export default function Banner() {
   const autoplayDelay = 3000;
 
   return (
-    <section className={` ${roboto.className}  relative h-[56vh] w-full p-0 m-0`}>
+    <section className={` ${raleway.className}  relative h-[56vh] w-full p-0 m-0`}>
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}
