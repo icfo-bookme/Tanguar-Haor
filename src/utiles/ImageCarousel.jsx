@@ -93,8 +93,8 @@ const ImageCarousel = ({ propertyImages }) => {
                     freeMode={true}
                     watchSlidesProgress={true}
                     modules={[FreeMode, Navigation, Thumbs]}
-                    className="mySwiper"
-                    style={{ height: "110px" }}
+                    className="mySwiper fix-height-swiper"
+                    // style={{ height: "110px" }}
                 >
                     {propertyImages.map((image, index) => (
                         <SwiperSlide key={index} className="w-[30%] h-[100%]">

@@ -15,6 +15,8 @@ import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
+import Header from "@/app/components/Header/Header";
+import Footer from "@/app/components/Footer/Footer";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -28,6 +30,8 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const setSearchTerm="tanguar haur"
+  const searchTerm="tanguar haur"
   const [activeTab, setActiveTab] = useState("Overview");
   console.log(propertyPackages)
   useEffect(() => {
@@ -60,7 +64,9 @@ export default function Page({ params }) {
     setActiveTab("Overview");
   }, []);
   return (
-    <div className={`${roboto.className} pt-[50px] bg-[#EBF0F4] pb-[20px]`}>
+    <div>
+<Header searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+    <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
       <div className=" container mx-auto w-[98%] md:w-[85%]">
         <div className="lg:grid grid-cols-1  rounded gap-8 pr-1 pt-1">
           {/* Property Details */}
@@ -95,10 +101,11 @@ export default function Page({ params }) {
             )}
           </div>
         </div>
-        <div className="my-[30px] ">
-          <h1 className={`font-heading  text-[32px] font-bold my-[32px]`}>
+        {/* <h1 className={`font-heading  text-[32px] font-bold my-[32px]`}>
              Packages:
-          </h1>
+          </h1> */}
+        <div className="my-[30px] ">
+          
           <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap md:px-0 px-[10px]">
             {loading ? (
               <div>Loading...</div>
@@ -214,5 +221,8 @@ export default function Page({ params }) {
       </div>
       <ToastContainer />
     </div>
+    <Footer/>
+    </div>
+
   );
 }

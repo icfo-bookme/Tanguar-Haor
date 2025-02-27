@@ -31,9 +31,7 @@ export default function DashboardLayout({ children }) {
           {/* Main content */}
           <div className="bg-white">
             <main className="">
-              <div className="">
-                {/* Additional content or spaces */}
-              </div>
+              
               {children} {/* Render the children with the added props */}
             </main>
           </div>

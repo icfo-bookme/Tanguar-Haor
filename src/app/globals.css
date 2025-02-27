@@ -35,6 +35,15 @@ body {
 .custom-content li {
   margin-bottom: 0.5rem; /* Adds space between list items */
 }
+.fix-height-swiper{
+  height: 70px;
+
+@media screen and (min-width:400px) {
+  height: 110px;
+}
+
+}
+
 
 
 
