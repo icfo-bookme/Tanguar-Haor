@@ -147,11 +147,11 @@ export default function Page({ params }) {
                       </p>
                       <div className="flex justify-start items-center">
                         <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
-                          <div className="px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
+                          <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
                             Call Now
                           </div>
-                          <div className="px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
-                            <FaWhatsapp className="text-green-500 text-[16px]" />
+                          <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
+                            <FaWhatsapp className= " text-green-500 text-[16px]" />
                             Book Now
                           </div>
                         </div>
