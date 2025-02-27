@@ -24,38 +24,17 @@ export const PropertyPackages = ({ packages }) => {
               {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg.additionalbed}
             </p>
 
-            <div className="flex gap-2 mt-3 mb-4 ">
-              <div className="px-3 flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[90px] text-center">
-              <Link href="/" className="">
-                  <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={25}
-                    height={25}
-                  />
-                </Link>
-                <p>
-
-                Call Now
-                </p>
-
-              </div>
-              <div className="px-3 py-1 text-sm border border-blue-950 rounded-full w-full sm:w-[130px] flex items-center justify-center gap-2">
-              <Link href="/" className="">
-                  <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={25}
-                    height={25}
-                  />
-                </Link>
-                <p>
-
-                Book Now
-                </p>
-
-              </div>
-            </div>
+           <div className="flex justify-end items-center">
+                                   <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
+                                     <div className="px-3 flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
+                                       Call Now
+                                     </div>
+                                     <div className="px-3 py-1 text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
+                                       <FaWhatsapp className="text-green-500 text-[16px]" />
+                                       Book Now
+                                     </div>
+                                   </div>
+                                 </div>
 
             <div className="flex  justify-between item-center ">
               {pkg.price?.length > 0 ? (

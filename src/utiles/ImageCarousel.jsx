@@ -2,12 +2,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs, Autoplay } from "swiper"; // ✅ Added Autoplay module
+import { FreeMode, Navigation, Thumbs, Autoplay,Pagination } from "swiper"; // ✅ Added Autoplay module
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "swiper/css/autoplay";
+import "swiper/css/pagination";
 
 const ImageCarousel = ({ propertyImages }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -53,8 +54,10 @@ const ImageCarousel = ({ propertyImages }) => {
                     spaceBetween={2}
                     navigation={true}
                     thumbs={{ swiper: thumbsSwiper }}
-                    modules={[FreeMode, Navigation, Thumbs, Autoplay]} // ✅ Added Autoplay
+                    modules={[FreeMode, Navigation, Thumbs, Autoplay,Pagination]} // ✅ Added Autoplay
                     className="mySwiper2"
+        pagination={{ clickable: true }}
+
                     style={{ height: `${swiperHeight}px` }}
                     autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }} // ✅ Autoplay enabled
                     onSwiper={(swiper) => {

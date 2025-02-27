@@ -14,6 +14,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
 import { Raleway } from "next/font/google";
+import Image from "next/image";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -69,7 +70,7 @@ export default function Page({ params }) {
             ) : (
               propertyDetails?.map((property, index) => (
                 <div key={index}>
-                <h2 className={`${raleway.className} text-xl text-blue-900 font-bold`}>
+                <h2 className={`font-heading text-xl text-blue-900 font-bold`}>
                     {property.property_name}
                   </h2>
                   <p className="flex items-center">
@@ -95,7 +96,7 @@ export default function Page({ params }) {
           </div>
         </div>
         <div className="my-[30px] ">
-          <h1 className={`${raleway.className}  text-[32px] font-bold my-[32px]`}>
+          <h1 className={`font-heading  text-[32px] font-bold my-[32px]`}>
              Packages:
           </h1>
           <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap md:px-0 px-[10px]">
@@ -108,6 +109,8 @@ export default function Page({ params }) {
                   className="relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible"
                 >
                   {/* Discount Badge */}
+                  
+
                   {pkg.discount?.length > 0 && (
                     <div className="absolute text-white z-40 -top-4 -right-3 bg-red-700 py-2 rounded-full text-xs font-semibold w-14 h-14 flex flex-col items-center justify-center shadow-md">
                       <span>{Math.floor(pkg.discount[0].discount_percent)}%</span>
@@ -117,25 +120,36 @@ export default function Page({ params }) {
 
                   {/* Package Content */}
                   <div className="flex flex-col items-center pt-[10px] mx-auto">
-                    <div className="p-[12px] flex flex-col flex-1 shadow-lg">
-                      <h2 className={`${raleway.className} text-[17px] font-bold text-blue-900 pb-2`}>
+                  <div className=" mb-[100px]">
+
+<Image
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
+                  alt={pkg.unit_id}
+                  fill
+                 
+                  className="object-cover md:max-h-[45%] max-h-[40%] lg:max-h-[50%] max-w-[100%] rounded-t-lg "
+                />
+</div>
+                    <div className="p-[12px] flex flex-col flex-1 shadow-lg" >
+
+                      <h2 className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}>
                         {pkg.unit_name}
                       </h2>
                       <p className={`${roboto.className} text-gray-600 text-[16px]`}>
                         {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg.additionalbed}
                       </p>
-                      <div className="flex justify-end items-center">
+                      <div className="flex justify-start items-center">
                         <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
-                          <div className="px-3 flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
+                          <div className="px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
                             Call Now
                           </div>
-                          <div className="px-3 py-1 text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
+                          <div className="px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
                             <FaWhatsapp className="text-green-500 text-[16px]" />
                             Book Now
                           </div>
                         </div>
                       </div>
-                      <div className={`${roboto.className} flex justify-between items-center`}>
+                      <div className={`${roboto.className}`}>
                         {pkg.price?.length > 0 ? (
                           <p className="text-blue-950 text-[16px] font-semibold">
                             Price: {pkg.price[0].price} BDT
@@ -143,10 +157,7 @@ export default function Page({ params }) {
                         ) : (
                           <p className="text-red-500 text-[16px]">Price: Not Available</p>
                         )}
-                        <button className="px-3 py-1 text-sm sm:text-base rounded-full bg-blue-900 text-white shadow-md">
-                          <span>Book </span>
-                          <span>Now</span>
-                        </button>
+                    
                       </div>
                     </div>
                   </div>
@@ -158,7 +169,7 @@ export default function Page({ params }) {
 <div className="bg-white p-[15px] rounded-lg ">
 
         <div className=" flex gap-x-[20px] md:gap-x-[40px]  font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-          {["Overview", "Location", "Description"].map((tab) => (
+          {["Overview",  "Description"].map((tab) => (
             <a
               key={tab}
               href={`#${tab.toLowerCase()}`}
@@ -189,8 +200,8 @@ export default function Page({ params }) {
               </>}
               <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                 <div>
-                  <h1 className={`${raleway.className} text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}>
-                    Get Free Tour Consultation
+                  <h1 className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}>
+                    Get a Call
                   </h1>
                   <ContactForm />
                 </div>

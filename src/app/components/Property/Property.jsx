@@ -11,18 +11,29 @@ import { Hourglass, TailSpin } from "react-loader-spinner";
 import { Roboto } from "next/font/google";
 import { Josefin_Sans } from "next/font/google";
 import { Raleway } from "next/font/google";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { RangeSlider } from "flowbite-react";
+import { useForm } from "react-hook-form";
 
 const raleway = Raleway({ subsets: ["latin"], weight: ['800',], });
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',],  });
 
 const josefin = Josefin_Sans({ subsets: ["latin"] });
-export default function Property() {
+export default function Property({searchTerm,setSearchTerm}) {
+  console.log(searchTerm)
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [price, setPrice] = useState(1000);
+  const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
+const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const onSubmit = (data) => {
+    // Update the searchTerm based on input field
+    setSearchTerm(data.property);
+    // console.log(data.property)
+    // console.log(searchTerm)
+  };
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,10 +46,11 @@ export default function Property() {
     }
     fetchData();
   }, []);
-
+  
+  // Apply searchTerm in this useEffect while keeping other filters
   useEffect(() => {
     let filtered = data.filter((property) => {
-      // Include properties with an empty property_uinit array
+      // First, filter based on the price range
       if (!property.property_uinit || property.property_uinit.length === 0) {
         return true;
       }
@@ -49,7 +61,18 @@ export default function Property() {
       );
   
       // Show properties where at least one unit has a price <= selected price
-      return prices.some((p) => p <= price);
+      const isWithinPriceRange = prices.some((p) => p <= price);
+  
+      // If the property is within the price range, apply the searchTerm filter
+      if (isWithinPriceRange) {
+        // Apply the searchTerm filter
+        if (searchTerm) {
+          return property.property_name.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return true; // If no searchTerm, include all properties within the price range
+      }
+  
+      return false; // Exclude properties that are not within the price range
     });
   
     // Sorting Logic
@@ -79,14 +102,32 @@ export default function Property() {
       });
     }
   
+    // After all filters and sorting, update the filtered data
     setFilteredData(filtered);
-  }, [price, data, sortOption]);
+  }, [price, data, sortOption, searchTerm]); // Add searchTerm to the dependency array
+  
+  
   
   return (
-    <div className={`${roboto.className} lg:container  lg:w-full mx-auto px-4`}>
+    <div className={`${roboto.className} bg-white lg:container  lg:w-full mx-auto px-4`}>
       {/* Filter & Sorting Section */}
+      <div className="lg:hidden block">
+
+<form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-[5px] border rounded-lg shadow-lg w- lg:w-96 mx-auto">
+<input
+    {...register("property")}
+    type="text"
+    value={searchTerm }
+    className="w-full p-2 border rounded-md text-black"
+    onChange={(e) => setSearchTerm(e.target.value)}
+    placeholder="Search property"
+    
+  />
+  </form>
+  </div>
       <div className="flex flex-wrap justify-center sm:justify-between items-center mb-5">
         {/* Price Filter */}
+        
         <div className="flex items-center gap-2">
           <h4 className="text-[12px] sm:text-lg text-[#00026E] font-semibold">Filter by :</h4>
           <h4 className="text-[12px] sm:text-sm hidden md:block font-medium text-[#00026E]">
@@ -95,16 +136,18 @@ export default function Property() {
           <span className="text-[12px] sm:text-sm font-medium text-blue-600">
             {parseInt(price).toLocaleString()} BDT
           </span>
-          <input
-            className="w-[45%] sm:w-40 appearance-none h-2 rounded-lg bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            type="range"
-            min="0"
-            max="1000"
-            step="50"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            style={{ WebkitAppearance: "none" }}
-          />
+          <RangeSlider
+  id="default-range"
+  min={0}
+  max={10000}
+  step={500}
+  value={price}
+  onChange={(e) => setPrice(Number(e.target.value))}
+  tooltip="true"
+  tooltipposition="top"
+  className="w-[75%] mt-[0] md:mt-[-18px] sm:w-40 appearance-none h-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
+
         </div>
 
         {/* Sorting Dropdown */}
@@ -125,7 +168,7 @@ export default function Property() {
       {filteredData.length > 0 ? (
         filteredData.map((property) => (
           <div key={property.property_id} className="mb-5"> {/* ✅ এখানে key প্রপার্টি থাকছে */}
-            <Link href={`/Property/${property.property_id}`} prefetch={true}>
+            {/* <Link href={`/Property/${property.property_id}`} prefetch={true}> */}
               <div className=" shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
                 <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
 
@@ -140,7 +183,7 @@ export default function Property() {
                 </div>
 
                 <div className="flex flex-col w-full pr-4">
-                  <h1 className={`${raleway.className} font-semibold text-lg text-[#00026E] mt-4 `}>
+                  <h1 className={` font-heading font-semibold text-lg text-[#00026E] mt-4 `}>
                     {property.property_name}
                   </h1>
                   <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[20px]">
@@ -174,27 +217,7 @@ export default function Property() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex flex-row w-[100%] md:w-[80%]  xl:w-[38%] 2xl:w-[23%] justify-between sm:justify-end">
-<div className=" mr-[5px]  md:mr-[75px] xl:mr-[25px]  w-[100%]">
-
-
-<button  
-  style={{ background: "linear-gradient(90deg, #313881, #0678B4)" }}  
-  className="w-[100%] text-[11px] md:text-[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0 text-white font-semibold rounded-md md:w-auto"
->
-  See Details
-</button>
-
-</div>
-
-                        <br/>
-                        <div className="w-[100%] ">
-
-                        <button style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[100%] text-[11px] md:text-[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
-                          Book Now
-                        </button>
-                        </div>
-                        </div>
+                       
 
 
 
@@ -211,30 +234,47 @@ export default function Property() {
                           ))}
                         </div>
                       </div>
-                     
+                      <div className="flex flex-row w-[100%] md:w-[80%]  xl:w-[38%] 2xl:w-[23%] justify-between sm:justify-end">
+<div className=" mr-[5px]  md:mr-[75px] xl:mr-[25px]  w-[100%]">
+
+
+<Link href={`/Property/${property.property_id}`}   
+  style={{ background: "linear-gradient(90deg, #313881, #0678B4)" }}  
+  className="w-[100%] text-[11px] md:text-[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0 text-white font-semibold rounded-md md:w-auto"
+>
+  See Details
+</Link>
+
+</div>
+
+                        <br/>
+                        <div className="w-[100%] ">
+
+                        <Link href={`/Property/${property.property_id}`}  style={{background: "linear-gradient(90deg, #313881, #0678B4)"}} className="w-[100%] text-[11px] md:text-[14px] xl:text-[16px] sm:w-[141px] h-[40px] px-4 -mr-5 py-2 mt-3 md:mt-0  text-white font-semibold rounded-md  md:w-auto">
+                          Book Now
+                        </Link>
+                        </div>
+                        </div>
                       <div className=" ">
 
-                      <div className="flex justify-start md:justify-end">
+                      <div className="flex justify-start md:justify-start">
 
                       <div className="flex  items-center">
-                        <span className="text-blue-400 text-[15px]">For instant service: </span>
+                        <span className="text-blue-400  font-bold">For instant service: </span>
                         <div className="mx-[5px]">
-                        <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={30}
-                    height={30}
-                  />
+                        <Link href="/" className=" mx-[10px]">
+                  <DotLottieReact className="w-[48px] h-[48px]" loop autoplay  src="/call-animation.json"/>
+
+                 
+                </Link>
                         {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
 
                         </div>
                         <div>
-                        <Image
-                    src="/assets/images/w.svg"
-                    alt="logo"
-                    width={30}
-                    height={30}
-                  />
+                        <Link href="/" className=" ">
+                  <DotLottieReact className="w-[48px] h-[48px]"loop autoplay src="/whatsapp-animation.json"/>
+
+                </Link>
                 {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}
 
                         </div>
@@ -246,7 +286,7 @@ export default function Property() {
                   )}
                 </div>
               </div>
-            </Link>
+            {/* </Link> */}
           </div>
         ))
       ) : 

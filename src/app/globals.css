@@ -17,11 +17,15 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
-
+@font-face {
+  font-family: 'heading';
+  src: url('/fonts/LuxiaRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 /* In your global CSS file (or Tailwind config if using custom utilities) */
 .custom-content ul {
   list-style-type: disc; /* Ensures bullet points */
