@@ -30,8 +30,7 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const setSearchTerm = "tanguar haur";
-  const searchTerm = "tanguar haur";
+
   const [activeTab, setActiveTab] = useState("Overview");
   console.log(propertyPackages);
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function Page({ params }) {
   }, []);
   return (
     <div>
-      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      {/* <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
       <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
         <div className=" container mx-auto w-[98%] md:w-[85%]">
           <div className="lg:grid grid-cols-1  rounded gap-8 pr-1 pt-1">
@@ -107,7 +106,7 @@ export default function Page({ params }) {
              Packages:
           </h1> */}
           <div className="my-[30px] ">
-            <div className="flex  mx-0 md:mx-[-10px] flex-wrap  lg:flex-nowrap md:px-0 px-[10px]">
+            <div className="flex  mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap  xl:flex-nowrap md:px-0 px-[10px]">
               {loading ? (
                 <div>Loading...</div>
               ) : (
@@ -128,16 +127,16 @@ export default function Page({ params }) {
                     )}
 
                     {/* Package Content */}
-                    <div className="flex flex-col items-center pt-[10px] mx-auto">
-                      <div className=" mb-[100px]">
+                    <div className="flex flex-col items-center h-full   mx-auto">
+                      <div className="w-[100%]  max-h-[60%] overflow-hidden block">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
                           alt={pkg.unit_id}
                           fill
-                          className="object-cover md:max-h-[45%] max-h-[40%] lg:max-h-[50%] max-w-[100%] rounded-t-lg "
+                          className=" w-[100%] lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg "
                         />
                       </div>
-                      <div className="p-[12px] flex flex-col flex-1 shadow-lg">
+                      <div className="p-[12px] lg:mt-[180px] xl:mt-[180px] md:mt-[140px] mt-[210px] flex flex-col flex-1 shadow-lg">
                         <h2
                           className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}
                         >
@@ -231,7 +230,7 @@ export default function Page({ params }) {
         </div>
         <ToastContainer />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

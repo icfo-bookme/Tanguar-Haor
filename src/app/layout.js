@@ -1,23 +1,18 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import "./globals.css";
-import { Inter, Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
+import { SearchProvider } from "@/SearchContext";
 
 // Font setup at module scope
 const inter = Inter({
-  subsets: ["latin"], 
-  display: "swap", 
-});
-const roboto = Inter({
-  subsets: ["latin"], 
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export default function DashboardLayout({ children }) {
-
-  // Clone the children and pass the necessary props (e.g., searchTerm and setSearchTerm)
-  
   return (
     <html lang="en" data-theme="white">
       <head>
@@ -25,19 +20,20 @@ export default function DashboardLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Bookme</title>
       </head>
-      <body className={roboto.className}> {/* Applying the Roboto font globally */}
-        <div>
-
-          {/* Main content */}
-          <div className="bg-white">
-            <main className="">
-              
-              {children} {/* Render the children with the added props */}
-            </main>
+      <body className={inter.className}>
+        <SearchProvider>
+          {" "}
+          {/* Wrap children inside provider */}
+          <div>
+            <div className="bg-white">
+              <main>
+                <Header /> {/* No need to pass props manually */}
+                {children}
+                <Footer />
+              </main>
+            </div>
           </div>
-
-          
-        </div>
+        </SearchProvider>
       </body>
     </html>
   );
