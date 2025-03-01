@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import postPackageInfo from "@/utiles/postPacageInfo";
 
-const ContactForm = () => {
+const ContactForm = ({propertyDetails}) => {
   const {
     register,
     handleSubmit,
@@ -29,6 +29,7 @@ const ContactForm = () => {
       number: data.phoneNumber,
       address: data.address,
       additional_info: data.additionalInfo,
+      property_name: propertyDetails[0]?.property_name
     };
 
     try {

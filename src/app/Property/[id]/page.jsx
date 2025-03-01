@@ -15,8 +15,7 @@ import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
-import Header from "@/app/components/Header/Header";
-import Footer from "@/app/components/Footer/Footer";
+
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -30,9 +29,8 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [activeTab, setActiveTab] = useState("Overview");
-  console.log(propertyPackages);
+  // console.log(propertyPackages);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -60,7 +58,7 @@ export default function Page({ params }) {
   };
 
   useEffect(() => {
-    setActiveTab("Overview");
+    setActiveTab("Summary");
   }, []);
   return (
     <div>
@@ -102,10 +100,11 @@ export default function Page({ params }) {
               )}
             </div>
           </div>
-          {/* <h1 className={`font-heading  text-[32px] font-bold my-[32px]`}>
-             Packages:
-          </h1> */}
+         
           <div className="my-[30px] ">
+          <h1 className={`font-heading text-black  text-[32px] font-bold my-[32px]`}>
+             Packages:
+          </h1>
             <div className="flex  mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap  xl:flex-nowrap md:px-0 px-[10px]">
               {loading ? (
                 <div>Loading...</div>
@@ -220,7 +219,7 @@ export default function Page({ params }) {
                       >
                         Get a Call
                       </h1>
-                      <ContactForm />
+                      <ContactForm propertyDetails={propertyDetails}/>
                     </div>
                   </div>
                 </div>

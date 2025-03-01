@@ -1,8 +1,13 @@
 "use client";
 import IconShow from "@/app/components/IconShow/IconShow";
 import React, { useEffect, useState, useMemo } from "react";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { FaPlus, FaMinus, FaWhatsapp } from "react-icons/fa";
 import { Raleway } from "next/font/google";
+import { TbPackages, TbWorld } from "react-icons/tb";
+import { IoLocationSharp } from "react-icons/io5";
+import { RiDiscussFill } from "react-icons/ri";
+import { MdOutlineWatchLater, MdPolicy, MdTipsAndUpdates } from "react-icons/md";
+import { LuInfo } from "react-icons/lu";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -53,7 +58,7 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
           ([facilityType, facilityItems], index) => {
             const isOpen = activeIndex === facilityType;
             const firstIcon = facilityItems[0]?.icon || null;
-
+console.log(facilityType)
             return (
               <div key={index} className="w-full mt-[10px] cursor-pointer">
                 <div
@@ -61,15 +66,43 @@ const Accordion = ({ facilities = { facilities: [] }, activeTab, href }) => {
                   onClick={() => toggleAccordion(facilityType)}
                 >
                   <div className="flex items-center ">
-                    {firstIcon && (
-                      <IconShow
-                        iconName={firstIcon}
-                        className="text-[#284673]"
-                        size={30}
-                      />
-                    )}
+                  {
+  facilityType === "Summary" || facilityType === "Overview" ? (
+    <TbWorld  style={{color:"#2a026e"}} size={30} />
+  ) : facilityType === "Location" ? (
+    <IoLocationSharp  style={{color:"#2a026e"}} size={30} />
+  ) : facilityType === "Description" ? (
+    <RiDiscussFill  style={{color:"#2a026e"}} size={30} />
+  ) : facilityType === "Travel Tips" ?  (
+    <MdTipsAndUpdates  style={{color:"#2a026e"}} size={30} />
+
+  ):
+  
+   facilityType === "Policy" ?  (
+    <MdPolicy   style={{color:"#2a026e"}}  size={30} />
+
+  ):
+   facilityType === "Timing" ?  (
+    <MdOutlineWatchLater    style={{color:"#2a026e"}} size={30} />
+
+  ):
+   facilityType === "Additional Information" ?  (
+    <LuInfo     style={{color:"#2a026e"}}  size={30} />
+
+  ):
+   facilityType === "Inclusion & Exclusion" ?  (
+    <LuInfo     style={{color:"#2a026e"}} size={30} />
+
+  ):
+   facilityType === "Packages" ?  (
+    <TbPackages      style={{color:"#2a026e"}} size={30} />
+
+  ):""
+
+}
                     <span className={`${raleway.className} font-bold ml-2 text-blue-950  text-xl`}>
                       {facilityType}
+
                     </span>
                   </div>
 

@@ -14,6 +14,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { RangeSlider } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
+import getContactNumber from "@/utiles/getContactNumber";
 
 const raleway = Raleway({ subsets: ["latin"], weight: ["800"] });
 
@@ -22,11 +23,12 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 const josefin = Josefin_Sans({ subsets: ["latin"] });
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
-  console.log(searchTerm);
+  // console.log(searchTerm);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
+  const [contactNumber, setContactNumber]=useState([])
   const {
     register,
     handleSubmit,
@@ -47,6 +49,17 @@ export default function Property() {
         setFilteredData(result); // Also set filteredData to all data initially
       } catch (error) {
         console.error("Error fetching property data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getContactNumber();
+        setContactNumber(result)
+      } catch (error) {
+        console.error("Error fetching contact number data:", error);
       }
     }
     fetchData();
@@ -308,23 +321,25 @@ export default function Property() {
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px]">
-                            <Link href="/" className=" mx-[10px]">
+                            <Link href={`https://wa.me/${contactNumber[0].value}`} className=" mx-[10px]"  target="_blank" 
+  rel="noopener noreferrer">
                               <DotLottieReact
                                 className="w-[48px] h-[48px]"
                                 loop
                                 autoplay
-                                src="/call-animation.json"
+                                src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json"
                               />
                             </Link>
                             {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
                           </div>
                           <div>
-                            <Link href="/" className=" ">
+                            <Link  href={`https://wa.me/${contactNumber[0].value}`} className=" mx-[10px]"  target="_blank" 
+  rel="noopener noreferrer">
                               <DotLottieReact
                                 className="w-[48px] h-[48px]"
                                 loop
                                 autoplay
-                                src="/whatsapp-animation.json"
+                                src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
                               />
                             </Link>
                             {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { FiMenu } from "react-icons/fi";
@@ -10,6 +10,7 @@ import { Roboto } from "next/font/google";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
+import getContactNumber from "@/utiles/getContactNumber";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 // Initialize the font loader at the module scope
@@ -21,6 +22,8 @@ const inter = Inter({
 const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [contactNumber, setContactNumber]=useState([])
+console.log(contactNumber)
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -29,7 +32,18 @@ const Header = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getContactNumber();
+        console.log(result)
+        setContactNumber(result)
+      } catch (error) {
+        console.error("Error fetching contact number data:", error);
+      }
+    }
+    fetchData();
+  }, []);
   const onSubmit = (data) => {
     // Update the searchTerm based on input field
     setSearchTerm(data.property);
@@ -118,15 +132,17 @@ const Header = () => {
                 </Link> */}
 
                 <div className="flex items-center ">
-                  <Link href="/" className="w-[48px] h-[48px] ">
+                  <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] ">
                     <DotLottieReact
                       loop
                       autoplay
-                      src="/whatsapp-animation.json"
+                      src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
                     />
                   </Link>
-                  <Link href="/" className="w-[48px] h-[48px] mx-[20px]">
-                    <DotLottieReact loop autoplay src="/call-animation.json" />
+                  <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] mx-[20px]">
+                    <DotLottieReact loop autoplay src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json" />
                   </Link>
 
                   <div>
