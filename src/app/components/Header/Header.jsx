@@ -135,14 +135,28 @@ console.log(contactNumber)
                   <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] ">
                     <DotLottieReact
-                      loop
-                      autoplay
-                      src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
-                    />
+                                className="w-[48px] h-[48px]"
+                                loop
+                                autoplay
+                                renderer="svg"
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
+                              />
                   </Link>
                   <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] mx-[20px]">
-                    <DotLottieReact loop autoplay src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json" />
+                    <DotLottieReact
+                                className="w-[48px] h-[48px]"
+                                loop
+                                autoplay
+                                renderer="svg" 
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
+                              />
                   </Link>
 
                   <div>
@@ -156,18 +170,14 @@ console.log(contactNumber)
                 </div>
               </div>
               {/* Mobile Menu Icon */}
-              <div className="lg:hidden flex items-center">
-                <button onClick={toggleMobileMenu}>
-                  <FiMenu size={30} className="text-gray-800" />
-                </button>
-              </div>
+            
             </div>
           </div>
         </div>
 
         {/* Mobile Menu - Conditional Rendering */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 ">
+        
+          <div className="lg:hidden fixed inset-0 bg-white bg-opacity-50 z-50 ">
             <div className="flex justify-between items-center bg-white p-4">
               <div className="logo">
                 <Link href="/">
@@ -180,41 +190,42 @@ console.log(contactNumber)
                   />
                 </Link>
               </div>
-              <button onClick={toggleMobileMenu}>
-                <IoClose size={30} className="text-gray-800" />
-              </button>
+              <div className="flex items-center ml-[20px] ">
+                <h1 className=" text-[11px] md:text-[16px] font-bold text-black">Call anytime</h1>
+                  <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] ">
+                    <DotLottieReact
+                                className="w-[38px] h-[38px]"
+                                loop
+                                autoplay
+                                renderer="svg"
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
+                              />
+                  </Link>
+                  <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mx-[20px]">
+                    <DotLottieReact
+                                className="w-[38px] h-[38px]"
+                                loop
+                                autoplay
+                                renderer="svg" 
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
+                              />
+                  </Link>
+
+                
+                </div>
             </div>
 
-            <nav className="flex flex-col items-center space-y-4 py-4 bg-white">
-              <div className="flex items-center justify-center gap-2">
-                <Link href="/" className="w-[36px] h-[36px]">
-                  <Image
-                    src="/assets/images/w.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
-                </Link>
-                <Link href="/" className="w-[36px] h-[36px]">
-                  <Image
-                    src="/assets/images/c.svg"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                  />
-                </Link>
-                <div>
-                  <p className="text-sm text-gray-900">Call Anytime</p>
-                  <h4 className="text-lg font-semibold">
-                    <a href="#" className="text-gray-800">
-                      00 (888) +123456
-                    </a>
-                  </h4>
-                </div>
-              </div>
-            </nav>
+         
           </div>
-        )}
+      
       </div>
     </header>
   );

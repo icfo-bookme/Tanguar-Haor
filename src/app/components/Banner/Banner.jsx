@@ -17,10 +17,14 @@ export default function Banner() {
     <section className={`${raleway.className} relative h-[56vh] w-full`}>
       <Swiper
         modules={[Pagination, Autoplay]}
-        pagination={{ clickable: true }}
+        pagination={{
+          clickable: true,
+          // bulletClass: "custom-bullet", // Add a custom class
+          // bulletActiveClass: "custom-bullet-active"
+        }}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true} // Ensures infinite looping
-        className="h-full relative"
+        className="h-full relative "
       >
         <SwiperSlide>
           <Image
@@ -65,25 +69,7 @@ export default function Banner() {
       </div>
 
       {/* Fix Pagination Clickability */}
-      <style jsx>{`
-        .swiper-pagination {
-          position: absolute;
-          bottom: 10px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 50 !important;
-          pointer-events: auto !important;
-        }
-        .swiper-pagination-bullet {
-          background: #fff;
-          opacity: 0.7;
-          transition: opacity 0.3s;
-          cursor: pointer;
-        }
-        .swiper-pagination-bullet-active {
-          opacity: 1;
-        }
-      `}</style>
+      
     </section>
   );
 }

@@ -6,65 +6,68 @@ const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
 
 const Footer = () => {
     return (
-        <footer className={` ${roboto.className} bg-gray-800 text-white`}>
-            <div className="footer-wrapper bg-gray-900">
+        <footer className={` ${roboto.className} bg-[#25298c] text-white py-[20px]`}>
+            <div className="footer-wrapper bg-[#25298c]">
                 <div className="container py-8 w-[85%] mx-auto">
                     <div className="footer-area">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             {/* Company Section */}
                             <div className="single-footer-caption">
                                 <div className="footer-tittle mb-6">
-                                    <h4 className="title text-lg font-semibold text-gray-200 mb-4">Company</h4>
-                                    <ul className="listing space-y-2">
+                                    <h1 className=" text-lg font-semibold text-white mb-4">Discover</h1>
+                                    <div className='flex'>
+
+                                    <ul className="listing space-y-[5px]">
                                         <li className="single-lsit">
-                                            <Link href="/about" className="text-gray-400 hover:text-blue-400 transition duration-300">About Us</Link>
+                                            <Link href="/faq" className="text-white font-extralight  transition duration-300">Home</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/news" className="text-gray-400 hover:text-blue-400 transition duration-300">News</Link>
+                                            <Link href="/tour-list" className="text-white  transition duration-300">Terms</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/faq" className="text-gray-400 hover:text-blue-400 transition duration-300">FAQ</Link>
+                                            <Link href="/destination" className="text-white transition duration-300">Talent & Culture</Link>
                                         </li>
-                                        <li className="single-lsit">
-                                            <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition duration-300">Contact</Link>
-                                        </li>
+                                        <br/>
+                                       
+
                                     </ul>
+                                    <ul className="listing space-y-[5px] ml-[40px]">
+                                        <li className="single-lsit">
+                                            <Link href="/faq" className="text-white  transition duration-300">Refund Policy</Link>
+                                        </li>
+                                        <li className="single-lsit">
+                                            <Link href="/tour-list" className="text-white  transition duration-300">EMI Policy</Link>
+                                        </li>
+                                        <li className="single-lsit">
+                                            <Link href="/destination" className="text-white transition duration-300">Privacy Policy
+                                            </Link>
+                                        </li>
+                                        <br/>
+                                       
+
+                                    </ul>
+                                    </div>
+
+
                                 </div>
                             </div>
 
                             {/* Explore Section */}
                             <div className="single-footer-caption">
-                                <div className="footer-tittle mb-6">
-                                    <h4 className="title text-lg font-semibold text-gray-200 mb-4">Explore</h4>
-                                    <ul className="listing space-y-2">
-                                        <li className="single-lsit">
-                                            <Link href="/faq" className="text-gray-400 hover:text-blue-400 transition duration-300">FAQ</Link>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <Link href="/tour-list" className="text-gray-400 hover:text-blue-400 transition duration-300">Tour Listings</Link>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <Link href="/destination" className="text-gray-400 hover:text-blue-400 transition duration-300">Destinations</Link>
-                                        </li>
-                                    </ul>
+                                <div className="footer-tittle mb-6 flex flex-col justify-start items-center">
+                                    <h4 className="title text-lg font-semibold text-white mb-4">Payment Methods</h4>
+                                    <Image alt='payment' src={"/assets/images/gallery/payment-icons-footer.v1.0.0.svg"} width={130}height={60}/>
                                 </div>
                             </div>
 
                             {/* Quick Links Section */}
                             <div className="single-footer-caption">
                                 <div className="footer-tittle mb-6">
-                                    <h4 className="title text-lg font-semibold text-gray-200 mb-4">Quick Links</h4>
-                                    <ul className="listing space-y-2">
-                                        <li className="single-lsit">
-                                            <Link href="/" className="text-gray-400 hover:text-blue-400 transition duration-300">Home</Link>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <Link href="/about" className="text-gray-400 hover:text-blue-400 transition duration-300">About Us</Link>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <Link href="/contact" className="text-gray-400 hover:text-blue-400 transition duration-300">Contact Us</Link>
-                                        </li>
-                                    </ul>
+                                    <h4 className="title text-lg font-semibold text-gray-200 mb-4">Need Help ?
+                                    </h4>
+                                   <p> We&apos;re here for you 24/7! Reach out to us through Messenger or call anytime, day or night, for the support you need.
+
+</p>
                                 </div>
                             </div>
 
@@ -72,27 +75,8 @@ const Footer = () => {
                             <div className="single-footer-caption">
                                 <div className="footer-tittle mb-6">
                                     <h4 className="title text-lg font-semibold text-gray-200 mb-4">Contact</h4>
-                                    <ul className="listing space-y-2">
-                                        <li className="single-lsit">
-                                            <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
-                                                70/A Floor Divo Tower Melbourne, Australia
-                                            </a>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
-                                                <div className="d-flex gap-4">
-                                                    <i className="ri-phone-line"></i> (00) +888 123456 789
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li className="single-lsit">
-                                            <a href="#" className="text-gray-400 hover:text-blue-400 transition duration-300">
-                                                <div className="d-flex gap-4">
-                                                    <i className="ri-mail-line"></i> example@gmail.com
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                   <p className='text-white'>01605777755</p>
+                                   <p className='text-white mt-[20px]'>admin-bookme@gmail.com</p>
                                 </div>
                             </div>
                         </div>
@@ -116,53 +100,22 @@ const Footer = () => {
                 Travel is a transformative and enriching experience that allows individuals to explore new destinations, cultures, and landscapes.
             </p>
         </div>
-        <div className="footer-right flex-1 text-center md:text-left">
-            <h4 className="title text-lg font-semibold mb-4">Subscribe Our Newsletter</h4>
-            <div className="subscribe-wrapper bg-white p-4 rounded-md shadow-md inline-block md:w-auto">
-                <input
-                    className="footer-search p-2 w-full md:w-64 text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 md:mb-0 md:mr-4"
-                    type="email"
-                    name="footer"
-                    placeholder="Enter Your Email"
-                />
-                <button className="subscribe-btn bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300 w-full md:w-auto">
-                    Subscribe
-                </button>
-            </div>
-        </div>
+        
     </div>
 
     {/* Footer Bottom */}
-    <div className="footer-bottom py-4 mt-8">
-        <ul className="listing flex flex-col md:flex-row justify-center md:justify-start gap-6 space-x-0 md:space-x-6">
-            <li className="single-list">
-                <Link href="/terms-condition" className="single text-gray-700 hover:text-blue-600 transition duration-300">
-                    Terms of use
-                </Link>
-            </li>
-            <li className="single-list">
-                <Link href="/privacy-policy" className="single text-gray-700 hover:text-blue-600 transition duration-300">
-                    Privacy and Cookies Statement
-                </Link>
-            </li>
-            <li className="single-list">
-                <Link href="/contact" className="single text-gray-700 hover:text-blue-600 transition duration-300">
-                    How the site works
-                </Link>
-            </li>
-        </ul>
-    </div>
+    
 </div>
 
                 </div>
             </div>
 
             {/* Footer Bottom Area */}
-            <div className="footer-bottom-area py-4 bg-gray-900 text-center">
+            <div className="footer-bottom-area py-4 bg-[#25298c] text-center">
                 <div className="container mx-auto">
                     <div className="d-flex justify-between gap-4 flex-wrap">
-                        <p className="pera text-gray-400">
-                            © <span className="current-year">2023</span> Travello. All rights reserved.
+                        <p className="pera text-white">
+                            © <span className="current-year">{new Date().getFullYear()}</span> Bookme. All rights reserved.
                         </p>
                         
                     </div>

@@ -102,7 +102,7 @@ export default function Page({ params }) {
           </div>
          
           <div className="my-[30px] ">
-          <h1 className={`font-heading text-black  text-[32px] font-bold my-[32px]`}>
+          <h1 className={`font-heading text-blue-700  text-[32px] font-bold my-[32px]`}>
              Packages:
           </h1>
             <div className="flex  mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap  xl:flex-nowrap md:px-0 px-[10px]">
@@ -217,7 +217,7 @@ export default function Page({ params }) {
                       <h1
                         className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}
                       >
-                        Get a Call
+                        Get consultancy/Get a call
                       </h1>
                       <ContactForm propertyDetails={propertyDetails}/>
                     </div>

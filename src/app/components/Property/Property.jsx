@@ -165,7 +165,7 @@ export default function Property() {
             Price Range
           </h4>
           <span className="text-[12px] sm:text-sm font-medium text-blue-600 w-[21%] md:[33%] xl:w-[20%]">
-            {parseInt(price).toLocaleString()} BDT
+            {parseInt(price).toLocaleString()}{parseInt(price)>9500?"+":""} BDT
           </span>
           <RangeSlider
             id="default-range"
@@ -215,11 +215,16 @@ export default function Property() {
               </div>
 
               <div className="flex flex-col w-full pr-4">
+              <Link
+                          href={`/Property/${property.property_id}`} className="cursor-pointer">
+
                 <h1
                   className={` font-heading font-semibold text-lg text-[#00026E] mt-4 `}
                 >
                   {property.property_name}
                 </h1>
+                </Link>
+
                 <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[20px]">
                   Starting from <br />
                   <span className="font-bold text-lg text-blue-900">
@@ -317,7 +322,7 @@ export default function Property() {
                     <div className=" ">
                       <div className="flex justify-start md:justify-start">
                         <div className="flex  items-center">
-                          <span className="text-blue-400  font-bold">
+                          <span className="text-black  font-bold">
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px]">
@@ -327,7 +332,11 @@ export default function Property() {
                                 className="w-[48px] h-[48px]"
                                 loop
                                 autoplay
-                                src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json"
+                                renderer="svg"
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
                               />
                             </Link>
                             {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
@@ -339,7 +348,11 @@ export default function Property() {
                                 className="w-[48px] h-[48px]"
                                 loop
                                 autoplay
-                                src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
+                                renderer="svg" 
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
                               />
                             </Link>
                             {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}

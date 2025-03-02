@@ -46,7 +46,7 @@ const ContactForm = ({propertyDetails}) => {
       if (apiResponse.error) {
       toast.error("Failed to submit package info.");
       } else {
-      toast.success("Package info submitted successfully!");
+      toast.success("Submitted Successfully");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -88,18 +88,25 @@ const ContactForm = ({propertyDetails}) => {
 
           {/* Phone Number */}
           <div>
-            <label htmlFor="phoneNumber" className="block text-sm font-medium text-black">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              placeholder="01xxxxxxx"
-              {...register("phoneNumber", { required: true })}
-              className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
-            />
-            {errors.phoneNumber && <span className="text-red-500">Phone number is required</span>}
-          </div>
+  <label htmlFor="phoneNumber" className="block text-sm font-medium text-black">
+    Phone Number
+  </label>
+  <input
+    type="tel"
+    id="phoneNumber"
+    placeholder="01xxxxxxxxx"
+    {...register("phoneNumber", { 
+      required: "Phone number is required",
+      pattern: {
+        value: /^[0-9]{11}$/, // Ensures exactly 11 digits
+        message: "Phone number must be exactly 11 digits"
+      }
+    })}
+    className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
+  />
+  {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber.message}</span>}
+</div>
+
 
           {/* Email Address */}
           <div>
@@ -109,13 +116,7 @@ const ContactForm = ({propertyDetails}) => {
             <input
               type="email"
               id="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
-              })}
+              {...register("email")}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
             {errors.email && <span className="text-red-500">{errors.email.message}</span>}
