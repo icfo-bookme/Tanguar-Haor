@@ -58,7 +58,7 @@ console.log(contactNumber)
 
         {/* Header Bottom */}
         <div className="header-bottom  text-[#00026E]  ">
-          <div className="container  w-[84%]  mx-auto">
+          <div className="container  w-[95%] lg:w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
               <div className="logo">
@@ -135,28 +135,14 @@ console.log(contactNumber)
                   <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] ">
                     <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg"
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
-                              />
+                      loop
+                      autoplay
+                      src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
+                    />
                   </Link>
                   <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] mx-[20px]">
-                    <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg" 
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
-                              />
+                    <DotLottieReact loop autoplay src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json" />
                   </Link>
 
                   <div>
@@ -170,29 +156,9 @@ console.log(contactNumber)
                 </div>
               </div>
               {/* Mobile Menu Icon */}
-            
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu - Conditional Rendering */}
-        
-          <div className="lg:hidden fixed inset-0 bg-white bg-opacity-50 z-50 ">
-            <div className="flex justify-between items-center bg-white p-4">
-              <div className="logo">
-                <Link href="/">
-                  <Image
-                    src="/assets/images/tangular-logo.svg" // Adjust the path based on your public folder structure
-                    alt="logo"
-                    width={150}
-                    height={50}
-                    className="changeLogo"
-                  />
-                </Link>
-              </div>
-              <div className="flex items-center ml-[20px] ">
-                <h1 className=" text-[11px] md:text-[16px] font-bold text-black">Call anytime</h1>
-                  <Link target="_blank" 
+              <div className="lg:hidden flex items-center">
+                <span className="text-[8px] md:text-[16px]">Call any time</span>
+              <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] ">
                     <DotLottieReact
                                 className="w-[38px] h-[38px]"
@@ -218,13 +184,13 @@ console.log(contactNumber)
                                 src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
                               />
                   </Link>
-
-                
-                </div>
+                  </div>
+              
             </div>
-
-         
           </div>
+        </div>
+
+        {/* Mobile Menu - Conditional Rendering */}
       
       </div>
     </header>

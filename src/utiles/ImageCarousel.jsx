@@ -99,7 +99,7 @@ const ImageCarousel = ({ propertyImages }) => {
             modules={[FreeMode, Navigation, Thumbs, Autoplay, Pagination]}
             className="mySwiper2 swiper-instance-two"
             pagination={{ clickable: true }}
-            style={{ height: `${swiperHeight}px`, maxWidth: "850px" }}
+            style={{ height: `${swiperHeight}px`, maxWidth: "1000px" }}
             autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
             onSwiper={(swiper) => {
                 swiperRef.current = swiper;
@@ -132,8 +132,8 @@ const ImageCarousel = ({ propertyImages }) => {
             direction={thumbsDirection}
             watchSlidesProgress={true}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper fix-height-swiper "
-            style={{ height: `${swiperBottomHeight}px`,  maxWidth: "400px",display:"flex", flexDirection:"column-reverse" }} // ✅ Fixed height & width
+            className="mySwiperShort fix-height-swiper"
+            style={{ height: `${swiperBottomHeight}px`,  maxWidth: "400px", }} // ✅ Fixed height & width
         >
             {propertyImages.map((image, index) => (
                 <SwiperSlide key={index} className="w-full h-[80px]">
