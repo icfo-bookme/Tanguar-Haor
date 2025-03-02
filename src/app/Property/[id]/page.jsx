@@ -127,7 +127,7 @@ export default function Page({ params }) {
                 propertyPackages?.slice(0, 4).map((pkg, dd) => (
                   <div
                     key={pkg.unit_id}
-                    className={`${propertyPackages?.length<4?"lg:max-w-[25%] max-w-[100%]":""} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
+                    className={`${propertyPackages?.length<4?"lg:max-w-[25%] max-w-[100%]":"max-w-[100%]"} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
                   >
                     {/* Discount Badge */}
 

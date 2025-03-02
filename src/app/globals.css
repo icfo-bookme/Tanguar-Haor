@@ -22,7 +22,7 @@ body {
 }
 @font-face {
   font-family: 'heading';
-  src: url('/fonts/LuxiaRegular.woff') format('woff');
+  src: url('/fonts/LuxiaRegular.otf') format('otf');
   font-weight: normal;
   font-style: normal;
 }
