@@ -23,7 +23,6 @@ const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [contactNumber, setContactNumber]=useState([])
-console.log(contactNumber)
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -132,18 +131,32 @@ console.log(contactNumber)
                 </Link> */}
 
                 <div className="flex items-center ">
-                  <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] ">
-                    <DotLottieReact
-                      loop
-                      autoplay
-                      src="https://lottie.host/88eab5e0-d032-4b54-a577-3057829e675b/Eua236vSUm.json"
-                    />
-                  </Link>
-                  <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[48px] h-[48px] mx-[20px]">
-                    <DotLottieReact loop autoplay src="https://lottie.host/73431dad-3ee8-44e8-9462-f13ad340740e/NdlPKGmae1.json" />
-                  </Link>
+                <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
+  rel="noopener noreferrer">
+                              <DotLottieReact
+                                className="w-[48px] h-[48px]"
+                                loop
+                                autoplay
+                                renderer="svg"
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
+                              />
+                            </Link>
+                            <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
+  rel="noopener noreferrer">
+                              <DotLottieReact
+                                className="w-[48px] h-[48px]"
+                                loop
+                                autoplay
+                                renderer="svg" 
+                                rendererSettings={{
+                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
+                                }} 
+                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
+                              />
+                            </Link>
 
                   <div>
                     <p className="text-sm text-gray-900">Call Anytime</p>
