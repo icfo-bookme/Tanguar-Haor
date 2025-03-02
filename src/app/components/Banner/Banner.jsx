@@ -24,30 +24,30 @@ export default function Banner() {
         }}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true} // Ensures infinite looping
-        className="h-full relative "
+        className="h-full relative w-[100%] "
       >
-        <SwiperSlide>
+        <SwiperSlide className="w-[100%] h-[100%]">
           <Image
             src="/assets/images/gallery/home-slider-top/slider1.jpg"
             alt="Slide 1"
             fill
-            className="object-cover w-full h-full"
+            className="object-fill w-full h-full"
           />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide className="w-[100%] h-[100%]">
           <Image
             src="/assets/images/gallery/home-slider-top/slider2.jpg"
             alt="Slide 2"
             fill
-            className="object-cover w-full h-full"
+            className="object-fill w-full h-full"
           />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide className="w-[100%] h-[100%]">
           <Image
             src="/assets/images/gallery/home-slider-top/slider3.jpg"
             alt="Slide 3"
             fill
-            className="object-cover w-full h-full"
+            className="object-fill w-full h-full"
           />
         </SwiperSlide>
       </Swiper>
