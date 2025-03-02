@@ -14,7 +14,7 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Banner() {
   return (
-    <section className={`${raleway.className} relative h-[56vh] w-full`}>
+    <section className={`${raleway.className} relative h-[60vh] w-full`}>
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{

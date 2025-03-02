@@ -15,6 +15,8 @@ import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
+import getContactNumber from "@/utiles/getContactNumber";
+import Link from "next/link";
 
 
 const raleway = Raleway({ subsets: ["latin"] });
@@ -29,8 +31,9 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [contactNumber, setContactNumber]=useState([])
+
   const [activeTab, setActiveTab] = useState("Overview");
-  // console.log(propertyPackages);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -59,6 +62,18 @@ export default function Page({ params }) {
 
   useEffect(() => {
     setActiveTab("Summary");
+  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getContactNumber();
+        console.log(result)
+        setContactNumber(result)
+      } catch (error) {
+        console.error("Error fetching contact number data:", error);
+      }
+    }
+    fetchData();
   }, []);
   return (
     <div>
@@ -112,7 +127,7 @@ export default function Page({ params }) {
                 propertyPackages?.slice(0, 4).map((pkg, dd) => (
                   <div
                     key={pkg.unit_id}
-                    className="relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible"
+                    className={`${propertyPackages?.length<4?"lg:max-w-[25%] max-w-[100%]":""} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
                   >
                     {/* Discount Badge */}
 
@@ -127,12 +142,12 @@ export default function Page({ params }) {
 
                     {/* Package Content */}
                     <div className="flex flex-col items-center h-full   mx-auto">
-                      <div className="w-[100%]  max-h-[60%] overflow-hidden block">
+                      <div className="  max-h-[60%] overflow-hidden block">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
                           alt={pkg.unit_id}
                           fill
-                          className=" w-[100%] lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg "
+                          className="w-[100%]  lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg "
                         />
                       </div>
                       <div className="p-[12px] lg:mt-[180px] xl:mt-[180px] md:mt-[140px] mt-[210px] flex flex-col flex-1 shadow-lg">
@@ -151,13 +166,19 @@ export default function Page({ params }) {
                           <div
                             className={`${roboto.className} flex gap-2 mt-3 mb-4`}
                           >
+                              <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} >
                             <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
                               Call Now
                             </div>
+                            </Link>
+                            <Link target="_blank" 
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} >
                             <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
                               <FaWhatsapp className=" text-green-500 text-[16px]" />
                               Book Now
                             </div>
+                            </Link>
                           </div>
                         </div>
                         <div className={`${roboto.className}`}>
