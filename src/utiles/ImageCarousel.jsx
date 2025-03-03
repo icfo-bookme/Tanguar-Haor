@@ -15,7 +15,31 @@ const ImageCarousel = ({ propertyImages }) => {
     const [swiperHeight, setSwiperHeight] = useState(450);
     const [swiperBottomHeight, setBottomSwiperHeight] = useState(400);
     const [thumbsDirection, setThumbsDirection] = useState("vertical");
+    const [containerStyle, setContainerStyle] = useState({ width: "100%", maxWidth: "100%" });
+    const [thumbnailStyle, setThumbnailStyle] = useState({ maxWidth: "100%", width: "100%" });
+const [thumbInnerStyle,setThumbInnerStyle]=useState("80%")
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 1024) {
+                setContainerStyle({ width: "80%", maxWidth: "80%" });
+                setThumbnailStyle({ maxWidth: "20%", width: "20%" });
+                setThumbInnerStyle("100%")
+            } else {
+                setContainerStyle({ width: "100%", maxWidth: "100%" });
+                setThumbnailStyle({ maxWidth: "100%", width: "100%" });
+                setThumbInnerStyle("80%")
+            }
+        };
+console.log(thumbInnerStyle)
+        // Set initial value
+        handleResize();
 
+        // Add event listener for window resize
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     const swiperRef = useRef(null);
 
     useEffect(() => {
@@ -85,77 +109,77 @@ const ImageCarousel = ({ propertyImages }) => {
 
     return (
         <>
-            <div className="flex lg:flex-row flex-col items-start gap-4 mx-auto bg-[#EBF0F4]" style={{ maxWidth: "100%" }}>
-                <div className="relative w-full">
-                    <Swiper
-                        loop={true}
-                        spaceBetween={2}
-                        navigation={true}
-                        thumbs={{ swiper: thumbsSwiper }}
-                        modules={[FreeMode, Navigation, Thumbs, Autoplay, Pagination]}
-                        className="mySwiper2 swiper-instance-two"
-                        pagination={{ clickable: true }}
-                        style={{ height: `${swiperHeight}px`, maxWidth: "1000px" }}
-                        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-                        onSwiper={(swiper) => {
-                            swiperRef.current = swiper;
-                            swiper.autoplay.stop();
-                        }}
-                    >
-                        {propertyImages.map((image, index) => (
-                            <SwiperSlide key={index} className="w-[100%] h-[100%]">
-                                <div className="relative rounded-xl w-full h-full">
-                                    <Image
-                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
-                                        alt={`Property Image ${index + 1}`}
-                                        fill
-                                        className="object-cover rounded-xl w-full h-full"
-                                        sizes="(max-width: 768px) 100vw,"
-                                    />
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
-                <div className="flex-shrink-0 max-w-[40%] min-w-[200px]" style={{ minWidth: "200px" }}>
-                    <Swiper
-                        onSwiper={setThumbsSwiper}
-                        loop={true}
-                        spaceBetween={10}
-                        slidesPerView={5}
-                        freeMode={true}
-                        direction={thumbsDirection}
-                        watchSlidesProgress={true}
-                        modules={[FreeMode, Navigation, Thumbs]}
-                        className="mySwiperShort fix-height-swiper"
-                        style={{
-                            height: `${swiperBottomHeight}px`,
-                            maxWidth: "400px",
-                            transform: thumbsDirection === "horizontal" ? "scaleX(-1)" : "scaleY(-1)",
-                        }}
-                    >
-                        {[...propertyImages].reverse().map((image, index) => (
-                            <SwiperSlide
-                                key={index}
-                                className="w-full h-[80px]"
-                                style={{
-                                    transform: thumbsDirection === "horizontal" ? "scaleX(-1)" : "scaleY(-1)",
-                                }}
-                            >
-                                <div className="relative w-full h-full cursor-pointer border-2 rounded-xl transition-all">
-                                    <Image
-                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
-                                        alt={`Thumbnail ${index + 1}`}
-                                        fill
-                                        className="object-cover rounded-xl w-full h-full"
-                                    />
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
+        <div className="flex lg:flex-row flex-col items-start gap-4 mx-auto bg-[#EBF0F4]" style={{ maxWidth: "100%" }}>
+            <div className="relative" style={containerStyle}>
+                <Swiper
+                    loop={true}
+                    spaceBetween={2}
+                    navigation={true}
+                    thumbs={{ swiper: thumbsSwiper }}
+                    modules={[FreeMode, Navigation, Thumbs, Autoplay, Pagination]}
+                    className="mySwiper2 swiper-instance-two"
+                    pagination={{ clickable: true }}
+                    style={{ height: `${swiperHeight}px`, maxWidth: "100%" }}
+                    autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                    onSwiper={(swiper) => {
+                        swiperRef.current = swiper;
+                        swiper.autoplay.stop();
+                    }}
+                >
+                    {propertyImages.map((image, index) => (
+                        <SwiperSlide key={index} className="w-[100%] h-[100%]">
+                            <div className="relative rounded-xl w-full h-full">
+                                <Image
+                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
+                                    alt={`Property Image ${index + 1}`}
+                                    fill
+                                    className="object-cover rounded-x-xl w-full h-full"
+                                    sizes="(max-width: 768px) 100vw,"
+                                />
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
-        </>
+            <div className="flex-shrink-0" style={thumbnailStyle}>
+                <Swiper
+                    onSwiper={setThumbsSwiper}
+                    loop={true}
+                    spaceBetween={10}
+                    slidesPerView={5}
+                    freeMode={true}
+                    direction={thumbsDirection}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiperShort fix-height-swiper"
+                    style={{
+                        height: `${swiperBottomHeight}px`,
+                        maxWidth: thumbInnerStyle,
+                        transform: thumbsDirection === "horizontal" ? "scaleX(-1)" : "scaleY(-1)",
+                    }}
+                >
+                    {[...propertyImages].reverse().map((image, index) => (
+                        <SwiperSlide
+                            key={index}
+                            className="w-full h-[80px]"
+                            style={{
+                                transform: thumbsDirection === "horizontal" ? "scaleX(-1)" : "scaleY(-1)",
+                            }}
+                        >
+                            <div className="relative w-full h-full cursor-pointer border-2 transition-all">
+                                <Image
+                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${image.path}`}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    fill
+                                    className="object-cover rounded-xl w-full h-full"
+                                />
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </div>
+    </>
     );
 };
 

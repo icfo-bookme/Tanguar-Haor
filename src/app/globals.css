@@ -97,6 +97,24 @@ body {
 }
 
 
-
-
+.detailsSwiperContainer{
+  width: 80%;
+  max-width: 80%;
+}
+@media (max-width: 1024px) {
+  .detailsSwiperContainer {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+.details-thumbContainer{
+  width: 100%;
+  max-width: 100%;
+}
+@media (max-width: 1024px) {
+  .details-thumbContainer {
+    width: 20%;
+    max-width: 100%;
+  }
+}
 
