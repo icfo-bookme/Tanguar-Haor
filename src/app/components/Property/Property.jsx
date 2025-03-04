@@ -15,6 +15,7 @@ import { RangeSlider } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
+import { FaPhone } from "react-icons/fa";
 
 const raleway = Raleway({ subsets: ["latin"], weight: ["800"] });
 
@@ -29,6 +30,7 @@ export default function Property() {
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber]=useState([])
+  console.log(filteredData)
   const {
     register,
     handleSubmit,
@@ -322,38 +324,27 @@ export default function Property() {
                     <div className=" ">
                       <div className="flex justify-start md:justify-start">
                         <div className="flex  items-center">
-                          <span className="text-black  font-bold">
+                          <span className="text-black md:text-[16px] text-[14px] font-bold">
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px]">
-                            <Link href={`https://wa.me/${contactNumber[0].value}`} className=" mx-[10px]"  target="_blank" 
+                            <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
   rel="noopener noreferrer">
-                              <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg"
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
-                              />
+                              <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
+  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+
+                                        </div>
                             </Link>
                             {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
                           </div>
                           <div>
-                            <Link  href={`https://wa.me/${contactNumber[0].value}`} className=" mx-[10px]"  target="_blank" 
+                            <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
   rel="noopener noreferrer">
-                              <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg" 
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
-                              />
+                             <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
+        
+        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
+
+</span>
                             </Link>
                             {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}
                           </div>

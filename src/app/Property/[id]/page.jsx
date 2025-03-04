@@ -18,11 +18,10 @@ import Image from "next/image";
 import getContactNumber from "@/utiles/getContactNumber";
 import Link from "next/link";
 
-
 const raleway = Raleway({ subsets: ["latin"] });
-
 const josefin = Josefin_Sans({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
+
 export default function Page({ params }) {
   const { id } = use(params); // ✅ `use(params)` ব্যবহার করে Promise আনর‍্যাপ করা হয়েছে
 
@@ -31,9 +30,8 @@ export default function Page({ params }) {
   const [propertyFacilities, setPropertyFacilities] = useState([]);
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [contactNumber, setContactNumber]=useState([])
+  const [contactNumber, setContactNumber] = useState([]);
 
-  const [activeTab, setActiveTab] = useState("Overview");
   useEffect(() => {
     async function fetchData() {
       try {
@@ -56,31 +54,24 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
-  useEffect(() => {
-    setActiveTab("Summary");
-  }, []);
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await getContactNumber();
-        console.log(result)
-        setContactNumber(result)
+        console.log(result);
+        setContactNumber(result);
       } catch (error) {
         console.error("Error fetching contact number data:", error);
       }
     }
     fetchData();
   }, []);
+
   return (
     <div>
-      {/* <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> */}
       <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
-        <div className=" container mx-auto w-[98%] md:w-[85%]">
-          <div className="lg:grid grid-cols-1  rounded gap-8 pr-1 pt-1">
+        <div className="container mx-auto w-[98%] md:w-[85%]">
+          <div className="lg:grid grid-cols-1 rounded gap-8 pr-1 pt-1">
             {/* Property Details */}
             <div className="col-span-1 p-2">
               {loading ? (
@@ -88,12 +79,10 @@ export default function Page({ params }) {
               ) : (
                 propertyDetails?.map((property, index) => (
                   <div key={index}>
-                    <h2
-                      className={`font-heading text-xl text-blue-900 font-bold`}
-                    >
+                    <h2 className={`font-heading text-xl text-blue-900 font-bold`}>
                       {property.property_name}
                     </h2>
-                    <p className="flex items-center">
+                    <p className="flex items-center text-black">
                       <strong>
                         <IoLocation />
                       </strong>{" "}
@@ -115,22 +104,22 @@ export default function Page({ params }) {
               )}
             </div>
           </div>
-         
-          <div className="my-[30px] ">
-          <h1 className={`font-heading text-blue-700  text-[32px] font-bold my-[32px]`}>
-             Packages:
-          </h1>
-            <div className="flex  mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap  xl:flex-nowrap md:px-0 px-[10px]">
+
+          {/* Packages Section */}
+          <div className="my-[30px]">
+            <h1 className={`font-heading text-blue-700 text-[32px] font-bold my-[32px]`}>
+              Packages:
+            </h1>
+            <div className="flex mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap xl:flex-nowrap md:px-0 px-[10px]">
               {loading ? (
                 <div>Loading...</div>
               ) : (
                 propertyPackages?.slice(0, 4).map((pkg, dd) => (
                   <div
                     key={pkg.unit_id}
-                    className={`${propertyPackages?.length<4?"lg:max-w-[25%] max-w-[100%]":"max-w-[100%]"} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
+                    className={`${propertyPackages?.length < 4 ? "lg:max-w-[25%] max-w-[100%]" : "max-w-[100%]"} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
                   >
                     {/* Discount Badge */}
-
                     {pkg.discount?.length > 0 && (
                       <div className="absolute text-white z-40 -top-4 -right-3 bg-red-700 py-2 rounded-full text-xs font-semibold w-14 h-14 flex flex-col items-center justify-center shadow-md">
                         <span>
@@ -141,43 +130,34 @@ export default function Page({ params }) {
                     )}
 
                     {/* Package Content */}
-                    <div className="flex flex-col items-center h-full   mx-auto">
-                      <div className="  max-h-[60%] overflow-hidden block">
+                    <div className="flex flex-col items-center h-full mx-auto">
+                      <div className="max-h-[60%] overflow-hidden block">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
                           alt={pkg.unit_id}
                           fill
-                          className="w-[100%]  lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg "
+                          className="w-[100%] lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg"
                         />
                       </div>
                       <div className="p-[12px] lg:mt-[180px] xl:mt-[180px] md:mt-[140px] mt-[210px] flex flex-col flex-1 shadow-lg">
-                        <h2
-                          className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}
-                        >
+                        <h2 className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}>
                           {pkg.unit_name}
                         </h2>
-                        <p
-                          className={`${roboto.className} text-gray-600 text-[16px]`}
-                        >
-                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed}{" "}
-                          | Additional Bed: {pkg.additionalbed}
+                        <p className={`${roboto.className} text-gray-600 text-[16px]`}>
+                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg.additionalbed}
                         </p>
                         <div className="flex justify-start items-center">
-                          <div
-                            className={`${roboto.className} flex gap-2 mt-3 mb-4`}
-                          >
-                              <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} >
-                            <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
-                              Call Now
-                            </div>
+                          <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
+                            <Link target="_blank" rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`}>
+                              <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
+                                Call Now
+                              </div>
                             </Link>
-                            <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} >
-                            <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
-                              <FaWhatsapp className=" text-green-500 text-[16px]" />
-                              Book Now
-                            </div>
+                            <Link target="_blank" rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`}>
+                              <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
+                                <FaWhatsapp className="text-green-500 text-[16px]" />
+                                Book Now
+                              </div>
                             </Link>
                           </div>
                         </div>
@@ -199,48 +179,21 @@ export default function Page({ params }) {
               )}
             </div>
           </div>
-          <div className="bg-white p-[15px] rounded-lg ">
-            <div className=" flex gap-x-[20px] md:gap-x-[40px]  font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-              {["Summary", "Description"].map((tab) => (
-                <a
-                  key={tab}
-                  href={`#${tab.toLowerCase()}`}
-                  onClick={() => handleTabClick(tab)}
-                  className={`bg-white flex font-bold items-center flex-shrink-0 cursor-pointer py-2 border-b-4 ${
-                    activeTab === tab
-                      ? "border-blue-500 bg-white text-[#00026E] md:mr-5"
-                      : "border-transparent  dark:border-gray-300 dark:text-gray-600 md:mr-5"
-                  }`}
-                >
-                  {tab}
-                </a>
-              ))}
-            </div>
-            <hr />
-            {/* Property Packages */}
+
+          {/* Sticky Accordion Section */}
+          <div className="bg-white p-[15px] rounded-lg  top-[80px] " >
             <div className="">
-              <div className="w-full  mt-[30px] ">
+              <div className="w-full mt-[30px]">
                 <div className="lg:grid grid-cols-3 gap-10 rounded">
-                  {
-                    <>
-                      <div className="col-span-2 ">
-                        <Accordion
-                          facilities={propertyFacilities}
-                          activeTab={activeTab}
-                          href={`#${activeTab.toLowerCase()}`}
-                        />
-                      </div>
-                      {/* {loading ? <div>Loading...</div> : <PropertyPackages packages={propertyPackages} />} */}
-                    </>
-                  }
+                  <div className="col-span-2">
+                    <Accordion facilities={propertyFacilities} />
+                  </div>
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
-                      <h1
-                        className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}
-                      >
+                      <h1 className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}>
                         Get consultancy/Get a call
                       </h1>
-                      <ContactForm propertyDetails={propertyDetails}/>
+                      <ContactForm propertyDetails={propertyDetails} />
                     </div>
                   </div>
                 </div>
@@ -250,7 +203,6 @@ export default function Page({ params }) {
         </div>
         <ToastContainer />
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
+import { FaPhone } from "react-icons/fa";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 // Initialize the font loader at the module scope
@@ -131,31 +132,20 @@ const Header = () => {
                 </Link> */}
 
                 <div className="flex items-center ">
-                <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
-  rel="noopener noreferrer">
-                              <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg"
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
-                              />
+                <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px] mt-[9px]"  target="_blank" 
+  rel="noopener noreferrer" >
+  <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
+  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+
+                                        </div>
                             </Link>
                             <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
   rel="noopener noreferrer">
-                              <DotLottieReact
-                                className="w-[48px] h-[48px]"
-                                loop
-                                autoplay
-                                renderer="svg" 
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
-                              />
+                               <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
+        
+        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
+
+</span>
                             </Link>
 
                   <div>
@@ -172,30 +162,19 @@ const Header = () => {
               <div className="lg:hidden flex items-center">
                 <span className="text-[8px] md:text-[16px]">Call any time</span>
               <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] ">
-                    <DotLottieReact
-                                className="w-[38px] h-[38px]"
-                                loop
-                                autoplay
-                                renderer="svg"
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/8f66ebbf-098e-412a-a945-bac0cc0c2c5c/w8ZdcEZwJc.lottie"
-                              />
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mt-[-5px]">
+                    <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
+  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+
+                                        </div>
                   </Link>
                   <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mx-[20px]">
-                    <DotLottieReact
-                                className="w-[38px] h-[38px]"
-                                loop
-                                autoplay
-                                renderer="svg" 
-                                rendererSettings={{
-                                  preserveAspectRatio: "xMidYMid meet" // Ensures clarity
-                                }} 
-                                src="https://lottie.host/5a16d899-18db-4287-83bf-afa38aecd9a6/snyp66MKTf.lottie"
-                              />
+  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mx-[20px] mt-[-5px]">
+                    <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+        
+        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
+
+</span>
                   </Link>
                   </div>
               

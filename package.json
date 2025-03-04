@@ -13,7 +13,8 @@
     "react-loader-spinner": "^6.1.6",
     "react-lottie": "^1.2.10",
     "react-toastify": "^11.0.3",
-    "swiper": "^8.4.7"
+    "swiper": "^8.4.7",
+    "tailwindcss-pseudo-elements": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8",
