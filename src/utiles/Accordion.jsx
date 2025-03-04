@@ -57,7 +57,7 @@ const Accordion = ({ facilities = { facilities: [] } }) => {
               style={{marginLeft:"10px", marginRight:"10px"}}
               className={`bg-white flex font-bold  md:mx-0 items-center   flex-shrink-0 cursor-pointer py-2 border-b-4 ${
                 activeTab === tab
-                  ? "border-blue-500 bg-white text-[#00026E] md:mr-5"
+                  ? "border-blue-500 border-b-2 bg-white text-[#00026E] md:mr-5"
                   : "border-transparent dark:border-gray-300 dark:text-gray-600 md:mr-5"
               }`}
             >
