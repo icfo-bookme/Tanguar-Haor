@@ -38,35 +38,24 @@ const Accordion = ({ facilities = { facilities: [] } }) => {
 
   const toggleAccordion = (facilityType) => {
     setActiveIndex((prev) => (prev === facilityType ? null : facilityType));
-
-    // Only scroll if the section isn't already visible
-    setTimeout(() => {
-      const element = document.getElementById(facilityType.toLowerCase().replace(/\s+/g, "-"));
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
-        if (!isVisible) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-    }, 100); // Small delay for smooth scrolling
   };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    toggleAccordion(tab); // Open the corresponding accordion section
+    setActiveIndex(tab); // Open the corresponding accordion section
   };
 
   return (
     <>
       {/* Sticky Tabs */}
       <div className="bg-white">
-        <div className="flex gap-x-[30px] md:gap-x-[40px] font-semibold text-blue-900 overflow-x-auto flex-nowrap dark:bg-gray-100 dark:text-gray-800">
-          {["Summary", "Description"].map((tab,key) => (
+        <div className="flex gap-x-[30px] md:gap-x-[40px] font-semibold text-blue-900 dark:bg-gray-100 dark:text-gray-800">
+          {["Summary", "Description"].map((tab, key) => (
             <div
               key={tab}
               onClick={() => handleTabClick(tab)}
-              className={`bg-white flex font-bold ${key===1?"md:ml-0 ml-[20px]":""} md:mx-0  items-center flex-shrink-0 cursor-pointer py-2 border-b-4 ${
+              style={{marginLeft:"10px", marginRight:"10px"}}
+              className={`bg-white flex font-bold  md:mx-0 items-center   flex-shrink-0 cursor-pointer py-2 border-b-4 ${
                 activeTab === tab
                   ? "border-blue-500 bg-white text-[#00026E] md:mr-5"
                   : "border-transparent dark:border-gray-300 dark:text-gray-600 md:mr-5"
@@ -91,11 +80,10 @@ const Accordion = ({ facilities = { facilities: [] } }) => {
               <div key={index} className="w-full mt-[10px] cursor-pointer">
                 {/* Accordion Header */}
                 <div
-                  id={facilityType.toLowerCase().replace(/\s+/g, "-")}
                   className="cursor-pointer sticky top-[10px] p-3 rounded-md shadow-sm hover:bg-gray-300 flex items-center justify-between bg-white z-10"
                   onClick={() => toggleAccordion(facilityType)}
                 >
-                  <div className={`flex items-center ${isOpen?"mt-[5px]":"mt-0"}`}>
+                  <div className={`flex items-center ${isOpen ? "mt-[5px]" : "mt-0"}`}>
                     {facilityType === "Summary" ? (
                       <TbWorld style={{ color: "#2a026e" }} size={30} />
                     ) : facilityType === "Description" ? (
