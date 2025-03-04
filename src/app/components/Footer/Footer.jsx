@@ -19,13 +19,13 @@ const Footer = () => {
 
                                     <ul className="listing space-y-[5px]">
                                         <li className="single-lsit">
-                                            <Link href="/faq" className="text-white font-extralight  transition duration-300">Home</Link>
+                                            <Link href="/" className="text-white font-extralight  transition duration-300">Home</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/tour-list" className="text-white  transition duration-300">Terms</Link>
+                                            <Link href="/" className="text-white  transition duration-300">Terms</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/destination" className="text-white transition duration-300">Talent & Culture</Link>
+                                            <Link href="/" className="text-white transition duration-300">Talent & Culture</Link>
                                         </li>
                                         <br/>
                                        
@@ -33,13 +33,13 @@ const Footer = () => {
                                     </ul>
                                     <ul className="listing space-y-[5px] ml-[40px]">
                                         <li className="single-lsit">
-                                            <Link href="/faq" className="text-white  transition duration-300">Refund Policy</Link>
+                                            <Link href="/" className="text-white  transition duration-300">Refund Policy</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/tour-list" className="text-white  transition duration-300">EMI Policy</Link>
+                                            <Link href="/" className="text-white  transition duration-300">EMI Policy</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/destination" className="text-white transition duration-300">Privacy Policy
+                                            <Link href="/" className="text-white transition duration-300">Privacy Policy
                                             </Link>
                                         </li>
                                         <br/>
@@ -54,7 +54,7 @@ const Footer = () => {
 
                             {/* Explore Section */}
                             <div className="single-footer-caption">
-                                <div className="footer-tittle mb-6 flex flex-col justify-start items-center">
+                                <div className="footer-tittle mb-6 flex flex-row  md:flex-col justify-start items-start md:items-center">
                                     <h4 className="title text-lg font-semibold text-white mb-4">Payment Methods</h4>
                                     <Image alt='payment' src={"/assets/images/gallery/payment-icons-footer.v1.0.0.svg"} width={130}height={60}/>
                                 </div>
