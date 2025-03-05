@@ -152,7 +152,7 @@ const Header = () => {
                     <p className="text-sm text-gray-900">Call Anytime</p>
                     <h4 className="text-lg font-semibold">
                       <a href="#" className="text-gray-800">
-                        00 (888) +123456
+                        {contactNumber[0]?.value}
                       </a>
                     </h4>
                   </div>

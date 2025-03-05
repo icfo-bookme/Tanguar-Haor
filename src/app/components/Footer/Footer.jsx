@@ -2,9 +2,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Roboto } from "next/font/google";
+import getContactNumber from '@/utiles/getContactNumber';
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
 
 const Footer = () => {
+    const [contactNumber, setContactNumber] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const result = await getContactNumber();
+            setContactNumber(result);
+          } catch (error) {
+            console.error("Error fetching contact number data:", error);
+          }
+        }
+        fetchData();
+      }, []);
     return (
         <footer className={` ${roboto.className} bg-[#25298c] text-white py-[20px]`}>
             <div className="footer-wrapper bg-[#25298c]">
@@ -75,7 +88,7 @@ const Footer = () => {
                             <div className="single-footer-caption">
                                 <div className="footer-tittle mb-6">
                                     <h4 className="title text-lg font-semibold text-gray-200 mb-4">Contact</h4>
-                                   <p className='text-white'>01605777755</p>
+                                   <p className='text-white'>{contactNumber[0]?.value}</p>
                                    <p className='text-white mt-[20px]'>admin-bookme@gmail.com</p>
                                 </div>
                             </div>
