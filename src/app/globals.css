@@ -159,6 +159,9 @@ body {
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
   }
+  html, body {
+	scroll-behavior: auto !important;
+  }
   @media screen and (max-width:767px) {
     .phone-call:before{
     margin-left: -7px;

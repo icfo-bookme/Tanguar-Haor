@@ -144,7 +144,7 @@ export default function Page({ params }) {
                           {pkg.unit_name}
                         </h2>
                         <p className={`${roboto.className} text-gray-600 text-[16px]`}>
-                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg.additionalbed}
+                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg?.additionalbed===1?"Available":pkg?.additionalbed===0?"Not Available":""}
                         </p>
                         <div className="flex justify-start items-center">
                           <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
@@ -164,7 +164,7 @@ export default function Page({ params }) {
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
                             <p className="text-blue-950 text-[16px] font-semibold">
-                              Price: {pkg.price[0].price} BDT
+                              Price: {pkg.price[0].price} BDT(Per person)
                             </p>
                           ) : (
                             <p className="text-red-500 text-[16px]">

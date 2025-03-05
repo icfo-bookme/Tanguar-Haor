@@ -22,15 +22,15 @@ const raleway = Raleway({ subsets: ["latin"], weight: ["800"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 const josefin = Josefin_Sans({ subsets: ["latin"] });
+
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
-  // console.log(searchTerm);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
-  const [contactNumber, setContactNumber]=useState([])
-  console.log(filteredData)
+  const [contactNumber, setContactNumber] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -38,28 +38,27 @@ export default function Property() {
   } = useForm();
 
   const onSubmit = (data) => {
-    // Update the searchTerm based on input field
     setSearchTerm(data.property);
-    // console.log(data.property)
-    // console.log(searchTerm)
   };
+
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await propertySummary();
-        setData(result); // Set all data
-        setFilteredData(result); // Also set filteredData to all data initially
+        setData(result);
+        setFilteredData(result);
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
     }
     fetchData();
   }, []);
+
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await getContactNumber();
-        setContactNumber(result)
+        setContactNumber(result);
       } catch (error) {
         console.error("Error fetching contact number data:", error);
       }
@@ -70,32 +69,31 @@ export default function Property() {
   // Apply searchTerm in this useEffect while keeping other filters
   useEffect(() => {
     let filtered = data.filter((property) => {
-      // First, filter based on the price range
-      if (!property.property_uinit || property.property_uinit.length === 0) {
-        return true;
+      // First, apply searchTerm filter if exists
+      if (searchTerm) {
+        return property.property_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
       }
-
-      // Extract prices from units
-      const prices = property.property_uinit.flatMap(
-        (unit) => unit.price?.map((priceObj) => priceObj.price) || []
-      );
-
-      // Show properties where at least one unit has a price <= selected price
-      const isWithinPriceRange = prices.some((p) => p <= price);
-
-      // If the property is within the price range, apply the searchTerm filter
-      if (isWithinPriceRange) {
-        // Apply the searchTerm filter
-        if (searchTerm) {
-          return property.property_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase());
-        }
-        return true; // If no searchTerm, include all properties within the price range
-      }
-
-      return false; // Exclude properties that are not within the price range
+      return true;
     });
+
+    // If price is greater than 9500, show all properties
+    if (price <= 9500) {
+      filtered = filtered.filter((property) => {
+        if (!property.property_uinit || property.property_uinit.length === 0) {
+          return true;
+        }
+
+        // Extract prices from units
+        const prices = property.property_uinit.flatMap(
+          (unit) => unit.price?.map((priceObj) => priceObj.price) || []
+        );
+
+        // Show properties where at least one unit has a price <= selected price
+        return prices.some((p) => p <= price);
+      });
+    }
 
     // Sorting Logic
     if (sortOption === "2") {
@@ -134,7 +132,7 @@ export default function Property() {
 
     // After all filters and sorting, update the filtered data
     setFilteredData(filtered);
-  }, [price, data, sortOption, searchTerm]); // Add searchTerm to the dependency array
+  }, [price, data, sortOption, searchTerm]);
 
   return (
     <div
@@ -156,9 +154,9 @@ export default function Property() {
           />
         </form>
       </div>
+
       <div className="flex flex-wrap justify-center sm:justify-between items-center mb-5 w-[100%]">
         {/* Price Filter */}
-
         <div className="flex items-center gap-2 md:w-[50%] w-[100%]">
           <h4 className="text-[12px] sm:text-lg text-[#00026E] font-semibold w-[16%] md:w-[23%] xl:w-[18%]">
             Filter by :
@@ -167,7 +165,8 @@ export default function Property() {
             Price Range
           </h4>
           <span className="text-[12px] sm:text-sm font-medium text-blue-600 w-[21%] md:[33%] xl:w-[20%]">
-            {parseInt(price).toLocaleString()}{parseInt(price)>9500?"+":""} BDT
+            {parseInt(price).toLocaleString()}
+            {parseInt(price) > 9500 ? "+" : ""} BDT
           </span>
           <RangeSlider
             id="default-range"
@@ -202,9 +201,6 @@ export default function Property() {
       {filteredData.length > 0 ? (
         filteredData.map((property) => (
           <div key={property.property_id} className="mb-5">
-            {" "}
-            {/* ✅ এখানে key প্রপার্টি থাকছে */}
-            {/* <Link href={`/Property/${property.property_id}`} prefetch={true}> */}
             <div className=" shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
               <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
                 <Image
@@ -217,14 +213,15 @@ export default function Property() {
               </div>
 
               <div className="flex flex-col w-full pr-4">
-              <Link
-                          href={`/Property/${property.property_id}`} className="cursor-pointer">
-
-                <h1
-                  className={` font-heading font-semibold text-lg text-[#00026E] mt-4 `}
+                <Link
+                  href={`/Property/${property.property_id}`}
+                  className="cursor-pointer"
                 >
-                  {property.property_name}
-                </h1>
+                  <h1
+                    className={`font-heading font-semibold text-lg text-[#00026E] mt-4`}
+                  >
+                    {property.property_name}
+                  </h1>
                 </Link>
 
                 <h1 className="font-normal text-sm text-[#00026E] text-right md:mb-0 mb-[20px]">
@@ -233,7 +230,6 @@ export default function Property() {
                     {(() => {
                       const prices =
                         property.property_uinit?.flatMap((unit) =>
-                          // console.log("property price",unit),
                           unit.price?.map((priceObj) => priceObj.price)
                         ) || [];
                       return prices.length > 0
@@ -242,8 +238,10 @@ export default function Property() {
                     })()}
                   </span>
                 </h1>
+
                 {property.property_summaries && (
                   <div className="flex flex-col gap-3 -mt-4">
+                    {/* Property Summaries */}
                     <div className="flex flex-wrap gap-4">
                       {property.property_summaries
                         .slice(0, 1)
@@ -282,12 +280,9 @@ export default function Property() {
                         .map((summary) => (
                           <div
                             key={summary.id}
-                            className=" flex items-center text-gray-700"
+                            className="flex items-center text-gray-700"
                           >
-                            <span className="w-[20px] h-[20px]">
-                              <IconShow iconName={summary.icons.icon_name} />
-                            </span>
-
+                            <IconShow iconName={summary.icons.icon_name} />
                             <span className="ml-2 text-sm  text-blue-900">
                               {summary.value}
                             </span>
@@ -295,6 +290,7 @@ export default function Property() {
                         ))}
                     </div>
                     <div className="flex flex-row justify-start items-center gap-[5px] sm:gap-[25px] mt-[15px]">
+                      {/* Buttons */}
                       <div className="">
                         <Link
                           href={`/Property/${property.property_id}`}
@@ -328,17 +324,19 @@ export default function Property() {
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px]">
-                            <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
-  rel="noopener noreferrer">
-                              <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
-  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
-
-                                        </div>
+                            <Link
+                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              className=" mx-[10px]"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                                <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+                              </div>
                             </Link>
-                            {/* <LuPhoneCall  className="bg-indigo-800 text-[27px] text-white p-[5px] rounded-3xl" /> */}
                           </div>
                           <div>
-                            <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
+                          <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
   rel="noopener noreferrer">
                              <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
         
@@ -346,7 +344,6 @@ export default function Property() {
 
 </span>
                             </Link>
-                            {/* <FaWhatsapp   className="bg-green-500 text-[27px] p-[5px] text-white rounded-3xl" /> */}
                           </div>
                         </div>
                       </div>
@@ -355,21 +352,11 @@ export default function Property() {
                 )}
               </div>
             </div>
-            {/* </Link> */}
           </div>
         ))
       ) : (
         <div className="flex justify-center items-center">
-          <TailSpin
-            visible={true}
-            height="80"
-            width="80"
-            color="#4fa94d"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
+          <TailSpin height="60" width="60" color="#4fa94d" />
         </div>
       )}
     </div>
