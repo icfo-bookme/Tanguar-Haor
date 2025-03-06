@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Roboto } from "next/font/google";
 import getContactNumber from '@/utiles/getContactNumber';
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
