@@ -17,6 +17,7 @@ import { Raleway } from "next/font/google";
 import Image from "next/image";
 import getContactNumber from "@/utiles/getContactNumber";
 import Link from "next/link";
+import AccordionBookMe from "@/utiles/Accordion";
 
 const raleway = Raleway({ subsets: ["latin"] });
 const josefin = Josefin_Sans({ subsets: ["latin"] });
@@ -186,7 +187,7 @@ export default function Page({ params }) {
               <div className="w-full mt-[30px]">
                 <div className="lg:grid grid-cols-3 gap-10 rounded">
                   <div className="col-span-2">
-                    <Accordion facilities={propertyFacilities} />
+                    <AccordionBookMe facilities={propertyFacilities} />
                   </div>
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
