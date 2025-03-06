@@ -331,7 +331,7 @@ export default function Property() {
                               rel="noopener noreferrer"
                             >
                               <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
-                                <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+                                <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
                               </div>
                             </Link>
                           </div>
