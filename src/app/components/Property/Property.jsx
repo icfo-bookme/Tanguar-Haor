@@ -5,23 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
 import IconShow from "@/utiles/IconShow";
-
-import { Hourglass, TailSpin } from "react-loader-spinner";
+import { TailSpin } from "react-loader-spinner";
 import { Roboto } from "next/font/google";
-import { Josefin_Sans } from "next/font/google";
-import { Raleway } from "next/font/google";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { RangeSlider } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone } from "react-icons/fa";
 
-const raleway = Raleway({ subsets: ["latin"], weight: ["800"] });
-
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
-
-const josefin = Josefin_Sans({ subsets: ["latin"] });
 
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
@@ -30,6 +22,7 @@ export default function Property() {
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // Track if data is loaded
 
   const {
     register,
@@ -41,12 +34,29 @@ export default function Property() {
     setSearchTerm(data.property);
   };
 
+  // Save scroll position before navigating to the details page
+  const handleCardClick = () => {
+    sessionStorage.setItem("scrollPosition", window.scrollY);
+  };
+
+  // Restore scroll position when the page loads and data is ready
+  useEffect(() => {
+    if (isDataLoaded) {
+      const savedScrollPosition = sessionStorage.getItem("scrollPosition");
+      if (savedScrollPosition) {
+        window.scrollTo(0, parseInt(savedScrollPosition, 10));
+        sessionStorage.removeItem("scrollPosition"); // Clear the saved position
+      }
+    }
+  }, [isDataLoaded]); // Run only when isDataLoaded changes
+
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await propertySummary();
         setData(result);
         setFilteredData(result);
+        setIsDataLoaded(true); // Mark data as loaded
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
@@ -69,7 +79,6 @@ export default function Property() {
   // Apply searchTerm in this useEffect while keeping other filters
   useEffect(() => {
     let filtered = data.filter((property) => {
-      // First, apply searchTerm filter if exists
       if (searchTerm) {
         return property.property_name
           .toLowerCase()
@@ -78,24 +87,20 @@ export default function Property() {
       return true;
     });
 
-    // If price is greater than 9500, show all properties
     if (price <= 9500) {
       filtered = filtered.filter((property) => {
         if (!property.property_uinit || property.property_uinit.length === 0) {
           return true;
         }
 
-        // Extract prices from units
         const prices = property.property_uinit.flatMap(
           (unit) => unit.price?.map((priceObj) => priceObj.price) || []
         );
 
-        // Show properties where at least one unit has a price <= selected price
         return prices.some((p) => p <= price);
       });
     }
 
-    // Sorting Logic
     if (sortOption === "2") {
       filtered = filtered.sort((a, b) => {
         const minA = Math.min(
@@ -130,19 +135,18 @@ export default function Property() {
       });
     }
 
-    // After all filters and sorting, update the filtered data
     setFilteredData(filtered);
   }, [price, data, sortOption, searchTerm]);
 
   return (
     <div
-      className={`${roboto.className} bg-white lg:container  lg:w-full mx-auto px-4`}
+      className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}
     >
       {/* Filter & Sorting Section */}
       <div className="lg:hidden block mb-[15px]">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 p-[5px] border rounded-lg shadow-lg w- lg:w-96 mx-auto"
+          className="space-y-4 p-[5px] border rounded-lg shadow-lg w-full lg:w-96 mx-auto"
         >
           <input
             {...register("property")}
@@ -177,13 +181,13 @@ export default function Property() {
             onChange={(e) => setPrice(Number(e.target.value))}
             tooltip="true"
             tooltipposition="top"
-            className="xl:w-[40%] md:[20%]  w-[53%] mt-[-18px] appearance-none h-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="xl:w-[40%] md:[20%] w-[53%] mt-[-18px] appearance-none h-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         {/* Sorting Dropdown */}
         <div className="flex items-center gap-2 justify-center mx-auto lg:mx-0 sm:mt-[0px] mt-[20px]">
-          <h4 className="text-[12px]  sm:text-sm font-medium text-[#00026E]">
+          <h4 className="text-[12px] sm:text-sm font-medium text-[#00026E]">
             Sort Listing:
           </h4>
           <select
@@ -201,7 +205,7 @@ export default function Property() {
       {filteredData.length > 0 ? (
         filteredData.map((property) => (
           <div key={property.property_id} className="mb-5">
-            <div className=" shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
+            <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
               <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
                 <Image
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${property.main_img}`}
@@ -216,6 +220,7 @@ export default function Property() {
                 <Link
                   href={`/Property/${property.property_id}`}
                   className="cursor-pointer"
+                  onClick={handleCardClick} // Save scroll position before navigation
                 >
                   <h1
                     className={`font-heading font-semibold text-lg text-[#00026E] mt-4`}
@@ -283,7 +288,7 @@ export default function Property() {
                             className="flex items-center text-gray-700"
                           >
                             <IconShow iconName={summary.icons.icon_name} />
-                            <span className="ml-2 text-sm  text-blue-900">
+                            <span className="ml-2 text-sm text-blue-900">
                               {summary.value}
                             </span>
                           </div>
@@ -298,51 +303,60 @@ export default function Property() {
                             background:
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
-                          className=" text-[11px] md:text-[14px] xl:text-[16px]  h-[40px] sm:px-4 px-[5px] py-2   text-white font-semibold rounded-md"
+                          className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 px-[5px] py-2 text-white font-semibold rounded-md"
+                          onClick={handleCardClick} // Save scroll position before navigation
                         >
                           See Details
                         </Link>
                       </div>
 
-                      <div className=" ">
+                      <div className="">
                         <Link
                           href={`/Property/${property.property_id}`}
                           style={{
                             background:
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
-                          className="text-[11px] md:text-[14px] xl:text-[16px]  h-[40px] sm:px-4  py-2 px-[5px]  text-white font-semibold rounded-md  "
+                          className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 py-2 px-[5px] text-white font-semibold rounded-md"
+                          onClick={handleCardClick} // Save scroll position before navigation
                         >
                           Book Now
                         </Link>
                       </div>
                     </div>
-                    <div className=" ">
+                    <div className="">
                       <div className="flex justify-start md:justify-start">
-                        <div className="flex  items-center">
+                        <div className="flex items-center">
                           <span className="text-black md:text-[16px] text-[14px] font-bold">
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px]">
                             <Link
                               href={`https://wa.me/${contactNumber[0]?.value}`}
-                              className=" mx-[10px]"
+                              className="mx-[10px]"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                              <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px] ml-[15px]">
                                 <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
                               </div>
                             </Link>
                           </div>
                           <div>
-                          <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
-  rel="noopener noreferrer">
-                             <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
-        
-        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
-
-</span>
+                            <Link
+                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              className="mx-[10px]"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
+                                <Image
+                                  src="/assets/whatsapp.png"
+                                  alt="whatsapp"
+                                  width={25}
+                                  height={25}
+                                />
+                              </span>
                             </Link>
                           </div>
                         </div>

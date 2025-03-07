@@ -80,7 +80,9 @@ export default function Page({ params }) {
               ) : (
                 propertyDetails?.map((property, index) => (
                   <div key={index}>
-                    <h2 className={`font-heading text-xl text-blue-900 font-bold`}>
+                    <h2
+                      className={`font-heading text-xl text-blue-900 font-bold`}
+                    >
                       {property.property_name}
                     </h2>
                     <p className="flex items-center text-black">
@@ -108,7 +110,9 @@ export default function Page({ params }) {
 
           {/* Packages Section */}
           <div className="my-[30px]">
-            <h1 className={`font-heading text-blue-700 text-[32px] font-bold my-[32px]`}>
+            <h1
+              className={`font-heading text-blue-700 text-[32px] font-bold my-[32px]`}
+            >
               Packages:
             </h1>
             <div className="flex mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap xl:flex-nowrap md:px-0 px-[10px]">
@@ -118,7 +122,11 @@ export default function Page({ params }) {
                 propertyPackages?.slice(0, 4).map((pkg, dd) => (
                   <div
                     key={pkg.unit_id}
-                    className={`${propertyPackages?.length < 4 ? "lg:max-w-[25%] max-w-[80%] " : "max-w-[100%]"} relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
+                    className={`${
+                      propertyPackages?.length < 4
+                        ? "lg:max-w-[25%] max-w-[80%] "
+                        : "max-w-[100%]"
+                    } relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
                   >
                     {/* Discount Badge */}
                     {pkg.discount?.length > 0 && (
@@ -141,20 +149,40 @@ export default function Page({ params }) {
                         />
                       </div>
                       <div className="p-[12px] lg:mt-[180px] xl:mt-[180px] md:mt-[140px] mt-[210px] flex flex-col flex-1 shadow-lg">
-                        <h2 className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}>
+                        <h2
+                          className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}
+                        >
                           {pkg.unit_name}
                         </h2>
-                        <p className={`${roboto.className} text-gray-600 text-[16px]`}>
-                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed} | Additional Bed: {pkg?.additionalbed===1?"Available":pkg?.additionalbed===0?"Not Available":""}
+                        <p
+                          className={`${roboto.className} text-gray-700 text-[16px]`}
+                        >
+                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed}{" "}
+                          | Additional Bed:{" "}
+                          {pkg?.additionalbed === 1
+                            ? "Available"
+                            : pkg?.additionalbed === 0
+                            ? "Not Available"
+                            : ""}
                         </p>
                         <div className="flex justify-start items-center">
-                          <div className={`${roboto.className} flex gap-2 mt-3 mb-4`}>
-                            <Link target="_blank" rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`}>
+                          <div
+                            className={`${roboto.className} flex gap-2 mt-3 mb-4`}
+                          >
+                            <Link
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                            >
                               <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
                                 Call Now
                               </div>
                             </Link>
-                            <Link target="_blank" rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`}>
+                            <Link
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                            >
                               <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
                                 <FaWhatsapp className="text-green-500 text-[16px]" />
                                 Book Now
@@ -182,7 +210,7 @@ export default function Page({ params }) {
           </div>
 
           {/* Sticky Accordion Section */}
-          <div className="bg-white p-[15px] rounded-lg  top-[80px] " >
+          <div className="bg-white p-[15px] rounded-lg  top-[80px] ">
             <div className="">
               <div className="w-full mt-[30px]">
                 <div className="lg:grid grid-cols-3 gap-10 rounded">
@@ -191,7 +219,9 @@ export default function Page({ params }) {
                   </div>
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
-                      <h1 className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}>
+                      <h1
+                        className={`font-heading text-base shadow-2xl bg-white font-bold text-blue-900 md:mt-0 mt-[15px]`}
+                      >
                         Get consultancy/Get a call
                       </h1>
                       <ContactForm propertyDetails={propertyDetails} />
