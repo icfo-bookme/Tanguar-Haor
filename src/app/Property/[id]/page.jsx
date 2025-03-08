@@ -1,7 +1,6 @@
 "use client";
 import { use, useEffect, useState } from "react";
 import ContactForm from "@/app/components/ContactForm/ContactForm";
-import Accordion from "@/utiles/Accordion";
 import getFacilities from "@/utiles/getFacilities";
 import getPropertyDetails from "@/utiles/getPropertyDetails";
 import { getPropertyImages } from "@/utiles/getPropertyImages";
@@ -11,16 +10,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import getPropertyPackages from "@/utiles/getPropertyPackages";
 import { FaWhatsapp } from "react-icons/fa";
-import { Josefin_Sans } from "next/font/google";
 import { Roboto } from "next/font/google";
-import { Raleway } from "next/font/google";
 import Image from "next/image";
 import getContactNumber from "@/utiles/getContactNumber";
 import Link from "next/link";
 import AccordionBookMe from "@/utiles/Accordion";
 
-const raleway = Raleway({ subsets: ["latin"] });
-const josefin = Josefin_Sans({ subsets: ["latin"] });
+
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Page({ params }) {

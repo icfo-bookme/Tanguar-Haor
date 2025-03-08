@@ -2,23 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import { FiMenu } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
+
 import Link from "next/link";
 import { Roboto } from "next/font/google";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaWhatsapp } from "react-icons/fa";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 // Initialize the font loader at the module scope
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
@@ -45,15 +38,13 @@ const Header = () => {
     fetchData();
   }, []);
   const onSubmit = (data) => {
-    // Update the searchTerm based on input field
     setSearchTerm(data.property);
-    // console.log(data.property)
-    // console.log(searchTerm)
+    
   };
 
   return (
     <header className={`header-area-three ${roboto.className} bg-white`}>
-      <div className="main-header fixed w-full z-20  bg-white shadow-md shadow-slate-500">
+      <div className="main-header fixed w-full  z-20  bg-white shadow-md shadow-slate-500">
         {/* Header Top */}
 
         {/* Header Bottom */}
@@ -69,6 +60,7 @@ const Header = () => {
                     width={190}
                     height={60}
                     className="changeLogo"
+                    style={{backgroundColor:"white", color:"white"}}
                   />
                 </Link>
               </div>
@@ -88,48 +80,9 @@ const Header = () => {
                 </form>
               </div>
 
-              {/* Navigation - Desktop and Tablet */}
-              {/* <nav className="hidden lg:flex space-x-10 font-semibold">
-                <Link href="/" className="text-gray-900 hover:text-blue-500">
-                  Home
-                </Link>
-                <Link
-                  href="/places"
-                  className="text-gray-900 hover:text-blue-500"
-                >
-                  Flight
-                </Link>
-                <Link
-                  href="/how-it-works"
-                  className="text-gray-900 hover:text-blue-500"
-                >
-                  Hotel
-                </Link>
-                <Link
-                  href="/tips"
-                  className="text-gray-900 hover:text-blue-500"
-                >
-                  Tour
-                </Link>
-                <Link
-                  href="/news"
-                  className="text-gray-900 hover:text-blue-500"
-                >
-                  visa
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-gray-900 hover:text-blue-500"
-                >
-                  Contact
-                </Link>
-              </nav> */}
-
+           
               <div className="ml-3 hidden lg:flex items-center justify-center gap-2">
-                {/* <Link href="/" className="">
-              <FaSquarePhone size={35} className="text-[#0F5393]" />
-              
-                </Link> */}
+               
 
                 <div className="flex items-center ">
                 <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px] mt-[9px]"  target="_blank" 
@@ -143,8 +96,7 @@ const Header = () => {
   rel="noopener noreferrer">
                                <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
         
-        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
-
+        <FaWhatsapp className="w-[25px] h-[25px] text-white" />
 </span>
                             </Link>
 
@@ -152,14 +104,14 @@ const Header = () => {
                     <p className="text-sm text-gray-900">Call Anytime</p>
                     <h4 className="text-lg font-semibold">
                       <a href="#" className="text-gray-800">
-                        {contactNumber[0]?.value}
+                        {contactNumber[0]?.value?.slice(3)}
                       </a>
                     </h4>
                   </div>
                 </div>
               </div>
               {/* Mobile Menu Icon */}
-              <div className="lg:hidden flex items-center">
+              <div className="lg:hidden flex items-center mt-[10px]">
                 <span className="text-[8px] md:text-[16px]">Call any time</span>
               <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mt-[-5px]">
@@ -172,7 +124,8 @@ const Header = () => {
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mx-[20px] mt-[-5px]">
                     <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
         
-        <Image src="/assets/whatsapp.png"  alt="whatsapp" width={25} height={25}/>
+        <FaWhatsapp className="w-[25px] h-[25px] text-white" />
+
 
 </span>
                   </Link>
@@ -182,7 +135,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu - Conditional Rendering */}
       
       </div>
     </header>

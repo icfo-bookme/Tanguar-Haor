@@ -30,11 +30,11 @@ const ImageCarousel = ({ propertyImages }) => {
       if (window.innerWidth > 1024) {
         setContainerStyle({ width: "80%", maxWidth: "80%" });
         setThumbnailStyle({ maxWidth: "20%", width: "20%" });
-        setThumbInnerStyle("100%");
+        setThumbInnerStyle("90%");
       } else {
         setContainerStyle({ width: "100%", maxWidth: "100%" });
         setThumbnailStyle({ maxWidth: "100%", width: "100%" });
-        setThumbInnerStyle("80%");
+        setThumbInnerStyle("100%");
       }
     };
 

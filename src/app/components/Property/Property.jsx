@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
@@ -11,7 +11,7 @@ import { RangeSlider } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaWhatsapp } from "react-icons/fa";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
@@ -22,7 +22,26 @@ export default function Property() {
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false); // Track if data is loaded
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [page, setPage] = useState(1); 
+  const [loading, setLoading] = useState(false); 
+  const [hasMore, setHasMore] = useState(true); 
+
+  const observer = useRef();
+  const isInitialLoad = useRef(true); 
+
+  const lastPropertyRef = useCallback(
+    (node) => {
+      if (loading) return; 
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1); }
+      });
+      if (node) observer.current.observe(node); 
+    },
+    [loading, hasMore]
+  );
 
   const {
     register,
@@ -34,35 +53,59 @@ export default function Property() {
     setSearchTerm(data.property);
   };
 
-  // Save scroll position before navigating to the details page
-  const handleCardClick = () => {
+  // Save scroll position and clicked card index before navigating to the details page
+  const handleCardClick = (index) => {
     sessionStorage.setItem("scrollPosition", window.scrollY);
+    sessionStorage.setItem("clickedCardIndex", index);
   };
 
   // Restore scroll position when the page loads and data is ready
   useEffect(() => {
-    if (isDataLoaded) {
+    if (isDataLoaded && !isInitialLoad.current) {
       const savedScrollPosition = sessionStorage.getItem("scrollPosition");
-      if (savedScrollPosition) {
-        window.scrollTo(0, parseInt(savedScrollPosition, 10));
-        sessionStorage.removeItem("scrollPosition"); // Clear the saved position
+      const clickedCardIndex = sessionStorage.getItem("clickedCardIndex");
+
+      if (savedScrollPosition && clickedCardIndex) {
+        // Add a small delay to ensure the DOM is fully rendered
+        setTimeout(() => {
+          const cardElement = document.querySelector(
+            `[data-index="${clickedCardIndex}"]`
+          );
+          if (cardElement) {
+            // Scroll to the saved position
+            window.scrollTo({
+              top: parseInt(savedScrollPosition, 10),
+              behavior: "auto",
+            });
+          }
+          sessionStorage.removeItem("scrollPosition"); // Clear the saved position
+          sessionStorage.removeItem("clickedCardIndex"); // Clear the saved index
+        }, 100); // Adjust delay as needed
       }
     }
+    isInitialLoad.current = false; // Mark initial load as complete
   }, [isDataLoaded]); // Run only when isDataLoaded changes
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const result = await propertySummary();
-        setData(result);
-        setFilteredData(result);
-        setIsDataLoaded(true); // Mark data as loaded
+        setLoading(true);
+        const result = await propertySummary(page); // Pass page number
+        if (result.length === 0) {
+          setHasMore(false); // No more data to load
+        } else {
+          setData((prevData) => [...prevData, ...result]); // Append new data
+          setFilteredData((prevData) => [...prevData, ...result]);
+        }
+        setIsDataLoaded(true);
       } catch (error) {
         console.error("Error fetching property data:", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     async function fetchData() {
@@ -76,7 +119,6 @@ export default function Property() {
     fetchData();
   }, []);
 
-  // Apply searchTerm in this useEffect while keeping other filters
   useEffect(() => {
     let filtered = data.filter((property) => {
       if (searchTerm) {
@@ -159,7 +201,7 @@ export default function Property() {
         </form>
       </div>
 
-      <div className="flex flex-wrap justify-center sm:justify-between items-center mb-5 w-[100%]">
+      <div className="flex flex-wrap justify-start md:justify-between sm:justify-between items-center mb-5 w-[100%]">
         {/* Price Filter */}
         <div className="flex items-center gap-2 md:w-[50%] w-[100%]">
           <h4 className="text-[12px] sm:text-lg text-[#00026E] font-semibold w-[16%] md:w-[23%] xl:w-[18%]">
@@ -186,15 +228,16 @@ export default function Property() {
         </div>
 
         {/* Sorting Dropdown */}
-        <div className="flex items-center gap-2 justify-center mx-auto lg:mx-0 sm:mt-[0px] mt-[20px]">
-          <h4 className="text-[12px] sm:text-sm font-medium text-[#00026E]">
+        <div className="flex items-center gap-2 justify-center mx-0 md:mx-auto lg:mx-0 sm:mt-[0px] mt-[20px]">
+          <h4 className="text-[12px] sm:text-sm md:block hidden font-medium text-[#00026E]">
             Sort Listing:
           </h4>
           <select
-            className="w-40 border border-gray-300 rounded-md text-[#00026E] px-3 py-1.5 text-sm focus:ring-blue-400 focus:border-blue-400"
+            className="md:w-40 w-32 border border-gray-300 rounded-md text-[#00026E] px-3 py-1.5 text-sm focus:ring-blue-400 focus:border-blue-400"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
+            <option className="hidden ">Sort By</option>
             <option value="2">Low to High</option>
             <option value="3">High to Low</option>
           </select>
@@ -203,8 +246,13 @@ export default function Property() {
 
       {/* Property List */}
       {filteredData.length > 0 ? (
-        filteredData.map((property) => (
-          <div key={property.property_id} className="mb-5">
+        filteredData.map((property, index) => (
+          <div
+            key={property.property_id} // Use property_id as the unique key
+            ref={index === filteredData.length - 1 ? lastPropertyRef : null} // Attach ref to the last property
+            data-index={index} // Add data-index attribute
+            className="mb-5"
+          >
             <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
               <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
                 <Image
@@ -220,7 +268,7 @@ export default function Property() {
                 <Link
                   href={`/Property/${property.property_id}`}
                   className="cursor-pointer"
-                  onClick={handleCardClick} // Save scroll position before navigation
+                  onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
                 >
                   <h1
                     className={`font-heading font-semibold text-lg text-[#00026E] mt-4`}
@@ -294,7 +342,7 @@ export default function Property() {
                           </div>
                         ))}
                     </div>
-                    <div className="flex flex-row justify-start items-center gap-[5px] sm:gap-[25px] mt-[15px]">
+                    <div className="flex flex-row  md:justify-start justify-center items-center gap-[5px] sm:gap-[25px] mt-[15px]">
                       {/* Buttons */}
                       <div className="">
                         <Link
@@ -304,7 +352,7 @@ export default function Property() {
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
                           className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 px-[5px] py-2 text-white font-semibold rounded-md"
-                          onClick={handleCardClick} // Save scroll position before navigation
+                          onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
                         >
                           See Details
                         </Link>
@@ -318,19 +366,43 @@ export default function Property() {
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
                           className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 py-2 px-[5px] text-white font-semibold rounded-md"
-                          onClick={handleCardClick} // Save scroll position before navigation
+                          onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
                         >
                           Book Now
                         </Link>
                       </div>
+                      <div className=" md:hidden block">
+                        <Link
+                          href={`https://wa.me/${contactNumber[0]?.value}`}
+                          className="mx-[10px]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px] ml-[15px]">
+                            <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="md:hidden block">
+                        <Link
+                          href={`https://wa.me/${contactNumber[0]?.value}`}
+                          className="mx-[10px]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
+                            <FaWhatsapp className="w-[25px] h-[25px] text-white" />
+                          </span>
+                        </Link>
+                      </div>
                     </div>
-                    <div className="">
+                    <div className="md:block hidden">
                       <div className="flex justify-start md:justify-start">
                         <div className="flex items-center">
                           <span className="text-black md:text-[16px] text-[14px] font-bold">
                             For instant service:{" "}
                           </span>
-                          <div className="mx-[5px]">
+                          <div className="mx-[5px] mt-[10px]">
                             <Link
                               href={`https://wa.me/${contactNumber[0]?.value}`}
                               className="mx-[10px]"
@@ -350,12 +422,7 @@ export default function Property() {
                               rel="noopener noreferrer"
                             >
                               <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
-                                <Image
-                                  src="/assets/whatsapp.png"
-                                  alt="whatsapp"
-                                  width={25}
-                                  height={25}
-                                />
+                                <FaWhatsapp className="w-[25px] h-[25px] text-white" />
                               </span>
                             </Link>
                           </div>
@@ -371,6 +438,13 @@ export default function Property() {
       ) : (
         <div className="flex justify-center items-center">
           <TailSpin height="60" width="60" color="#4fa94d" />
+        </div>
+      )}
+
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="flex justify-center items-center my-5">
+          <TailSpin height="40" width="40" color="#4fa94d" />
         </div>
       )}
     </div>

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -36,7 +35,11 @@ export default function DashboardLayout({ children }) {
             <div className="bg-white">
               <main>
                 <Header /> {/* No need to pass props manually */}
+                <div className="min-h-[100vh]  ">
+
                 {children}
+                </div>
+
                 <Footer />
               </main>
             </div>

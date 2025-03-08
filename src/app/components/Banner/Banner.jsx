@@ -14,7 +14,7 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Banner() {
   return (
-    <section className={`${raleway.className} relative h-[60vh] w-full`}>
+    <section className={`${raleway.className} relative h-[60vh] z-10 w-full`}>
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{
@@ -31,7 +31,7 @@ export default function Banner() {
             src="/assets/images/gallery/home-slider-top/slider1.jpg"
             alt="Slide 1"
             fill
-            className="object-fill w-full h-full"
+            className="object-cover md:object-fill w-full h-full"
           />
         </SwiperSlide>
         <SwiperSlide className="w-[100%] h-[100%]">
@@ -39,7 +39,7 @@ export default function Banner() {
             src="/assets/images/gallery/home-slider-top/slider2.jpg"
             alt="Slide 2"
             fill
-            className="object-fill w-full h-full"
+            className="object-cover md:object-fill w-full h-full"
           />
         </SwiperSlide>
         <SwiperSlide className="w-[100%] h-[100%]">
@@ -47,7 +47,7 @@ export default function Banner() {
             src="/assets/images/gallery/home-slider-top/slider3.jpg"
             alt="Slide 3"
             fill
-            className="object-fill w-full h-full"
+            className="object-cover md:object-fill w-full h-full"
           />
         </SwiperSlide>
       </Swiper>

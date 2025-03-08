@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -12,9 +11,10 @@ export const PropertyPackages = ({ packages }) => {
           key={pkg.unit_id}
           className="flex flex-col lg:flex-row relative max-w-5xl mx-auto mb-12 bg-white shadow-lg rounded-lg overflow-hidden p-4"
         >
-          <img
+          <Image
             src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
             alt={`Package Image - ${pkg.unit_name}`}
+            fill
             className="w-full sm:w-48 h-48 object-cover rounded-md mx-auto"
           />
 
