@@ -10,7 +10,7 @@ const Discover = () => {
         const response = await fetch('https://freecvbd.com/admin/api/footers');
         const data = await response.json();
         if (data && data?.length > 0) {
-          setTerms(data[0]?.privacy_policy);
+          setTerms(data[4]?.value);
         }
       } catch (error) {
         console.error('Error fetching terms:', error);

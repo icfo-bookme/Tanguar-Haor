@@ -23,22 +23,23 @@ export default function Property() {
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [page, setPage] = useState(1); 
-  const [loading, setLoading] = useState(false); 
-  const [hasMore, setHasMore] = useState(true); 
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const observer = useRef();
-  const isInitialLoad = useRef(true); 
+  const isInitialLoad = useRef(true);
 
   const lastPropertyRef = useCallback(
     (node) => {
-      if (loading) return; 
+      if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1); }
+          setPage((prevPage) => prevPage + 1);
+        }
       });
-      if (node) observer.current.observe(node); 
+      if (node) observer.current.observe(node);
     },
     [loading, hasMore]
   );
@@ -66,36 +67,34 @@ export default function Property() {
       const clickedCardIndex = sessionStorage.getItem("clickedCardIndex");
 
       if (savedScrollPosition && clickedCardIndex) {
-        // Add a small delay to ensure the DOM is fully rendered
         setTimeout(() => {
           const cardElement = document.querySelector(
             `[data-index="${clickedCardIndex}"]`
           );
           if (cardElement) {
-            // Scroll to the saved position
             window.scrollTo({
               top: parseInt(savedScrollPosition, 10),
               behavior: "auto",
             });
           }
-          sessionStorage.removeItem("scrollPosition"); // Clear the saved position
-          sessionStorage.removeItem("clickedCardIndex"); // Clear the saved index
-        }, 100); // Adjust delay as needed
+          sessionStorage.removeItem("scrollPosition");
+          sessionStorage.removeItem("clickedCardIndex");
+        }, 100);
       }
     }
-    isInitialLoad.current = false; // Mark initial load as complete
-  }, [isDataLoaded]); // Run only when isDataLoaded changes
+    isInitialLoad.current = false;
+  }, [isDataLoaded]);
 
+  // Fetch data when the page changes
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        const result = await propertySummary(page); // Pass page number
+        const result = await propertySummary(page);
         if (result.length === 0) {
-          setHasMore(false); // No more data to load
+          setHasMore(false);
         } else {
-          setData((prevData) => [...prevData, ...result]); // Append new data
-          setFilteredData((prevData) => [...prevData, ...result]);
+          setData((prevData) => [...prevData, ...result]);
         }
         setIsDataLoaded(true);
       } catch (error) {
@@ -107,6 +106,7 @@ export default function Property() {
     fetchData();
   }, [page]);
 
+  // Fetch contact number
   useEffect(() => {
     async function fetchData() {
       try {
@@ -119,16 +119,18 @@ export default function Property() {
     fetchData();
   }, []);
 
+  // Filter data based on searchTerm, price, and sortOption
   useEffect(() => {
-    let filtered = data.filter((property) => {
-      if (searchTerm) {
-        return property.property_name
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      }
-      return true;
-    });
+    let filtered = data;
 
+    // Filter by searchTerm
+    if (searchTerm) {
+      filtered = filtered.filter((property) =>
+        property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Filter by price
     if (price <= 9500) {
       filtered = filtered.filter((property) => {
         if (!property.property_uinit || property.property_uinit.length === 0) {
@@ -143,6 +145,7 @@ export default function Property() {
       });
     }
 
+    // Sort data
     if (sortOption === "2") {
       filtered = filtered.sort((a, b) => {
         const minA = Math.min(
@@ -177,8 +180,9 @@ export default function Property() {
       });
     }
 
+    // Update filteredData state
     setFilteredData(filtered);
-  }, [price, data, sortOption, searchTerm]);
+  }, [price, data, sortOption, searchTerm]); // Add searchTerm as a dependency
 
   return (
     <div
@@ -195,7 +199,12 @@ export default function Property() {
             type="text"
             value={searchTerm}
             className="w-full p-2 border rounded-md text-black"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value); // Update searchTerm state
+              if (e.target.value === "") {
+                setFilteredData(data); // Reset filteredData to show all properties
+              }
+            }}
             placeholder="Search property"
           />
         </form>
@@ -248,9 +257,9 @@ export default function Property() {
       {filteredData.length > 0 ? (
         filteredData.map((property, index) => (
           <div
-            key={property.property_id} // Use property_id as the unique key
-            ref={index === filteredData.length - 1 ? lastPropertyRef : null} // Attach ref to the last property
-            data-index={index} // Add data-index attribute
+            key={property.property_id}
+            ref={index === filteredData.length - 1 ? lastPropertyRef : null}
+            data-index={index}
             className="mb-5"
           >
             <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
@@ -268,11 +277,9 @@ export default function Property() {
                 <Link
                   href={`/Property/${property.property_id}`}
                   className="cursor-pointer"
-                  onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
+                  onClick={() => handleCardClick(index)}
                 >
-                  <h1
-                    className={`font-heading font-semibold text-lg text-[#00026E] mt-4`}
-                  >
+                  <h1 className="font-heading font-semibold text-lg text-[#00026E] mt-4">
                     {property.property_name}
                   </h1>
                 </Link>
@@ -342,9 +349,9 @@ export default function Property() {
                           </div>
                         ))}
                     </div>
-                    <div className="flex flex-row  md:justify-start justify-center items-center gap-[5px] sm:gap-[25px] mt-[15px]">
+                    <div className="flex flex-row md:justify-start justify-center items-center gap-[5px] sm:gap-[25px] mt-[15px]">
                       {/* Buttons */}
-                      <div className="">
+                      <div>
                         <Link
                           href={`/Property/${property.property_id}`}
                           style={{
@@ -352,13 +359,13 @@ export default function Property() {
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
                           className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 px-[5px] py-2 text-white font-semibold rounded-md"
-                          onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
+                          onClick={() => handleCardClick(index)}
                         >
                           See Details
                         </Link>
                       </div>
 
-                      <div className="">
+                      <div>
                         <Link
                           href={`/Property/${property.property_id}`}
                           style={{
@@ -366,12 +373,12 @@ export default function Property() {
                               "linear-gradient(90deg, #313881, #0678B4)",
                           }}
                           className="text-[11px] md:text-[14px] xl:text-[16px] h-[40px] sm:px-4 py-2 px-[5px] text-white font-semibold rounded-md"
-                          onClick={() => handleCardClick(index)} // Save scroll position and index before navigation
+                          onClick={() => handleCardClick(index)}
                         >
                           Book Now
                         </Link>
                       </div>
-                      <div className=" md:hidden block">
+                      <div className="md:hidden block">
                         <Link
                           href={`https://wa.me/${contactNumber[0]?.value}`}
                           className="mx-[10px]"

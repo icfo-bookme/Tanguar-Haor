@@ -7,10 +7,10 @@ const Discover = () => {
   useEffect(() => {
     const fetchTerms = async () => {
       try {
-        const response = await fetch('https://freecvbd.com/admin/api/footers');
+        const response = await fetch('https://freecvbd.com/admin/api/footer-policies');
         const data = await response.json();
         if (data && data?.length > 0) {
-          setTerms(data[0]?.talent_and_culture);
+          setTerms(data[1]?.value);
         }
       } catch (error) {
         console.error('Error fetching terms:', error);
