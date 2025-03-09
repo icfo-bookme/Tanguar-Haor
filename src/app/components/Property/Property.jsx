@@ -200,11 +200,7 @@ export default function Property() {
   // Handle search term changes
   useEffect(() => {
     if (searchTerm === "") {
-      setRefreshing(true);
-      setTimeout(() => {
-        setFilteredData(data); // Reset filteredData to the full dataset
-        setRefreshing(false);
-      }, 500);
+      setFilteredData(data); // Reset filteredData to the full dataset immediately
     } else {
       debouncedSearch(searchTerm);
     }
