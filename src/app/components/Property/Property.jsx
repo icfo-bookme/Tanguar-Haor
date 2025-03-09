@@ -276,7 +276,7 @@ export default function Property() {
                           ))}
                       </div>
                     </div>
-                    <div className="flex gap-4 w-full md:w-auto">
+                    <div className="flex gap-4">
                       {property.property_summaries
                         .slice(3, 4)
                         .map((summary) => (
@@ -284,14 +284,18 @@ export default function Property() {
                             key={summary.id}
                             className="flex items-center text-gray-700"
                           >
+                            <div>
+
                             <IconShow iconName={summary.icons.icon_name} />
+                            </div>
+                            
                             <span className="ml-2 text-sm text-blue-900">
                               {summary.value}
                             </span>
                           </div>
                         ))}
                     </div>
-                    <div className="flex flex-row md:justify-start justify-center items-center gap-[5px] sm:gap-[25px] mt-[15px]">
+                    <div className="flex flex-row flex-wrap md:justify-start justify-around items-center gap-[5px] sm:gap-[25px] mt-[15px]">
                       {/* Buttons */}
                       <div>
                         <Link
@@ -320,19 +324,19 @@ export default function Property() {
                           Book Now
                         </Link>
                       </div>
-                      <div className="md:hidden block">
+                      <div className="md:hidden block mt-[10px]">
                         <Link
                           href={`https://wa.me/${contactNumber[0]?.value}`}
                           className="mx-[10px]"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px] ml-[15px]">
-                            <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
+                          <div className="phone-call md:w-[50px] md:h-[50px] w-[33px] h-[33px] ml-[15px]">
+                            <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[8px]" />
                           </div>
                         </Link>
                       </div>
-                      <div className="md:hidden block">
+                      <div className="md:hidden block mt-[10px]">
                         <Link
                           href={`https://wa.me/${contactNumber[0]?.value}`}
                           className="mx-[10px]"
