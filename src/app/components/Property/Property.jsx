@@ -17,118 +17,141 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
-  const [data, setData] = useState([]);
-  const [price, setPrice] = useState(10000);
-  const [sortOption, setSortOption] = useState("1");
-  const [contactNumber, setContactNumber] = useState([]);
-  const [loading, setLoading] = useState(false);
+const [data, setData] = useState([]);
+const [price, setPrice] = useState(10000);
+const [sortOption, setSortOption] = useState("1");
+const [contactNumber, setContactNumber] = useState([]);
+const [loading, setLoading] = useState(false);
+const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 10;
 
-  const { register, handleSubmit } = useForm();
+const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    setSearchTerm(data.property);
+const onSubmit = (data) => {
+  setSearchTerm(data.property);
+};
+
+// Fetch property data
+useEffect(() => {
+  async function fetchData() {
+    try {
+      setLoading(true);
+      const result = await propertySummary();
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching property data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  fetchData();
+}, []);
+
+// Fetch contact number
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const result = await getContactNumber();
+      setContactNumber(result);
+    } catch (error) {
+      console.error("Error fetching contact number data:", error);
+    }
+  }
+  fetchData();
+}, []);
+
+// Sorting logic (applied to the full data)
+// Sorting logic (applied to the full data)
+// Sorting logic (applied to the full data)
+const sortedData = useMemo(() => {
+  const getMaxPrice = (property) => {
+    const prices =
+      property.property_uinit?.flatMap((unit) =>
+        unit.price?.map((priceObj) => priceObj.price)
+      ) || [];
+    return prices.length > 0 ? Math.max(...prices) : -Infinity; // Use -Infinity to move properties without prices to the end
   };
 
-  // Fetch property data
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const result = await propertySummary();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching property data:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  const sorted = [...data].sort((a, b) => {
+    const priceA = getMaxPrice(a);
+    const priceB = getMaxPrice(b);
 
-  // Fetch contact number
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const result = await getContactNumber();
-        setContactNumber(result);
-      } catch (error) {
-        console.error("Error fetching contact number data:", error);
-      }
-    }
-    fetchData();
-  }, []);
+    if (priceA === -Infinity && priceB === -Infinity) return 0; // Both have no prices, keep order
+    if (priceA === -Infinity) return 1; // Move properties without prices to the end
+    if (priceB === -Infinity) return -1; // Move properties without prices to the end
 
-  // Filter and sort data
-  const filteredData = useMemo(() => {
-    let filtered = data;
-    if (searchTerm) {
-      filtered = filtered.filter((property) =>
-        property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+    // Sort high-to-low by default
+    return sortOption === "2" ? priceA - priceB : priceB - priceA;
+  });
+
+  return sorted;
+}, [data, sortOption]);
+
+// Filter data (applied to the entire dataset after sorting)
+const filteredData = useMemo(() => {
+  let filtered = sortedData; // Use sorted data as the base
+
+  // Apply search term filter
+  if (searchTerm) {
+    filtered = filtered.filter((property) =>
+      property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  // Apply price range filter
+  if (price <= 9500) {
+    filtered = filtered.filter((property) => {
+      if (!property.property_uinit || property.property_uinit.length === 0) {
+        return true;
+      }
+      const prices = property.property_uinit.flatMap(
+        (unit) => unit.price?.map((priceObj) => priceObj.price) || []
       );
-    }
-    if (price <= 9500) {
-      filtered = filtered.filter((property) => {
-        if (!property.property_uinit || property.property_uinit.length === 0) {
-          return true;
-        }
-        const prices = property.property_uinit.flatMap(
-          (unit) => unit.price?.map((priceObj) => priceObj.price) || []
-        );
-        return prices.some((p) => p <= price);
-      });
-    }
-    return filtered;
-  }, [searchTerm, data, price]);
-
-  const sortedData = useMemo(() => {
-    const getMinPrice = (property) => {
-      const prices =
-        property.property_uinit?.flatMap((unit) =>
-          unit.price?.map((priceObj) => priceObj.price)
-        ) || [];
-      return prices.length > 0 ? Math.min(...prices) : null;
-    };
-
-    return [...filteredData].sort((a, b) => {
-      const priceA = getMinPrice(a);
-      const priceB = getMinPrice(b);
-
-      if (priceA === null) return 1;
-      if (priceB === null) return -1;
-      return sortOption === "2" ? priceA - priceB : priceB - priceA;
+      return prices.some((p) => p <= price);
     });
-  }, [filteredData, sortOption]);
+  }
 
-  // Save scroll position and card index
-  const handleCardClick = (index) => {
-    sessionStorage.setItem("scrollPosition", window.scrollY);
-    sessionStorage.setItem("lastViewedCardIndex", index);
-  };
+  return filtered;
+}, [sortedData, searchTerm, price]);
 
-  // Restore scroll position and card index
-  useEffect(() => {
-    const scrollPosition = sessionStorage.getItem("scrollPosition");
-    const lastViewedCardIndex = sessionStorage.getItem("lastViewedCardIndex");
+// Paginated data (applied to the filtered and sorted dataset)
+const paginatedData = useMemo(() => {
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return filteredData.slice(startIndex, endIndex);
+}, [filteredData, currentPage]);
 
-    if (scrollPosition && lastViewedCardIndex) {
-      // Wait for the component to mount
-      setTimeout(() => {
-        // Restore scroll position
-        window.scrollTo(0, parseInt(scrollPosition));
+// Total pages (based on filtered data)
+const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-        // Find the card element using the data-index attribute
-        const cardElement = document.querySelector(`[data-index="${lastViewedCardIndex}"]`);
-        if (cardElement) {
-          // Scroll to the clicked card
-          cardElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+const handlePageChange = (page) => {
+  setCurrentPage(page);
+};
 
-        // Clear session storage after restoring
-        sessionStorage.removeItem("scrollPosition");
-        sessionStorage.removeItem("lastViewedCardIndex");
-      }, 500); // Increased delay to ensure proper loading of content
-    }
-  }, [sortedData]);
+// Save scroll position and card index
+const handleCardClick = (index) => {
+  sessionStorage.setItem("scrollPosition", window.scrollY);
+  sessionStorage.setItem("lastViewedCardIndex", index);
+};
+
+// Restore scroll position and card index
+useEffect(() => {
+  const scrollPosition = sessionStorage.getItem("scrollPosition");
+  const lastViewedCardIndex = sessionStorage.getItem("lastViewedCardIndex");
+
+  if (scrollPosition && lastViewedCardIndex) {
+    setTimeout(() => {
+      window.scrollTo(0, parseInt(scrollPosition));
+      const cardElement = document.querySelector(`[data-index="${lastViewedCardIndex}"]`);
+      if (cardElement) {
+        cardElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      sessionStorage.removeItem("scrollPosition");
+      sessionStorage.removeItem("lastViewedCardIndex");
+    }, 500);
+  }
+}, [sortedData]);
+
   return (
     <div className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}>
       {/* Filter & Sorting Section */}
@@ -196,11 +219,11 @@ export default function Property() {
         <div className="flex justify-center items-center mt-20">
           <TailSpin height="80" width="80" color="#0678B4" />
         </div>
-      ) : sortedData && sortedData.length > 0 ? (
-        sortedData.map((property, index) => (
+      ) : paginatedData && paginatedData.length > 0 ? (
+        paginatedData.map((property, index) => (
           <div
             key={property.property_id}
-            data-index={index} // Ensure data-index is applied
+            data-index={index}
             className="mb-5"
           >
             {/* Property Card */}
@@ -285,10 +308,8 @@ export default function Property() {
                             className="flex items-center text-gray-700"
                           >
                             <div>
-
-                            <IconShow iconName={summary.icons.icon_name} />
+                              <IconShow iconName={summary.icons.icon_name} />
                             </div>
-                            
                             <span className="ml-2 text-sm text-blue-900">
                               {summary.value}
                             </span>
@@ -393,6 +414,37 @@ export default function Property() {
           <TailSpin height="80" width="80" color="#0678B4" />
         </div>
       )}
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center mt-10">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 mx-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => handlePageChange(i + 1)}
+            className={`px-4 py-2 mx-1 text-sm font-medium ${
+              currentPage === i + 1
+                ? "text-white bg-blue-500"
+                : "text-gray-700 bg-white"
+            } border border-gray-300 rounded-lg hover:bg-gray-100`}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 mx-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

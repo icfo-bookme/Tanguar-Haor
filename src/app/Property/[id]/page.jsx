@@ -208,7 +208,7 @@ export default function Page({ params }) {
           {/* Sticky Accordion Section */}
           <div className="bg-white p-[15px] rounded-lg  top-[80px] ">
             <div className="">
-              <div className="w-full mt-[30px]">
+              <div className="w-full">
                 <div className="lg:grid grid-cols-3 gap-10 rounded">
                   <div className="col-span-2">
                     <AccordionBookMe facilities={propertyFacilities} />
