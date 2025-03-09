@@ -44,7 +44,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
             onClick={() => handlePageChange(1)}
             className={`px-4 py-2 mx-1 text-sm font-medium ${
               currentPage === 1
-                ? "text-white bg-blue-500"
+                ? "text-black bg-blue-500"
                 : "text-gray-700 bg-white"
             } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
           >
@@ -61,7 +61,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
           onClick={() => handlePageChange(page)}
           className={`px-4 py-2 mx-1 text-sm font-medium ${
             currentPage === page
-              ? "text-white bg-blue-500"
+              ? "text-black bg-blue-500"
               : "text-gray-700 bg-white"
           } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
         >
@@ -79,7 +79,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
             onClick={() => handlePageChange(totalPages)}
             className={`px-4 py-2 mx-1 text-sm font-medium ${
               currentPage === totalPages
-                ? "text-white bg-blue-500"
+                ? "text-black bg-blue-500"
                 : "text-gray-700 bg-white"
             } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
           >
