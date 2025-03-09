@@ -116,7 +116,7 @@ const Header = () => {
               <Link target="_blank" 
   rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mt-[-5px]">
                     <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
-  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[8px] ml-[11px]" />
+  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[9px] ml-[10px]" />
 
                                         </div>
                   </Link>
