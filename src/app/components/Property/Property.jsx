@@ -15,6 +15,15 @@ import { FaPhone, FaWhatsapp } from "react-icons/fa";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
+// Debounce function
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+};
+
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
   const [data, setData] = useState([]);
@@ -26,6 +35,7 @@ export default function Property() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const observer = useRef();
   const isInitialLoad = useRef(true);
@@ -119,70 +129,86 @@ export default function Property() {
     fetchData();
   }, []);
 
-  // Filter data based on searchTerm, price, and sortOption
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce((searchTerm) => {
+      let filtered = data;
+
+      // Filter by searchTerm
+      if (searchTerm) {
+        filtered = filtered.filter((property) =>
+          property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+
+      // Filter by price
+      if (price <= 9500) {
+        filtered = filtered.filter((property) => {
+          if (!property.property_uinit || property.property_uinit.length === 0) {
+            return true;
+          }
+
+          const prices = property.property_uinit.flatMap(
+            (unit) => unit.price?.map((priceObj) => priceObj.price) || []
+          );
+
+          return prices.some((p) => p <= price);
+        });
+      }
+
+      // Sort data
+      if (sortOption === "2") {
+        filtered = filtered.sort((a, b) => {
+          const minA = Math.min(
+            ...(a.property_uinit?.flatMap((unit) =>
+              unit.price?.map((priceObj) => priceObj.price)
+            ) || [Infinity])
+          );
+
+          const minB = Math.min(
+            ...(b.property_uinit?.flatMap((unit) =>
+              unit.price?.map((priceObj) => priceObj.price)
+            ) || [Infinity])
+          );
+
+          return minA - minB; // Low to High
+        });
+      } else if (sortOption === "3") {
+        filtered = filtered.sort((a, b) => {
+          const minA = Math.min(
+            ...(a.property_uinit?.flatMap((unit) =>
+              unit.price?.map((priceObj) => priceObj.price)
+            ) || [0])
+          );
+
+          const minB = Math.min(
+            ...(b.property_uinit?.flatMap((unit) =>
+              unit.price?.map((priceObj) => priceObj.price)
+            ) || [0])
+          );
+
+          return minB - minA; // High to Low
+        });
+      }
+
+      // Update filteredData state
+      setFilteredData(filtered);
+    }, 500), // 500ms debounce delay
+    [data, price, sortOption]
+  );
+
+  // Handle search term changes
   useEffect(() => {
-    let filtered = data;
-
-    // Filter by searchTerm
-    if (searchTerm) {
-      filtered = filtered.filter((property) =>
-        property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+    if (searchTerm === "") {
+      setRefreshing(true);
+      setTimeout(() => {
+        setFilteredData(data); // Reset filteredData to the full dataset
+        setRefreshing(false);
+      }, 500);
+    } else {
+      debouncedSearch(searchTerm);
     }
-
-    // Filter by price
-    if (price <= 9500) {
-      filtered = filtered.filter((property) => {
-        if (!property.property_uinit || property.property_uinit.length === 0) {
-          return true;
-        }
-
-        const prices = property.property_uinit.flatMap(
-          (unit) => unit.price?.map((priceObj) => priceObj.price) || []
-        );
-
-        return prices.some((p) => p <= price);
-      });
-    }
-
-    // Sort data
-    if (sortOption === "2") {
-      filtered = filtered.sort((a, b) => {
-        const minA = Math.min(
-          ...(a.property_uinit?.flatMap((unit) =>
-            unit.price?.map((priceObj) => priceObj.price)
-          ) || [Infinity])
-        );
-
-        const minB = Math.min(
-          ...(b.property_uinit?.flatMap((unit) =>
-            unit.price?.map((priceObj) => priceObj.price)
-          ) || [Infinity])
-        );
-
-        return minA - minB; // Low to High
-      });
-    } else if (sortOption === "3") {
-      filtered = filtered.sort((a, b) => {
-        const minA = Math.min(
-          ...(a.property_uinit?.flatMap((unit) =>
-            unit.price?.map((priceObj) => priceObj.price)
-          ) || [0])
-        );
-
-        const minB = Math.min(
-          ...(b.property_uinit?.flatMap((unit) =>
-            unit.price?.map((priceObj) => priceObj.price)
-          ) || [0])
-        );
-
-        return minB - minA; // High to Low
-      });
-    }
-
-    // Update filteredData state
-    setFilteredData(filtered);
-  }, [price, data, sortOption, searchTerm]); // Add searchTerm as a dependency
+  }, [searchTerm, data, debouncedSearch]);
 
   return (
     <div
@@ -201,15 +227,11 @@ export default function Property() {
             className="w-full p-2 border rounded-md text-black"
             onChange={(e) => {
               setSearchTerm(e.target.value); // Update searchTerm state
-              if (e.target.value === "") {
-                setFilteredData(data); // Reset filteredData to show all properties
-              }
             }}
             placeholder="Search property"
           />
         </form>
       </div>
-
       <div className="flex flex-wrap justify-start md:justify-between sm:justify-between items-center mb-5 w-[100%]">
         {/* Price Filter */}
         <div className="flex items-center gap-2 md:w-[50%] w-[100%]">
@@ -252,9 +274,15 @@ export default function Property() {
           </select>
         </div>
       </div>
+      {/* Refreshing Spinner */}
+      {refreshing && (
+        <div className="flex justify-center items-center my-5">
+          <TailSpin height="40" width="40" color="#4fa94d" />
+        </div>
+      )}
 
       {/* Property List */}
-      {filteredData.length > 0 ? (
+      {!refreshing && filteredData.length > 0 ? (
         filteredData.map((property, index) => (
           <div
             key={property.property_id}
@@ -262,6 +290,7 @@ export default function Property() {
             data-index={index}
             className="mb-5"
           >
+            {/* Property Card */}
             <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
               <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
                 <Image
