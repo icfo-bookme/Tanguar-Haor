@@ -24,7 +24,8 @@ const Discover = () => {
     <main className="">
       <DashboardLayout>
         <div className='pt-[100px] text-black'>
-          <h1 className='text-4xl text-center font-heading font-bold'>Talent and Culture</h1>
+        <h1 className='text-4xl text-center font-heading font-bold'>Talent and Culture</h1>
+
           
           <p className='text-center'>{terms}</p>
         </div>

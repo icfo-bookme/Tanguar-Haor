@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import propertySummary from "@/utiles/propertySummary";
@@ -15,98 +15,27 @@ import { FaPhone, FaWhatsapp } from "react-icons/fa";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
-// Debounce function
-const debounce = (func, delay) => {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
-  };
-};
-
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
-  const observer = useRef();
-  const isInitialLoad = useRef(true);
-
-  const lastPropertyRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
     setSearchTerm(data.property);
   };
 
-  // Save scroll position and clicked card index before navigating to the details page
-  const handleCardClick = (index) => {
-    sessionStorage.setItem("scrollPosition", window.scrollY);
-    sessionStorage.setItem("clickedCardIndex", index);
-  };
-
-  // Restore scroll position when the page loads and data is ready
-  useEffect(() => {
-    if (isDataLoaded && !isInitialLoad.current) {
-      const savedScrollPosition = sessionStorage.getItem("scrollPosition");
-      const clickedCardIndex = sessionStorage.getItem("clickedCardIndex");
-
-      if (savedScrollPosition && clickedCardIndex) {
-        setTimeout(() => {
-          const cardElement = document.querySelector(
-            `[data-index="${clickedCardIndex}"]`
-          );
-          if (cardElement) {
-            window.scrollTo({
-              top: parseInt(savedScrollPosition, 10),
-              behavior: "auto",
-            });
-          }
-          sessionStorage.removeItem("scrollPosition");
-          sessionStorage.removeItem("clickedCardIndex");
-        }, 100);
-      }
-    }
-    isInitialLoad.current = false;
-  }, [isDataLoaded]);
-
-  // Fetch data when the page changes
+  // Fetch property data
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        const result = await propertySummary(page);
-        if (result.length === 0) {
-          setHasMore(false);
-        } else {
-          setData((prevData) => [...prevData, ...result]);
-        }
-        setIsDataLoaded(true);
+        const result = await propertySummary();
+        setData(result);
       } catch (error) {
         console.error("Error fetching property data:", error);
       } finally {
@@ -114,7 +43,7 @@ export default function Property() {
       }
     }
     fetchData();
-  }, [page]);
+  }, []);
 
   // Fetch contact number
   useEffect(() => {
@@ -129,87 +58,79 @@ export default function Property() {
     fetchData();
   }, []);
 
-  // Debounced search function
-  const debouncedSearch = useCallback(
-    debounce((searchTerm) => {
-      let filtered = data;
-
-      // Filter by searchTerm
-      if (searchTerm) {
-        filtered = filtered.filter((property) =>
-          property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-      }
-
-      // Filter by price
-      if (price <= 9500) {
-        filtered = filtered.filter((property) => {
-          if (!property.property_uinit || property.property_uinit.length === 0) {
-            return true;
-          }
-
-          const prices = property.property_uinit.flatMap(
-            (unit) => unit.price?.map((priceObj) => priceObj.price) || []
-          );
-
-          return prices.some((p) => p <= price);
-        });
-      }
-
-      // Sort data
-      if (sortOption === "2") {
-        filtered = filtered.sort((a, b) => {
-          const minA = Math.min(
-            ...(a.property_uinit?.flatMap((unit) =>
-              unit.price?.map((priceObj) => priceObj.price)
-            ) || [Infinity])
-          );
-
-          const minB = Math.min(
-            ...(b.property_uinit?.flatMap((unit) =>
-              unit.price?.map((priceObj) => priceObj.price)
-            ) || [Infinity])
-          );
-
-          return minA - minB; // Low to High
-        });
-      } else if (sortOption === "3") {
-        filtered = filtered.sort((a, b) => {
-          const minA = Math.min(
-            ...(a.property_uinit?.flatMap((unit) =>
-              unit.price?.map((priceObj) => priceObj.price)
-            ) || [0])
-          );
-
-          const minB = Math.min(
-            ...(b.property_uinit?.flatMap((unit) =>
-              unit.price?.map((priceObj) => priceObj.price)
-            ) || [0])
-          );
-
-          return minB - minA; // High to Low
-        });
-      }
-
-      // Update filteredData state
-      setFilteredData(filtered);
-    }, 500), // 500ms debounce delay
-    [data, price, sortOption]
-  );
-
-  // Handle search term changes
-  useEffect(() => {
-    if (searchTerm === "") {
-      setFilteredData(data); // Reset filteredData to the full dataset immediately
-    } else {
-      debouncedSearch(searchTerm);
+  // Filter and sort data
+  const filteredData = useMemo(() => {
+    let filtered = data;
+    if (searchTerm) {
+      filtered = filtered.filter((property) =>
+        property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
-  }, [searchTerm, data, debouncedSearch]);
+    if (price <= 9500) {
+      filtered = filtered.filter((property) => {
+        if (!property.property_uinit || property.property_uinit.length === 0) {
+          return true;
+        }
+        const prices = property.property_uinit.flatMap(
+          (unit) => unit.price?.map((priceObj) => priceObj.price) || []
+        );
+        return prices.some((p) => p <= price);
+      });
+    }
+    return filtered;
+  }, [searchTerm, data, price]);
 
+  const sortedData = useMemo(() => {
+    const getMinPrice = (property) => {
+      const prices =
+        property.property_uinit?.flatMap((unit) =>
+          unit.price?.map((priceObj) => priceObj.price)
+        ) || [];
+      return prices.length > 0 ? Math.min(...prices) : null;
+    };
+
+    return [...filteredData].sort((a, b) => {
+      const priceA = getMinPrice(a);
+      const priceB = getMinPrice(b);
+
+      if (priceA === null) return 1;
+      if (priceB === null) return -1;
+      return sortOption === "2" ? priceA - priceB : priceB - priceA;
+    });
+  }, [filteredData, sortOption]);
+
+  // Save scroll position and card index
+  const handleCardClick = (index) => {
+    sessionStorage.setItem("scrollPosition", window.scrollY);
+    sessionStorage.setItem("lastViewedCardIndex", index);
+  };
+
+  // Restore scroll position and card index
+  useEffect(() => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    const lastViewedCardIndex = sessionStorage.getItem("lastViewedCardIndex");
+
+    if (scrollPosition && lastViewedCardIndex) {
+      // Wait for the component to mount
+      setTimeout(() => {
+        // Restore scroll position
+        window.scrollTo(0, parseInt(scrollPosition));
+
+        // Find the card element using the data-index attribute
+        const cardElement = document.querySelector(`[data-index="${lastViewedCardIndex}"]`);
+        if (cardElement) {
+          // Scroll to the clicked card
+          cardElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Clear session storage after restoring
+        sessionStorage.removeItem("scrollPosition");
+        sessionStorage.removeItem("lastViewedCardIndex");
+      }, 500); // Increased delay to ensure proper loading of content
+    }
+  }, [sortedData]);
   return (
-    <div
-      className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}
-    >
+    <div className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}>
       {/* Filter & Sorting Section */}
       <div className="lg:hidden block mb-[15px]">
         <form
@@ -221,15 +142,14 @@ export default function Property() {
             type="text"
             value={searchTerm}
             className="w-full p-2 border rounded-md text-black"
-            onChange={(e) => {
-              setSearchTerm(e.target.value); // Update searchTerm state
-            }}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search property"
           />
         </form>
       </div>
+
+      {/* Price Filter */}
       <div className="flex flex-wrap justify-start md:justify-between sm:justify-between items-center mb-5 w-[100%]">
-        {/* Price Filter */}
         <div className="flex items-center gap-2 md:w-[50%] w-[100%]">
           <h4 className="text-[12px] sm:text-lg text-[#00026E] font-semibold w-[16%] md:w-[23%] xl:w-[18%]">
             Filter by :
@@ -260,7 +180,7 @@ export default function Property() {
             Sort Listing:
           </h4>
           <select
-            className="md:w-40 w-32 border border-gray-300 rounded-md text-[#00026E] px-3 py-1.5 text-sm focus:ring-blue-400 focus:border-blue-400"
+            className="md:w-40 w-[8rem] border border-gray-300 rounded-md text-[#00026E] px-3 py-1.5 text-sm focus:ring-blue-400 focus:border-blue-400"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
@@ -270,20 +190,17 @@ export default function Property() {
           </select>
         </div>
       </div>
-      {/* Refreshing Spinner */}
-      {refreshing && (
-        <div className="flex justify-center items-center my-5">
-          <TailSpin height="40" width="40" color="#4fa94d" />
-        </div>
-      )}
 
-      {/* Property List */}
-      {!refreshing && filteredData.length > 0 ? (
-        filteredData.map((property, index) => (
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="flex justify-center items-center mt-20">
+          <TailSpin height="80" width="80" color="#0678B4" />
+        </div>
+      ) : sortedData && sortedData.length > 0 ? (
+        sortedData.map((property, index) => (
           <div
             key={property.property_id}
-            ref={index === filteredData.length - 1 ? lastPropertyRef : null}
-            data-index={index}
+            data-index={index} // Ensure data-index is applied
             className="mb-5"
           >
             {/* Property Card */}
@@ -468,15 +385,8 @@ export default function Property() {
           </div>
         ))
       ) : (
-        <div className="flex justify-center items-center">
-          <TailSpin height="60" width="60" color="#4fa94d" />
-        </div>
-      )}
-
-      {/* Loading Spinner */}
-      {loading && (
-        <div className="flex justify-center items-center my-5">
-          <TailSpin height="40" width="40" color="#4fa94d" />
+        <div className="flex justify-center items-center mt-20">
+          <TailSpin height="80" width="80" color="#0678B4" />
         </div>
       )}
     </div>

@@ -7,7 +7,7 @@ const Discover = () => {
   useEffect(() => {
     const fetchTerms = async () => {
       try {
-        const response = await fetch('https://freecvbd.com/admin/api/footers');
+        const response = await fetch('https://freecvbd.com/admin/api/footer-policies');
         const data = await response.json();
         if (data && data?.length > 0) {
           setTerms(data[3]?.value);
@@ -24,7 +24,7 @@ const Discover = () => {
     <main className="">
       <DashboardLayout>
         <div className='pt-[100px] text-black'>
-          <h1 className='text-4xl text-center font-heading font-bold'>Emi Policy</h1>
+        <h1 className='text-4xl text-center font-heading font-bold'>Emi Policy</h1>
           
           <p className='text-center'>{terms}</p>
         </div>
