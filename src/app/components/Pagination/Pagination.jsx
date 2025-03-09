@@ -46,7 +46,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
               currentPage === 1
                 ? "text-white bg-blue-500"
                 : "text-gray-700 bg-white"
-            } border border-gray-300 rounded-lg hover:bg-gray-100`}
+            } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
           >
             1
           </button>
@@ -63,7 +63,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
             currentPage === page
               ? "text-white bg-blue-500"
               : "text-gray-700 bg-white"
-          } border border-gray-300 rounded-lg hover:bg-gray-100`}
+          } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
         >
           {page}
         </button>
@@ -81,7 +81,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
               currentPage === totalPages
                 ? "text-white bg-blue-500"
                 : "text-gray-700 bg-white"
-            } border border-gray-300 rounded-lg hover:bg-gray-100`}
+            } border border-gray-300 rounded-lg text-black hover:bg-gray-100`}
           >
             {totalPages}
           </button>
