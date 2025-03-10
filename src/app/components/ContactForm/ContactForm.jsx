@@ -11,6 +11,7 @@ const ContactForm = ({propertyDetails}) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  //data submit
 
   const onSubmit = async (data) => {
     console.log("Form Data:", data);
@@ -23,7 +24,7 @@ const ContactForm = ({propertyDetails}) => {
       message: data.additionalInfo, 
     };
 
-    
+    //data to post on the email
     const apiData = {
       name: `${data.firstName} ${data.lastName}`,
       number: data.phoneNumber,

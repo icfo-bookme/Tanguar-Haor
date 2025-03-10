@@ -11,7 +11,6 @@ import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
-// Initialize the font loader at the module scope
 
 const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
@@ -45,9 +44,7 @@ const Header = () => {
   return (
     <header className={`header-area-three ${roboto.className} bg-white`}>
       <div className="main-header fixed w-full  z-20  bg-white shadow-md shadow-slate-500">
-        {/* Header Top */}
-
-        {/* Header Bottom */}
+       
         <div className="header-bottom  text-[#00026E]  ">
           <div className="container  w-[95%] lg:w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
