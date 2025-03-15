@@ -16,7 +16,6 @@ import getContactNumber from "@/utiles/getContactNumber";
 import Link from "next/link";
 import AccordionBookMe from "@/utiles/Accordion";
 
-
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Page({ params }) {
@@ -55,7 +54,6 @@ export default function Page({ params }) {
     async function fetchData() {
       try {
         const result = await getContactNumber();
-        console.log(result);
         setContactNumber(result);
       } catch (error) {
         console.error("Error fetching contact number data:", error);
@@ -228,7 +226,7 @@ export default function Page({ params }) {
             </div>
           </div>
         </div>
-      {/* Toast container*/}
+        {/* Toast container*/}
         <ToastContainer />
       </div>
     </div>

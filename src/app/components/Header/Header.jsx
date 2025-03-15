@@ -11,11 +11,10 @@ import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
-
 const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [contactNumber, setContactNumber]=useState([])
+  const [contactNumber, setContactNumber] = useState([]);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -28,8 +27,7 @@ const Header = () => {
     async function fetchData() {
       try {
         const result = await getContactNumber();
-        console.log(result)
-        setContactNumber(result)
+        setContactNumber(result);
       } catch (error) {
         console.error("Error fetching contact number data:", error);
       }
@@ -38,13 +36,11 @@ const Header = () => {
   }, []);
   const onSubmit = (data) => {
     setSearchTerm(data.property);
-    
   };
 
   return (
     <header className={`header-area-three ${roboto.className} bg-white`}>
       <div className="main-header fixed w-full  z-20  bg-white shadow-md shadow-slate-500">
-       
         <div className="header-bottom  text-[#00026E]  ">
           <div className="container  w-[95%] lg:w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
@@ -57,7 +53,7 @@ const Header = () => {
                     width={190}
                     height={60}
                     className="changeLogo"
-                    style={{backgroundColor:"white", color:"white"}}
+                    style={{ backgroundColor: "white", color: "white" }}
                   />
                 </Link>
               </div>
@@ -77,25 +73,28 @@ const Header = () => {
                 </form>
               </div>
 
-           
               <div className="ml-3 hidden lg:flex items-center justify-center gap-2">
-               
-
                 <div className="flex items-center ">
-                <Link href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px] mt-[9px]"  target="_blank" 
-  rel="noopener noreferrer" >
-  <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
-  <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
-
-                                        </div>
-                            </Link>
-                            <Link  href={`https://wa.me/${contactNumber[0]?.value}`} className=" mx-[10px]"  target="_blank" 
-  rel="noopener noreferrer">
-                               <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
-        
-        <FaWhatsapp className="w-[25px] h-[25px] text-white" />
-</span>
-                            </Link>
+                  <Link
+                    href={`https://wa.me/${contactNumber[0]?.value}`}
+                    className=" mx-[10px] mt-[9px]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                      <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
+                    </div>
+                  </Link>
+                  <Link
+                    href={`https://wa.me/${contactNumber[0]?.value}`}
+                    className=" mx-[10px]"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px] md:mt-[0px] mt-[-5px] ml-[15px]">
+                      <FaWhatsapp className="w-[25px] h-[25px] text-white" />
+                    </span>
+                  </Link>
 
                   <div>
                     <p className="text-sm text-gray-900">Call Anytime</p>
@@ -110,29 +109,30 @@ const Header = () => {
               {/* Mobile Menu Icon */}
               <div className="lg:hidden flex items-center mt-[10px]">
                 <span className="text-[8px] md:text-[16px]">Call any time</span>
-              <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mt-[-5px]">
-                    <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]" >
-  <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[9px] ml-[10px]" />
-
-                                        </div>
-                  </Link>
-                  <Link target="_blank" 
-  rel="noopener noreferrer" href={`https://wa.me/${contactNumber[0]?.value}`} className="w-[38px] h-[38px] mx-[20px] mt-[-5px]">
-                    <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
-        
-        <FaWhatsapp className="w-[25px] h-[25px] text-white" />
-
-
-</span>
-                  </Link>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://wa.me/${contactNumber[0]?.value}`}
+                  className="w-[38px] h-[38px] mt-[-5px]"
+                >
+                  <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                    <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[9px] ml-[10px]" />
                   </div>
-              
+                </Link>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://wa.me/${contactNumber[0]?.value}`}
+                  className="w-[38px] h-[38px] mx-[20px] mt-[-5px]"
+                >
+                  <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                    <FaWhatsapp className="w-[25px] h-[25px] text-white" />
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-
-      
       </div>
     </header>
   );

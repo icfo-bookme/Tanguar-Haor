@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import postPackageInfo from "@/utiles/postPacageInfo";
 
-const ContactForm = ({propertyDetails}) => {
+const ContactForm = ({ propertyDetails }) => {
   const {
     register,
     handleSubmit,
@@ -14,14 +14,11 @@ const ContactForm = ({propertyDetails}) => {
   //data submit
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
-
-    
     const emailData = {
-      name: `${data.firstName} ${data.lastName}`, 
-      email: data.email, 
-      phoneNumber: data.phoneNumber, 
-      message: data.additionalInfo, 
+      name: `${data.firstName} ${data.lastName}`,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      message: data.additionalInfo,
     };
 
     //data to post on the email
@@ -30,24 +27,22 @@ const ContactForm = ({propertyDetails}) => {
       number: data.phoneNumber,
       address: data.address,
       additional_info: data.additionalInfo,
-      property_name: propertyDetails[0]?.property_name
+      property_name: propertyDetails[0]?.property_name,
     };
 
     try {
-      
       await emailjs.send(
-      process.env.NEXT_PUBLIC_EMAIL_JS_SERVICEID,
-      process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATEID,
-      emailData,
-      process.env.NEXT_PUBLIC_EMAIL_JS_USERID
+        process.env.NEXT_PUBLIC_EMAIL_JS_SERVICEID,
+        process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATEID,
+        emailData,
+        process.env.NEXT_PUBLIC_EMAIL_JS_USERID
       );
 
-     
       const apiResponse = await postPackageInfo(apiData);
       if (apiResponse.error) {
-      toast.error("Failed to submit package info.");
+        toast.error("Failed to submit package info.");
       } else {
-      toast.success("Submitted Successfully");
+        toast.success("Submitted Successfully");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -61,7 +56,10 @@ const ContactForm = ({propertyDetails}) => {
         <div className="grid grid-cols-1 gap-4">
           {/* First Name */}
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-black">
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-black"
+            >
               First Name
             </label>
             <input
@@ -70,12 +68,17 @@ const ContactForm = ({propertyDetails}) => {
               {...register("firstName", { required: true })}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.firstName && <span className="text-red-500">First name is required</span>}
+            {errors.firstName && (
+              <span className="text-red-500">First name is required</span>
+            )}
           </div>
 
           {/* Last Name */}
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-black">
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-black"
+            >
               Last Name
             </label>
             <input
@@ -84,34 +87,43 @@ const ContactForm = ({propertyDetails}) => {
               {...register("lastName", { required: true })}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.lastName && <span className="text-red-500">Last name is required</span>}
+            {errors.lastName && (
+              <span className="text-red-500">Last name is required</span>
+            )}
           </div>
 
           {/* Phone Number */}
           <div>
-  <label htmlFor="phoneNumber" className="block text-sm font-medium text-black">
-    Phone Number
-  </label>
-  <input
-    type="tel"
-    id="phoneNumber"
-    placeholder="01xxxxxxxxx"
-    {...register("phoneNumber", { 
-      required: "Phone number is required",
-      pattern: {
-        value: /^[0-9]{11}$/, // Ensures exactly 11 digits
-        message: "Phone number must be exactly 11 digits"
-      }
-    })}
-    className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
-  />
-  {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber.message}</span>}
-</div>
-
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-black"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              placeholder="01xxxxxxxxx"
+              {...register("phoneNumber", {
+                required: "Phone number is required",
+                pattern: {
+                  value: /^[0-9]{11}$/, // Ensures exactly 11 digits
+                  message: "Phone number must be exactly 11 digits",
+                },
+              })}
+              className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
+            />
+            {errors.phoneNumber && (
+              <span className="text-red-500">{errors.phoneNumber.message}</span>
+            )}
+          </div>
 
           {/* Email Address */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-black">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-black"
+            >
               Email Address
             </label>
             <input
@@ -120,12 +132,17 @@ const ContactForm = ({propertyDetails}) => {
               {...register("email")}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.email && <span className="text-red-500">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-red-500">{errors.email.message}</span>
+            )}
           </div>
 
           {/* Address */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-black">
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-black"
+            >
               Address
             </label>
             <input
@@ -134,12 +151,17 @@ const ContactForm = ({propertyDetails}) => {
               {...register("address", { required: true })}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.address && <span className="text-red-500">Address is required</span>}
+            {errors.address && (
+              <span className="text-red-500">Address is required</span>
+            )}
           </div>
 
           {/* Additional Info */}
           <div>
-            <label htmlFor="additionalInfo" className="block text-sm font-medium text-black">
+            <label
+              htmlFor="additionalInfo"
+              className="block text-sm font-medium text-black"
+            >
               Additional Info
             </label>
             <textarea
@@ -149,7 +171,10 @@ const ContactForm = ({propertyDetails}) => {
             />
           </div>
 
-          <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded-md">
+          <button
+            type="submit"
+            className="mt-4 p-2 bg-blue-500 text-white rounded-md"
+          >
             Submit
           </button>
         </div>

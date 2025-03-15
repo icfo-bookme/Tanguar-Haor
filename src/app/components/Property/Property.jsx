@@ -18,143 +18,162 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
-const [data, setData] = useState([]);
-const [price, setPrice] = useState(10000);
-const [sortOption, setSortOption] = useState("1");
-const [contactNumber, setContactNumber] = useState([]);
-const [loading, setLoading] = useState(false);
-const [currentPage, setCurrentPage] = useState(1);
-const itemsPerPage = 10;
-
-const { register, handleSubmit } = useForm();
-
-const onSubmit = (data) => {
-  setSearchTerm(data.property);
-};
-
-// Fetch property data
-useEffect(() => {
-  async function fetchData() {
-    try {
-      setLoading(true);
-      const result = await propertySummary();
-      setData(result);
-    } catch (error) {
-      console.error("Error fetching property data:", error);
-    } finally {
-      setLoading(false);
+  const [data, setData] = useState([]);
+  const [price, setPrice] = useState(10000);
+  const [sortOption, setSortOption] = useState("1");
+  const [contactNumber, setContactNumber] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(() => {
+    // Restore currentPage from localStorage or default to 1
+    if (typeof window !== "undefined") {
+      const savedPage = localStorage.getItem("currentPage");
+      return savedPage ? parseInt(savedPage, 10) : 1;
     }
-  }
-  fetchData();
-}, []);
+    return 1;
+  });
+  const itemsPerPage = 10;
 
-// Fetch contact number
-useEffect(() => {
-  async function fetchData() {
-    try {
-      const result = await getContactNumber();
-      setContactNumber(result);
-    } catch (error) {
-      console.error("Error fetching contact number data:", error);
-    }
-  }
-  fetchData();
-}, []);
+  const { register, handleSubmit } = useForm();
 
-// Sorting logic (applied to the full data)
-// Sorting logic (applied to the full data)
-// Sorting logic (applied to the full data)
-const sortedData = useMemo(() => {
-  const getMaxPrice = (property) => {
-    const prices =
-      property.property_uinit?.flatMap((unit) =>
-        unit.price?.map((priceObj) => priceObj.price)
-      ) || [];
-    return prices.length > 0 ? Math.max(...prices) : -Infinity; // Use -Infinity to move properties without prices to the end
+  const onSubmit = (data) => {
+    setSearchTerm(data.property);
   };
 
-  const sorted = [...data].sort((a, b) => {
-    const priceA = getMaxPrice(a);
-    const priceB = getMaxPrice(b);
-
-    if (priceA === -Infinity && priceB === -Infinity) return 0; // Both have no prices, keep order
-    if (priceA === -Infinity) return 1; // Move properties without prices to the end
-    if (priceB === -Infinity) return -1; // Move properties without prices to the end
-
-    // Sort high-to-low by default
-    return sortOption === "2" ? priceA - priceB : priceB - priceA;
-  });
-
-  return sorted;
-}, [data, sortOption]);
-
-// Filter data (applied to the entire dataset after sorting)
-const filteredData = useMemo(() => {
-  let filtered = sortedData; // Use sorted data as the base
-
-  // Apply search term filter
-  if (searchTerm) {
-    filtered = filtered.filter((property) =>
-      property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
-
-  // Apply price range filter
-  if (price <= 9500) {
-    filtered = filtered.filter((property) => {
-      if (!property.property_uinit || property.property_uinit.length === 0) {
-        return true;
+  // Fetch property data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const result = await propertySummary();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching property data:", error);
+      } finally {
+        setLoading(false);
       }
-      const prices = property.property_uinit.flatMap(
-        (unit) => unit.price?.map((priceObj) => priceObj.price) || []
-      );
-      return prices.some((p) => p <= price);
+    }
+    fetchData();
+  }, []);
+
+  // Fetch contact number
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getContactNumber();
+        setContactNumber(result);
+      } catch (error) {
+        console.error("Error fetching contact number data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Sorting logic
+  const sortedData = useMemo(() => {
+    const getMaxPrice = (property) => {
+      const prices =
+        property.property_uinit?.flatMap((unit) =>
+          unit.price?.map((priceObj) => priceObj.price)
+        ) || [];
+      return prices.length > 0 ? Math.max(...prices) : -Infinity;
+    };
+
+    const sorted = [...data].sort((a, b) => {
+      const priceA = getMaxPrice(a);
+      const priceB = getMaxPrice(b);
+
+      if (priceA === -Infinity && priceB === -Infinity) return 0;
+      if (priceA === -Infinity) return 1;
+      if (priceB === -Infinity) return -1;
+
+      return sortOption === "2" ? priceA - priceB : priceB - priceA;
     });
-  }
 
-  return filtered;
-}, [sortedData, searchTerm, price]);
+    return sorted;
+  }, [data, sortOption]);
 
-// Paginated data (applied to the filtered and sorted dataset)
-const paginatedData = useMemo(() => {
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  return filteredData.slice(startIndex, endIndex);
-}, [filteredData, currentPage]);
+  // Filter data
+  const filteredData = useMemo(() => {
+    let filtered = sortedData;
 
-// Total pages (based on filtered data)
-const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    if (searchTerm) {
+      filtered = filtered.filter((property) =>
+        property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
-const handlePageChange = (page) => {
-  setCurrentPage(page);
-};
+    if (price <= 9500) {
+      filtered = filtered.filter((property) => {
+        if (!property.property_uinit || property.property_uinit.length === 0) {
+          return true;
+        }
+        const prices = property.property_uinit.flatMap(
+          (unit) => unit.price?.map((priceObj) => priceObj.price) || []
+        );
+        return prices.some((p) => p <= price);
+      });
+    }
 
-// Save scroll position and card index
-const handleCardClick = (index) => {
-  sessionStorage.setItem("scrollPosition", window.scrollY);
-  sessionStorage.setItem("lastViewedCardIndex", index);
-};
+    return filtered;
+  }, [sortedData, searchTerm, price]);
 
-// Restore scroll position and card index
-useEffect(() => {
-  const scrollPosition = sessionStorage.getItem("scrollPosition");
-  const lastViewedCardIndex = sessionStorage.getItem("lastViewedCardIndex");
+  // Paginated data
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredData.slice(startIndex, endIndex);
+  }, [filteredData, currentPage]);
 
-  if (scrollPosition && lastViewedCardIndex) {
-    setTimeout(() => {
-      window.scrollTo(0, parseInt(scrollPosition));
-      const cardElement = document.querySelector(`[data-index="${lastViewedCardIndex}"]`);
-      if (cardElement) {
-        cardElement.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-      sessionStorage.removeItem("scrollPosition");
-      sessionStorage.removeItem("lastViewedCardIndex");
-    }, 500);
-  }
-}, [sortedData]);
+  // Total pages
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Save currentPage to localStorage
+    localStorage.setItem("currentPage", page.toString());
+  };
+
+  // Save scroll position, card index, and current page
+  const handleCardClick = (index) => {
+    sessionStorage.setItem("scrollPosition", window.scrollY);
+    sessionStorage.setItem("lastViewedCardIndex", index);
+    sessionStorage.setItem("currentPage", currentPage);
+  };
+
+  // Restore scroll position, card index, and current page
+  useEffect(() => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    const lastViewedCardIndex = sessionStorage.getItem("lastViewedCardIndex");
+    const savedCurrentPage = sessionStorage.getItem("currentPage");
+
+    if (savedCurrentPage) {
+      setCurrentPage(parseInt(savedCurrentPage, 10));
+    }
+
+    if (scrollPosition && lastViewedCardIndex) {
+      // Wait for the page to fully render before restoring scroll position
+      setTimeout(() => {
+        window.scrollTo(0, parseInt(scrollPosition));
+        const cardElement = document.querySelector(
+          `[data-index="${lastViewedCardIndex}"]`
+        );
+        if (cardElement) {
+          cardElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        sessionStorage.removeItem("scrollPosition");
+        sessionStorage.removeItem("lastViewedCardIndex");
+        sessionStorage.removeItem("currentPage");
+      }, 1000); // Adjust the delay if needed
+    } else {
+      // Scroll to the top on page refresh
+      window.scrollTo(0, 0);
+    }
+  }, [sortedData]);
 
   return (
-    <div className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}>
+    <div
+      className={`${roboto.className} bg-white lg:container lg:w-full mx-auto px-4`}
+    >
       {/* Filter & Sorting Section */}
       <div className="lg:hidden block mb-[15px]">
         <form
@@ -222,11 +241,7 @@ useEffect(() => {
         </div>
       ) : paginatedData && paginatedData.length > 0 ? (
         paginatedData.map((property, index) => (
-          <div
-            key={property.property_id}
-            data-index={index}
-            className="mb-5"
-          >
+          <div key={property.property_id} data-index={index} className="mb-5">
             {/* Property Card */}
             <div className="shadow-custom flex flex-col lg:flex-row gap-5 p-5 rounded bg-white">
               <div className="md:min-w-[400px] min-w-0 md:min-h-[300px] min-h-0">
@@ -417,7 +432,11 @@ useEffect(() => {
       )}
 
       {/* Pagination Controls */}
-    <Pagination currentPage={currentPage} handlePageChange={handlePageChange} totalPages={totalPages} />
+      <Pagination
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
