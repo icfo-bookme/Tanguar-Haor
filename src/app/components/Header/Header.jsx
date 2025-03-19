@@ -77,7 +77,7 @@ const Header = () => {
                 <div className="flex items-center ">
                   <Link
                     href={`https://wa.me/${contactNumber[0]?.value}`}
-                    className=" mx-[10px] mt-[9px]"
+                    className=" ml-[10px] mt-[9px]"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
