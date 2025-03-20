@@ -20,6 +20,27 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.sticky1 {
+	position: fixed;
+	top: 83px; /* Adjust this value based on your header height */
+	width: 58%;
+	z-index: 1000;
+	margin-left: -16px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	border-radius: 7px;
+	background-color: white; /* Ensure the background is visible */
+	
+  }
+
+  .sticky-section {
+	position: sticky;
+	top: 0; /* সেকশনটি পৃষ্ঠার উপরের দিকে স্টিকি হবে */
+	background-color: #f4f4f4;
+	padding: 10px;
+	border: 1px solid #ddd;
+  }
 @font-face {
   font-family: 'heading';
   src: url('/fonts/LuxiaRegular.ttf') format('ttf');

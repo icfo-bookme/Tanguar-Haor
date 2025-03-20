@@ -32,8 +32,9 @@ export default function DashboardLayout({ children }) {
           <div>
             <div className="bg-white">
               <main>
-                {/* <Header /> */}
-                <div className="min-h-[100vh]  ">{children}</div>
+                <Header />
+                <div className="min-h-[100vh]">{children}</div>
+
                 <Footer />
               </main>
             </div>

@@ -65,8 +65,8 @@ export default function Page({ params }) {
   return (
     <div>
       <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
-        <div className="container mx-auto w-[98%] md:w-[85%]">
-          <div className="lg:grid grid-cols-1 rounded gap-8 pr-1 pt-1">
+        <div className="container w-[98%] md:w-[85%] mx-auto">
+          <div className="grid-cols-1 rounded gap-8 lg:grid pr-1 pt-1">
             {/* Property Details */}
             <div className="col-span-1 p-2">
               {loading ? (
@@ -79,7 +79,7 @@ export default function Page({ params }) {
                     >
                       {property.property_name}
                     </h2>
-                    <p className="flex items-center text-black">
+                    <p className="flex text-black items-center">
                       <strong>
                         <IoLocation />
                       </strong>{" "}
@@ -95,7 +95,7 @@ export default function Page({ params }) {
               {propertyImages?.length > 0 ? (
                 <ImageCarousel propertyImages={propertyImages} />
               ) : (
-                <div className="w-full h-96 bg-gray-200 flex justify-center items-center">
+                <div className="flex bg-gray-200 h-96 justify-center w-full items-center">
                   <span className="text-gray-500">No images available</span>
                 </div>
               )}
@@ -109,7 +109,7 @@ export default function Page({ params }) {
             >
               Packages:
             </h1>
-            <div className="flex mx-0 md:mx-[-10px] gap-0 lg:gap-6 flex-wrap xl:flex-nowrap md:px-0 px-[10px]">
+            <div className="flex flex-wrap gap-0 lg:gap-6 md:mx-[-10px] md:px-0 mx-0 px-[10px] xl:flex-nowrap">
               {loading ? (
                 <div>Loading...</div>
               ) : (
@@ -124,7 +124,7 @@ export default function Page({ params }) {
                   >
                     {/* Discount Badge */}
                     {pkg.discount?.length > 0 && (
-                      <div className="absolute text-white z-40 -top-4 -right-3 bg-red-700 py-2 rounded-full text-xs font-semibold w-14 h-14 flex flex-col items-center justify-center shadow-md">
+                      <div className="flex flex-col bg-red-700 h-14 justify-center rounded-full shadow-md text-white text-xs w-14 -right-3 -top-4 absolute font-semibold items-center py-2 z-40">
                         <span>
                           {Math.floor(pkg.discount[0].discount_percent)}%
                         </span>
@@ -133,16 +133,16 @@ export default function Page({ params }) {
                     )}
 
                     {/* Package Content */}
-                    <div className="flex flex-col items-center h-full mx-auto">
-                      <div className="max-h-[60%] overflow-hidden block">
+                    <div className="flex flex-col h-full items-center mx-auto">
+                      <div className="block max-h-[60%] overflow-hidden">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_BASE_URL}/storage/${pkg.mainimg}`}
                           alt={pkg.unit_id}
                           fill
-                          className="w-[100%] lg:max-h-[55%] xl:max-h-[50%] md:max-h-[50%] max-h-[55%] rounded-t-lg"
+                          className="rounded-t-lg w-[100%] lg:max-h-[55%] max-h-[55%] md:max-h-[50%] xl:max-h-[50%]"
                         />
                       </div>
-                      <div className="p-[12px] lg:mt-[180px] xl:mt-[180px] md:mt-[140px] mt-[210px] flex flex-col flex-1 shadow-lg">
+                      <div className="flex flex-1 flex-col p-[12px] shadow-lg lg:mt-[180px] md:mt-[140px] mt-[210px] xl:mt-[180px]">
                         <h2
                           className={`font-heading text-[17px] font-bold text-blue-900 pb-2`}
                         >
@@ -168,7 +168,7 @@ export default function Page({ params }) {
                               rel="noopener noreferrer"
                               href={`https://wa.me/${contactNumber[0]?.value}`}
                             >
-                              <div className="font-heading px-3 text-black flex items-center justify-center py-1 text-sm border border-blue-950 rounded-full sm:w-[90px] text-center">
+                              <div className="flex border border-blue-950 justify-center rounded-full text-black text-center text-sm font-heading items-center px-3 py-1 sm:w-[90px]">
                                 Call Now
                               </div>
                             </Link>
@@ -177,8 +177,8 @@ export default function Page({ params }) {
                               rel="noopener noreferrer"
                               href={`https://wa.me/${contactNumber[0]?.value}`}
                             >
-                              <div className="font-heading px-3 py-1 text-black text-sm border border-blue-950 rounded-full sm:w-[120px] flex items-center justify-center gap-2">
-                                <FaWhatsapp className="text-green-500 text-[16px]" />
+                              <div className="flex border border-blue-950 justify-center rounded-full text-black text-sm font-heading gap-2 items-center px-3 py-1 sm:w-[120px]">
+                                <FaWhatsapp className="text-[16px] text-green-500" />
                                 Book Now
                               </div>
                             </Link>
@@ -186,11 +186,11 @@ export default function Page({ params }) {
                         </div>
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
-                            <p className="text-blue-950 text-[16px] font-semibold">
+                            <p className="text-[16px] text-blue-950 font-semibold">
                               Price: {pkg.price[0].price} BDT(Per person)
                             </p>
                           ) : (
-                            <p className="text-red-500 text-[16px]">
+                            <p className="text-[16px] text-red-500">
                               Price: Not Available
                             </p>
                           )}
@@ -204,13 +204,15 @@ export default function Page({ params }) {
           </div>
 
           {/* Sticky Accordion Section */}
-          <div className="bg-white p-[15px] rounded-lg  top-[80px] ">
+          
+          <div className="bg-white p-[15px] rounded-lg top-[80px]">
             <div className="">
               <div className="w-full">
-                <div className="lg:grid grid-cols-3 gap-10 rounded">
+                <div className="grid-cols-3 rounded gap-10 lg:grid">
                   <div className="col-span-2">
                     <AccordionBookMe facilities={propertyFacilities} />
                   </div>
+                 
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
                       <h1
