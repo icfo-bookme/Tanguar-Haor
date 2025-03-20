@@ -66,52 +66,62 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
 
   // Handle Sticky Scroll Behavior
   useEffect(() => {
-    const handleScroll = () => {
-      Object.keys(accordionRefs.current).forEach((facilityType) => {
-        const panel = accordionRefs.current[facilityType];
-        const stickyTitle = titleRefs.current[facilityType];
+    let requestId;
 
-        // Only make sticky if Accordion Content is open
-        const isOpen = activeIndexes.includes(facilityType);
-        
-        if (panel && stickyTitle && isOpen) {
-          const rect = panel.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom > 120) {
-            stickyTitle.style.position = "fixed";
-            stickyTitle.style.top = "120px";
-            stickyTitle.style.width = "56%"; // Adjust to your requirement
-            stickyTitle.style.backgroundColor = "white";
-            stickyTitle.style.zIndex = "50";
-            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
-            stickyTitle.dataset.sticky = "true";
+    const handleScroll = () => {
+      cancelAnimationFrame(requestId); // Cancel previous frame
+
+      requestId = requestAnimationFrame(() => {
+        Object.keys(accordionRefs.current).forEach((facilityType) => {
+          const panel = accordionRefs.current[facilityType];
+          const stickyTitle = titleRefs.current[facilityType];
+
+          // Only make sticky if Accordion Content is open
+          const isOpen = activeIndexes.includes(facilityType);
+
+          if (panel && stickyTitle && isOpen) {
+            const rect = panel.getBoundingClientRect();
+            // Ensure it becomes sticky only when the content is in view
+            if (rect.top <= 120 && rect.bottom > 120) {
+              stickyTitle.style.position = "fixed";
+              stickyTitle.style.top = "120px";
+              stickyTitle.style.width = "56%"; // Adjust to your requirement
+              stickyTitle.style.backgroundColor = "white";
+              stickyTitle.style.zIndex = "50";
+              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.dataset.sticky = "true";
+            } else {
+              stickyTitle.style.position = "";
+              stickyTitle.style.top = "";
+              stickyTitle.style.width = "";
+              stickyTitle.style.backgroundColor = "";
+              stickyTitle.style.zIndex = "";
+              stickyTitle.style.boxShadow = "";
+              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.dataset.sticky = "false";
+            }
           } else {
-            stickyTitle.style.position = "";
-            stickyTitle.style.top = "";
-            stickyTitle.style.width = "";
-            stickyTitle.style.backgroundColor = "";
-            stickyTitle.style.zIndex = "";
-            stickyTitle.style.boxShadow = "";
-            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
-            stickyTitle.dataset.sticky = "false";
+            // Reset sticky title if it's not open
+            if (stickyTitle) {
+              stickyTitle.style.position = "";
+              stickyTitle.style.top = "";
+              stickyTitle.style.width = "";
+              stickyTitle.style.backgroundColor = "";
+              stickyTitle.style.zIndex = "";
+              stickyTitle.style.boxShadow = "";
+              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.dataset.sticky = "false";
+            }
           }
-        } else {
-          // Reset sticky title if it's not open
-          if (stickyTitle) {
-            stickyTitle.style.position = "";
-            stickyTitle.style.top = "";
-            stickyTitle.style.width = "";
-            stickyTitle.style.backgroundColor = "";
-            stickyTitle.style.zIndex = "";
-            stickyTitle.style.boxShadow = "";
-            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
-            stickyTitle.dataset.sticky = "false";
-          }
-        }
+        });
       });
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(requestId); // Cleanup the animation frame
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [activeIndexes]);
 
   // Handle Tab Scroll Behavior
