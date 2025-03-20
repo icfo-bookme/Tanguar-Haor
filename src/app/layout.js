@@ -29,8 +29,8 @@ export default function DashboardLayout({ children }) {
           <div>
             <div className="bg-white">
               <main>
-                <Header /> {/* No need to pass props manually */}
-                <div className="min-h-[100vh]  ">
+                <Header />
+                <div className="min-h-[100vh]">
 
                 {children}
                 </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Accordion } from "flowbite-react";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Raleway } from "next/font/google";
@@ -9,6 +9,7 @@ import { MdOutlineWatchLater, MdPolicy, MdTipsAndUpdates } from "react-icons/md"
 import { LuInfo } from "react-icons/lu";
 import { IoLocationSharp } from "react-icons/io5";
 
+// Import the Google font
 const raleway = Raleway({ subsets: ["latin"] });
 
 const staticFacilityTypes = [
@@ -17,8 +18,11 @@ const staticFacilityTypes = [
 ];
 
 const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeIndexes, setActiveIndexes] = useState(["Summary"]); // Initially open "Summary"
+  const [activeTab, setActiveTab] = useState("Summary");
+  const titleRefs = useRef({});
+  const accordionRefs = useRef({});
+  const tabsRef = useRef(null);
 
   const groupedFacilities = useMemo(() => {
     return (facilities.facilities || []).reduce((acc, facility) => {
@@ -32,89 +36,159 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
     }, {});
   }, [facilities]);
 
+  // Toggle function for opening/closing individual accordion panels
   const toggleAccordion = (facilityType) => {
-    setActiveIndex((prev) => (prev === facilityType ? null : facilityType));
-    setActiveTab(facilityType); // Syncing tab with accordion
+    setActiveIndexes((prev) => {
+      if (facilityType === "Summary") {
+        // Close the "Summary" if it's currently open
+        if (prev.includes("Summary")) {
+          return prev.filter((item) => item !== "Summary");
+        } else {
+          return ["Summary"]; // Open the "Summary" if it's closed
+        }
+      }
+
+      // For other facility types, toggle as usual
+      if (prev.includes(facilityType)) {
+        return prev.filter((item) => item !== facilityType);
+      } else {
+        return [...prev, facilityType];
+      }
+    });
+
+    // Set the active tab to "Summary" if it is closed, otherwise set to the clicked facilityType
+    if (facilityType === "Summary" && activeIndexes.includes("Summary")) {
+      setActiveTab("Summary");
+    } else {
+      setActiveTab(facilityType);
+    }
   };
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    setActiveIndex(tab); // Open the corresponding accordion
-  };
+  // Handle Sticky Scroll Behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      Object.keys(accordionRefs.current).forEach((facilityType) => {
+        const panel = accordionRefs.current[facilityType];
+        const stickyTitle = titleRefs.current[facilityType];
+
+        // Only make sticky if Accordion Content is open
+        const isOpen = activeIndexes.includes(facilityType);
+        
+        if (panel && stickyTitle && isOpen) {
+          const rect = panel.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom > 120) {
+            stickyTitle.style.position = "fixed";
+            stickyTitle.style.top = "120px";
+            stickyTitle.style.width = "56%"; // Adjust to your requirement
+            stickyTitle.style.backgroundColor = "white";
+            stickyTitle.style.zIndex = "50";
+            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+            stickyTitle.dataset.sticky = "true";
+          } else {
+            stickyTitle.style.position = "";
+            stickyTitle.style.top = "";
+            stickyTitle.style.width = "";
+            stickyTitle.style.backgroundColor = "";
+            stickyTitle.style.zIndex = "";
+            stickyTitle.style.boxShadow = "";
+            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+            stickyTitle.dataset.sticky = "false";
+          }
+        } else {
+          // Reset sticky title if it's not open
+          if (stickyTitle) {
+            stickyTitle.style.position = "";
+            stickyTitle.style.top = "";
+            stickyTitle.style.width = "";
+            stickyTitle.style.backgroundColor = "";
+            stickyTitle.style.zIndex = "";
+            stickyTitle.style.boxShadow = "";
+            stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+            stickyTitle.dataset.sticky = "false";
+          }
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeIndexes]);
+
+  // Handle Tab Scroll Behavior
+  useEffect(() => {
+    const handleTabScroll = () => {
+      if (tabsRef.current) {
+        const thresholdHeight = 942; // Adjust based on your requirement
+        const scrollPosition = window.scrollY;
+
+        if (scrollPosition >= thresholdHeight) {
+          tabsRef.current.classList.add("sticky1");
+        } else {
+          tabsRef.current.classList.remove("sticky1");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleTabScroll);
+    return () => window.removeEventListener("scroll", handleTabScroll);
+  }, []);
 
   return (
     <div className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}>
-      {/* Sticky Tabs */}
-      <div className="bg-white">
-        <div className="flex gap-x-[30px] md:gap-x-[40px] font-semibold text-blue-900 dark:bg-gray-100 dark:text-gray-800">
+      <div ref={tabsRef} className="bg-white sticky top-0 z-50">
+        <div className="flex text-blue-900 dark:bg-gray-100 dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
           {["Summary", "Description"].map((tab) => (
             <div
               key={tab}
-              onClick={() => handleTabClick(tab)}
+              onClick={() => setActiveTab(tab)}
               className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
-                activeTab === tab
-                  ? " bg-white text-[#00026E] md:mr-5"
-                  : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
+                activeTab === tab ? " bg-white text-[#00026E] md:mr-5" : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
               }`}
-              style={{
-                borderBottom: activeTab === tab ? "2px solid blue" : "none",
-              }}
+              style={{ borderBottom: activeTab === tab ? "2px solid blue" : "none" }}
             >
               {tab}
             </div>
           ))}
         </div>
-        <br />
         <hr />
       </div>
 
-      {/* Accordion Container */}
       <div className="flex flex-wrap gap-4 mt-[25px]">
         {staticFacilityTypes.map((facilityType, index) => {
-          const isOpen = activeIndex === facilityType;
+          const isOpen = activeIndexes.includes(facilityType); // Check if the panel is open
           const facilityItems = groupedFacilities[facilityType] || [];
 
           return (
-            <div key={index} className="w-full mt-[10px] cursor-pointer">
+            <div
+              key={index}
+              className={`w-full cursor-pointer mt-[10px]`}
+              ref={(el) => (accordionRefs.current[facilityType] = el)}
+              data-facility-type={facilityType}
+            >
               <Accordion alwaysOpen={false} className="border-0">
                 <Accordion.Panel className="border-0">
-                  {/* Custom Accordion Title (No Default Arrow) */}
                   <div
-                    className="flex justify-between items-center w-full cursor-pointer px-4 py-3 bg-white border-b"
-                    onClick={() => toggleAccordion(facilityType)}
+                    className="flex border-b justify-between w-full cursor-pointer items-center px-4 py-3"
+                    onClick={() => toggleAccordion(facilityType)}  // Toggle the facilityType
+                    ref={(el) => (titleRefs.current[facilityType] = el)}
                   >
                     <div className="flex items-center">
-                      {facilityType === "Summary" ? (
-                        <TbWorld style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Description" ? (
-                        <RiDiscussFill style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Travel Tips" ? (
-                        <MdTipsAndUpdates style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Policy" ? (
-                        <MdPolicy style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Timing" ? (
-                        <MdOutlineWatchLater style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Additional Information" ? (
-                        <LuInfo style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Inclusion & Exclusion" ? (
-                        <LuInfo style={{ color: "#2a026e" }} size={30} />
-                      ) : facilityType === "Location" ? (
-                        <IoLocationSharp style={{ color: "#2a026e" }} size={30} />
-                      ) : null}
-
-                      <span className="font-bold ml-2 text-blue-950 text-xl">
-                        {facilityType}
-                      </span>
+                      {facilityType === "Summary" ? <TbWorld size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Description" ? <RiDiscussFill size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Travel Tips" ? <MdTipsAndUpdates size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Policy" ? <MdPolicy size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Timing" ? <MdOutlineWatchLater size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Additional Information" ? <LuInfo size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Inclusion & Exclusion" ? <LuInfo size={30} style={{ color: "#2a026e" }} /> :
+                        facilityType === "Location" ? <IoLocationSharp size={30} style={{ color: "#2a026e" }} /> : null}
+                      <span className="text-blue-950 text-xl font-bold ml-2">{facilityType}</span>
                     </div>
-                    <div>
-                      {isOpen ? <FaMinus className="text-black" size={20} /> : <FaPlus className="text-black" size={20} />}
-                    </div>
+                    {isOpen ? <FaMinus className="text-black" size={20} /> : <FaPlus className="text-black" size={20} />}
                   </div>
-
                   {isOpen && (
                     <Accordion.Content>
                       {facilityItems.map((item, itemIndex) => (
-                        <div key={itemIndex} className="text-sm text-[#00026E] mb-2">
+                        <div key={itemIndex} className="text-[#00026E] text-sm mb-2">
                           <h1 className="font-bold mb-1">{item.facility_name}</h1>
                           <div dangerouslySetInnerHTML={{ __html: item.value }} />
                         </div>
