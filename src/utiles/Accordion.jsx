@@ -5,15 +5,25 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { Raleway } from "next/font/google";
 import { TbWorld } from "react-icons/tb";
 import { RiDiscussFill } from "react-icons/ri";
-import { MdOutlineWatchLater, MdPolicy, MdTipsAndUpdates } from "react-icons/md";
+import {
+  MdOutlineWatchLater,
+  MdPolicy,
+  MdTipsAndUpdates,
+} from "react-icons/md";
 import { LuInfo } from "react-icons/lu";
 import { IoLocationSharp } from "react-icons/io5";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
 const staticFacilityTypes = [
-  "Summary", "Location", "Timing", "Inclusion & Exclusion",
-  "Description", "Additional Information", "Travel Tips", "Policy"
+  "Summary",
+  "Location",
+  "Timing",
+  "Inclusion & Exclusion",
+  "Description",
+  "Additional Information",
+  "Travel Tips",
+  "Policy",
 ];
 
 const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
@@ -26,7 +36,9 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
         if (!acc[facility.facility_type]) {
           acc[facility.facility_type] = [];
         }
-        acc[facility.facility_type] = acc[facility.facility_type].concat(facility.facilities);
+        acc[facility.facility_type] = acc[facility.facility_type].concat(
+          facility.facilities
+        );
       }
       return acc;
     }, {});
@@ -43,7 +55,9 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
   };
 
   return (
-    <div className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}>
+    <div
+      className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}
+    >
       {/* Sticky Tabs */}
       <div className="bg-white">
         <div className="flex gap-x-[30px] md:gap-x-[40px] font-semibold text-blue-900 dark:bg-gray-100 dark:text-gray-800">
@@ -89,17 +103,26 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                       ) : facilityType === "Description" ? (
                         <RiDiscussFill style={{ color: "#2a026e" }} size={30} />
                       ) : facilityType === "Travel Tips" ? (
-                        <MdTipsAndUpdates style={{ color: "#2a026e" }} size={30} />
+                        <MdTipsAndUpdates
+                          style={{ color: "#2a026e" }}
+                          size={30}
+                        />
                       ) : facilityType === "Policy" ? (
                         <MdPolicy style={{ color: "#2a026e" }} size={30} />
                       ) : facilityType === "Timing" ? (
-                        <MdOutlineWatchLater style={{ color: "#2a026e" }} size={30} />
+                        <MdOutlineWatchLater
+                          style={{ color: "#2a026e" }}
+                          size={30}
+                        />
                       ) : facilityType === "Additional Information" ? (
                         <LuInfo style={{ color: "#2a026e" }} size={30} />
                       ) : facilityType === "Inclusion & Exclusion" ? (
                         <LuInfo style={{ color: "#2a026e" }} size={30} />
                       ) : facilityType === "Location" ? (
-                        <IoLocationSharp style={{ color: "#2a026e" }} size={30} />
+                        <IoLocationSharp
+                          style={{ color: "#2a026e" }}
+                          size={30}
+                        />
                       ) : null}
 
                       <span className="font-bold ml-2 text-blue-950 text-xl">
@@ -107,16 +130,27 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                       </span>
                     </div>
                     <div>
-                      {isOpen ? <FaMinus className="text-black" size={20} /> : <FaPlus className="text-black" size={20} />}
+                      {isOpen ? (
+                        <FaMinus className="text-black" size={20} />
+                      ) : (
+                        <FaPlus className="text-black" size={20} />
+                      )}
                     </div>
                   </div>
 
                   {isOpen && (
                     <Accordion.Content>
                       {facilityItems.map((item, itemIndex) => (
-                        <div key={itemIndex} className="text-sm text-[#00026E] mb-2">
-                          <h1 className="font-bold mb-1">{item.facility_name}</h1>
-                          <div dangerouslySetInnerHTML={{ __html: item.value }} />
+                        <div
+                          key={itemIndex}
+                          className="text-sm text-[#00026E] mb-2"
+                        >
+                          <h1 className="font-bold mb-1">
+                            {item.facility_name}
+                          </h1>
+                          <div
+                            dangerouslySetInnerHTML={{ __html: item.value }}
+                          />
                         </div>
                       ))}
                     </Accordion.Content>

@@ -10,7 +10,7 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
-
+// This is the main layout of the website with all
 export default function DashboardLayout({ children }) {
   return (
     <html lang="en" data-theme="white">
@@ -18,8 +18,11 @@ export default function DashboardLayout({ children }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Bookme</title>
-       
-
+        {/* <link
+          rel="icon"
+          href="assets/images/tangular-logo.svg"
+          type="image/svg+xml"
+        /> */}
       </head>
       <body className={inter.className}>
         {/*global search provider*/}
@@ -29,12 +32,8 @@ export default function DashboardLayout({ children }) {
           <div>
             <div className="bg-white">
               <main>
-                <Header /> {/* No need to pass props manually */}
-                <div className="min-h-[100vh]  ">
-
-                {children}
-                </div>
-
+                {/* <Header /> */}
+                <div className="min-h-[100vh]  ">{children}</div>
                 <Footer />
               </main>
             </div>
