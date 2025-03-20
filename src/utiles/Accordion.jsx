@@ -82,9 +82,9 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top <= 120 && rect.bottom > 120) {
+            if (rect.top <= 134 && rect.bottom > 134) {
               stickyTitle.style.position = "fixed";
-              stickyTitle.style.top = "120px";
+              stickyTitle.style.top = "134px";
               stickyTitle.style.width = "56%"; // Adjust to your requirement
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
@@ -163,7 +163,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
         <hr />
       </div>
 
-      <div className="flex flex-wrap gap-4 mt-[25px]">
+      <div className="flex flex-wrap gap-4 mt-[5px]">
         {staticFacilityTypes.map((facilityType, index) => {
           const isOpen = activeIndexes.includes(facilityType); // Check if the panel is open
           const facilityItems = groupedFacilities[facilityType] || [];
