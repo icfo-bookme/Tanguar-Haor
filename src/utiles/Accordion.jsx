@@ -64,7 +64,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
     }
   };
 
-  // Handle Sticky Scroll Behavior
+  // Handle Sticky Scroll Behavior for Accordion Titles
   useEffect(() => {
     let requestId;
 
@@ -82,9 +82,9 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top <= 134 && rect.bottom > 134) {
+            if (rect.top <= 124 && rect.bottom > 124) {
               stickyTitle.style.position = "fixed";
-              stickyTitle.style.top = "134px";
+              stickyTitle.style.top = "124px";
               stickyTitle.style.width = "56%"; // Adjust to your requirement
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
@@ -128,13 +128,19 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
   useEffect(() => {
     const handleTabScroll = () => {
       if (tabsRef.current) {
-        const thresholdHeight = 942; // Adjust based on your requirement
-        const scrollPosition = window.scrollY;
+        const firstAccordion = accordionRefs.current[staticFacilityTypes[0]];
+        const lastAccordion = accordionRefs.current[staticFacilityTypes[staticFacilityTypes.length - 1]];
 
-        if (scrollPosition >= thresholdHeight) {
-          tabsRef.current.classList.add("sticky1");
-        } else {
-          tabsRef.current.classList.remove("sticky1");
+        if (firstAccordion && lastAccordion) {
+          const firstAccordionTop = firstAccordion.getBoundingClientRect().top;
+          const lastAccordionBottom = lastAccordion.getBoundingClientRect().bottom;
+
+          // Make the tab sticky when the first accordion reaches 124px
+          if (firstAccordionTop <= 124 && lastAccordionBottom > 124) {
+            tabsRef.current.classList.add("sticky1");
+          } else {
+            tabsRef.current.classList.remove("sticky1");
+          }
         }
       }
     };
