@@ -76,7 +76,7 @@ const Header = () => {
               <div className="ml-3 hidden lg:flex items-center justify-center gap-2">
                 <div className="flex items-center ">
                   <Link
-                    href={`https://wa.me/${contactNumber[0]?.value}`}
+                    href={`tel:${contactNumber[0]?.value}`}
                     className=" ml-[10px] mt-[9px]"
                     target="_blank"
                     rel="noopener noreferrer"
