@@ -82,13 +82,13 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top < 124 && rect.bottom > 124) {
+            if (rect.top < 136 ) {
               stickyTitle.style.position = "fixed";
-              stickyTitle.style.top = "124px";
-              stickyTitle.style.width = "56%"; // Adjust to your requirement
+              stickyTitle.style.top = "136px";
+              stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%"; 
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "true";
             } else {
               stickyTitle.style.position = "";
@@ -97,7 +97,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "false";
             }
           } else {
@@ -109,7 +109,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "false";
             }
           }
@@ -152,11 +152,14 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
   return (
     <div className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}>
       <div ref={tabsRef} className="bg-white sticky top-0 z-50">
-        <div className="flex text-blue-900 dark:bg-gray-100 dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
+        <div className="flex text-blue-900 dark:bg-gray-100 w-full dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
           {["Summary", "Description"].map((tab) => (
             <div
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                toggleAccordion(tab); // Open the corresponding accordion panel
+              }}
               className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
                 activeTab === tab ? " bg-white text-[#00026E] md:mr-5" : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
               }`}
@@ -177,14 +180,14 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           return (
             <div
               key={index}
-              className={`w-full cursor-pointer mt-[10px]`}
+              className={`w-full cursor-pointer mt-[10px] transition-all duration-300 ease-in-out`} // Add transition here
               ref={(el) => (accordionRefs.current[facilityType] = el)}
               data-facility-type={facilityType}
             >
               <Accordion alwaysOpen={false} className="border-0">
                 <Accordion.Panel className="border-0">
                   <div
-                    className="flex border-b justify-between w-full cursor-pointer items-center px-4 py-3"
+                    className="flex border-b justify-between w-full cursor-pointer items-center px-4 py-3 transition-all duration-300 ease-in-out" // Add transition here
                     onClick={() => toggleAccordion(facilityType)}  // Toggle the facilityType
                     ref={(el) => (titleRefs.current[facilityType] = el)}
                   >
@@ -202,7 +205,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                     {isOpen ? <FaMinus className="text-black" size={20} /> : <FaPlus className="text-black" size={20} />}
                   </div>
                   {isOpen && (
-                    <Accordion.Content>
+                    <Accordion.Content className="transition-all duration-300 ease-in-out"> {/* Add transition here */}
                       {facilityItems.map((item, itemIndex) => (
                         <div key={itemIndex} className="text-[#00026E] text-sm mb-2">
                           <h1 className="font-bold mb-1">{item.facility_name}</h1>
