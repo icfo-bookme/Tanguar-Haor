@@ -60,7 +60,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="firstName"
               className="block text-sm font-medium text-black"
             >
-              First Name
+              First Name <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="text"
@@ -79,7 +79,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="lastName"
               className="block text-sm font-medium text-black"
             >
-              Last Name
+              Last Name <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="text"
@@ -98,7 +98,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="phoneNumber"
               className="block text-sm font-medium text-black"
             >
-              Phone Number
+              Phone Number <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="tel"
@@ -143,7 +143,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="address"
               className="block text-sm font-medium text-black"
             >
-              Address
+              Address <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="text"
@@ -162,7 +162,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="additionalInfo"
               className="block text-sm font-medium text-black"
             >
-              Additional Info
+              Additional Info <span className="text-red-700 text-xl">*</span>
             </label>
             <textarea
               id="additionalInfo"
