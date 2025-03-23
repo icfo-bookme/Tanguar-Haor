@@ -46,16 +46,16 @@ const Header = () => {
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
               <div className="logo">
-                <Link href="/">
-                  <Image
-                    src="/assets/images/tangular-logo.svg" // Adjust the path based on your public folder structure
-                    alt="logo"
-                    width={190}
-                    height={60}
-                    className="changeLogo"
-                    style={{ backgroundColor: "white", color: "white" }}
-                  />
-                </Link>
+              <a href="/" className="bg-white p-2 rounded-md inline-block">
+  <img
+    src="/assets/images/tangular-logo.svg"
+    alt="logo"
+    width="190"
+    height="60"
+    className="changeLogo"
+  />
+</a>
+
               </div>
               <div className="hidden lg:block">
                 <form

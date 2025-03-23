@@ -23,15 +23,17 @@ export default function Property() {
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(() => {
-    // Restore currentPage from localStorage or default to 1
-    if (typeof window !== "undefined") {
-      const savedPage = localStorage.getItem("currentPage");
-      return savedPage ? parseInt(savedPage, 10) : 1;
-    }
-    return 1;
-  });
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1); // Initialize to page 1
+  const itemsPerPage = 10; // Number of items per page
+
+  // Reset to the first page when the component mounts or when the home route is accessed
+  useEffect(() => {
+    setCurrentPage(1);
+  }, []); // Empty dependency array ensures this runs only on mount
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const { register, handleSubmit } = useForm();
 
@@ -126,12 +128,6 @@ export default function Property() {
 
   // Total pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    // Save currentPage to localStorage
-    localStorage.setItem("currentPage", page.toString());
-  };
 
   // Save scroll position, card index, and current page
   const handleCardClick = (index) => {
