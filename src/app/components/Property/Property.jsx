@@ -228,8 +228,8 @@ export default function Property() {
             onChange={(e) => setSortOption(e.target.value)}
           >
             <option className="hidden ">Sort By</option>
-            <option value="2">Low to High</option>
-            <option value="3">High to Low</option>
+            <option value="2">Price - Low to High</option>
+            <option value="3">Price - High to Low</option>
           </select>
         </div>
       </div>
