@@ -44,17 +44,17 @@ const Header = () => {
         <div className="header-bottom  text-[#00026E]  ">
           <div className="container  w-[95%] lg:w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
-              {/* Logo */}
+             
               <div className="logo">
-              <a href="/" className="bg-white p-2 rounded-md inline-block">
-  <img
-    src="/assets/images/tangular-logo.svg"
-    alt="logo"
-    width="190"
-    height="60"
-    className="changeLogo"
-  />
-</a>
+                <a href="/" className="bg-white p-2 rounded-md inline-block">
+                  <img
+                    src="/assets/images/tangular-logo.svg"
+                    alt="logo"
+                    width="190"
+                    height="60"
+                    className="changeLogo"
+                  />
+                </a>
 
               </div>
               <div className="hidden lg:block">
@@ -75,7 +75,7 @@ const Header = () => {
 
               <div className="ml-3 hidden lg:flex items-center justify-center gap-2">
                 <div className="flex items-center ">
-                <a
+                  <a
                     href={`tel:${contactNumber?.[0]?.value}`} // Use the `tel:` protocol
                     className="ml-[10px] mt-[9px]"
                   >
