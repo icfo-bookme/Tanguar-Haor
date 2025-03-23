@@ -23,7 +23,7 @@ body {
 
 .sticky1 {
 	position: fixed;
-	top: 83px; /* Adjust this value based on your header height */
+	top: 92px; /* Adjust this value based on your header height */
 	width: 58%;
 	z-index: 1000;
 	margin-left: -16px;
