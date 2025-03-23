@@ -96,7 +96,8 @@ body {
   position: absolute;
   bottom: 15px;
   left: 50%;
-  transform: translateX(5%);
+ display: flex;
+ justify-content: center;
   z-index: 50 !important;
   pointer-events: auto !important;
 }
