@@ -18,7 +18,7 @@ export const PaginationProvider = ({ children }) => {
   };
 
   return (
-    <PaginationContext.Provider value={{ currentPage, handlePageChange }}>
+    <PaginationContext.Provider value={{ currentPage, handlePageChange,setCurrentPage }}>
       {children}
     </PaginationContext.Provider>
   );

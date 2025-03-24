@@ -82,13 +82,13 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top < 124 && rect.bottom > 124) {
+            if (rect.top < 124 && rect.bottom > 90) {
               stickyTitle.style.position = "fixed";
-              stickyTitle.style.top = "124px";
+              stickyTitle.style.top = window.innerWidth <=500 ? "112px" : "130px";
               stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%"; // Adjust to your requirement
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
-              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "true";
             } else {
               stickyTitle.style.position = "";
@@ -97,7 +97,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "false";
             }
           } else {
@@ -109,7 +109,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "false";
             }
           }
@@ -136,7 +136,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           const lastAccordionBottom = lastAccordion.getBoundingClientRect().bottom;
 
           // Make the tab sticky when the first accordion reaches 124px
-          if (firstAccordionTop < 136 && lastAccordionBottom > 120) {
+          if (firstAccordionTop < 50 && lastAccordionBottom > 80) {
             tabsRef.current.classList.add("sticky1");
           } else {
             tabsRef.current.classList.remove("sticky1");

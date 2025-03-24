@@ -48,7 +48,7 @@ const Header = () => {
         <div className="header-bottom  text-[#00026E]  ">
           <div className="container  w-[95%] lg:w-[84%]  mx-auto">
             <div className="flex justify-between items-center py-2">
-              {/* Logo */}
+             
               <div className="logo">
                 <div 
                     onClick={handleClick}
@@ -57,10 +57,9 @@ className="cursor-pointer"
                   <Image
                     src="/assets/images/tangular-logo.svg" // Adjust the path based on your public folder structure
                     alt="logo"
-                    width={190}
-                    height={60}
+                    width="190"
+                    height="60"
                     className="changeLogo"
-                    style={{ backgroundColor: "white", color: "white" }}
                   />
                 </div>
               </div>
@@ -82,18 +81,16 @@ className="cursor-pointer"
 
               <div className="ml-3 hidden lg:flex items-center justify-center gap-2">
                 <div className="flex items-center ">
-                  <Link
-                    href={`https://wa.me/${contactNumber[0]?.value}`}
-                    className=" ml-[10px] mt-[9px]"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <a
+                    href={`tel:${contactNumber?.Phone}`} // Use the `tel:` protocol
+                    className="ml-[10px] mt-[9px]"
                   >
-                    <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
-                      <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
+                    <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px] ml-[15px]">
+                      <FaPhone className="md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
                     </div>
-                  </Link>
+                  </a>
                   <Link
-                    href={`https://wa.me/${contactNumber[0]?.value}`}
+                    href={`https://wa.me/${contactNumber?.Phone}`}
                     className=" mx-[10px]"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -107,7 +104,7 @@ className="cursor-pointer"
                     <p className="text-sm text-gray-900">Call Anytime</p>
                     <h4 className="text-lg font-semibold">
                       <a href="#" className="text-gray-800">
-                        {contactNumber[0]?.value?.slice(3)}
+                        {contactNumber?.Phone?.slice(3)}
                       </a>
                     </h4>
                   </div>
@@ -116,20 +113,21 @@ className="cursor-pointer"
               {/* Mobile Menu Icon */}
               <div className="lg:hidden flex items-center mt-[10px]">
                 <span className="text-[8px] md:text-[16px]">Call any time</span>
-                <Link
+                <a
                   target="_blank"
-                  rel="noopener noreferrer"
-                  href={`https://wa.me/${contactNumber[0]?.value}`}
+                  
+                  href={`tel:${contactNumber?.Phone}`} 
                   className="w-[38px] h-[38px] mt-[-5px]"
                 >
                   <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">
+                  
                     <FaPhone className="i md:ml-[15px] md:mt-[15px] mt-[9px] ml-[10px]" />
                   </div>
-                </Link>
+                </a>
                 <Link
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`https://wa.me/${contactNumber[0]?.value}`}
+                  href={`https://wa.me/${contactNumber?.Phone}`}
                   className="w-[38px] h-[38px] mx-[20px] mt-[-5px]"
                 >
                   <span className="btn-whatsapp-pulse btn-whatsapp-pulse-border md:w-[50px] md:h-[50px] w-[36px] h-[36px]  ml-[15px]">

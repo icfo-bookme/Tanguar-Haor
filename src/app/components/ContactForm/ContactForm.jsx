@@ -60,7 +60,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="firstName"
               className="block text-sm font-medium text-black"
             >
-              First Name
+              First Name <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="text"
@@ -79,17 +79,15 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="lastName"
               className="block text-sm font-medium text-black"
             >
-              Last Name
+              Last Name 
             </label>
             <input
               type="text"
               id="lastName"
-              {...register("lastName", { required: true })}
+              {...register("lastName")}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.lastName && (
-              <span className="text-red-500">Last name is required</span>
-            )}
+           
           </div>
 
           {/* Phone Number */}
@@ -98,7 +96,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="phoneNumber"
               className="block text-sm font-medium text-black"
             >
-              Phone Number
+              Phone Number <span className="text-red-700 text-xl">*</span>
             </label>
             <input
               type="tel"
@@ -108,7 +106,7 @@ const ContactForm = ({ propertyDetails }) => {
                 required: "Phone number is required",
                 pattern: {
                   value: /^[0-9]{11}$/, // Ensures exactly 11 digits
-                  message: "Phone number must be exactly 11 digits",
+                  message: "Phone number must be exactly 11 digits and only will contain number",
                 },
               })}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
@@ -132,9 +130,7 @@ const ContactForm = ({ propertyDetails }) => {
               {...register("email")}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
-            )}
+            
           </div>
 
           {/* Address */}
@@ -148,12 +144,10 @@ const ContactForm = ({ propertyDetails }) => {
             <input
               type="text"
               id="address"
-              {...register("address", { required: true })}
+              {...register("address")}
               className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
             />
-            {errors.address && (
-              <span className="text-red-500">Address is required</span>
-            )}
+            
           </div>
 
           {/* Additional Info */}
@@ -162,7 +156,7 @@ const ContactForm = ({ propertyDetails }) => {
               htmlFor="additionalInfo"
               className="block text-sm font-medium text-black"
             >
-              Additional Info
+              Additional Info 
             </label>
             <textarea
               id="additionalInfo"

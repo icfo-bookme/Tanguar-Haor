@@ -30,7 +30,7 @@ export default function Page({ params }) {
   const [isFixed, setIsFixed] = useState(false);
   const accordionRef = useRef(null); // Ref for the Accordion section
   const [accordionWidth, setAccordionWidth] = useState("auto"); // Dynamic width for the fixed element
-
+console.log(propertyDetails)
   // Track scroll position
   useEffect(() => {
     const handleScroll = () => {
@@ -94,8 +94,8 @@ export default function Page({ params }) {
   }, []);
 
   return (
-    <div>
-      <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
+    <div >
+      <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px] md:pb-[200px] `}>
         <div className="container w-[98%] md:w-[85%] mx-auto">
           <div className="grid-cols-1 rounded gap-8 lg:grid pr-1 pt-1">
             {/* Property Details */}
@@ -140,7 +140,7 @@ export default function Page({ params }) {
             >
               Packages:
             </h1>
-            <div className="flex flex-wrap gap-0 lg:gap-6 md:mx-[-10px] md:px-0 mx-0 px-[10px] xl:flex-nowrap">
+            <div className="flex flex-wrap md:justify-start justify-around gap-0 lg:gap-6 md:mx-[-10px] md:px-0 mx-0 px-[10px] xl:flex-nowrap">
               {loading ? (
                 <div>Loading...</div>
               ) : (
@@ -157,8 +157,10 @@ export default function Page({ params }) {
                     {pkg.discount?.length > 0 && (
                       <div className="flex flex-col bg-red-700 h-14 justify-center rounded-full shadow-md text-white text-xs w-14 -right-3 -top-4 absolute font-semibold items-center py-2 z-40">
                         <span>
-                          {Math.floor(pkg.discount[0].discount_percent)}%
-                        </span>
+  
+    <>{Math.floor(pkg?.discount.at(-1)?.discount_percent)}%</>
+  
+</span>
                         <span className="text-[10px]">OFF</span>
                       </div>
                     )}
@@ -197,7 +199,7 @@ export default function Page({ params }) {
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              href={`https://wa.me/${contactNumber[0]?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-center text-sm font-heading items-center px-3 py-1 sm:w-[90px]">
                                 Call Now
@@ -206,7 +208,7 @@ export default function Page({ params }) {
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              href={`https://wa.me/${contactNumber[0]?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-sm font-heading gap-2 items-center px-3 py-1 sm:w-[120px]">
                                 <FaWhatsapp className="text-[16px] text-green-500" />
@@ -217,11 +219,27 @@ export default function Page({ params }) {
                         </div>
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
-                            <p className="text-[16px] text-blue-950 font-semibold">
-                              Price: {pkg.price[0].price} BDT(Per person)
-                            </p>
+                            <p className="text-[15px] text-blue-950 font-semibold">
+                            {/* Check if the last discount exists */}
+                            {pkg?.discount?.length > 0 ? (
+                              <>
+                                <span>Price </span>
+                                {/* Display the original price with a red line-through */}
+                                <span className="line-through text-red-500">
+                                  {Math.floor(pkg?.price[0]?.price)}TK
+                                </span>{" "}
+                                {/* Display the last discounted price */}
+                                <span>{Math.floor(pkg?.discount.at(-1)?.discount_amount)}TK</span>
+                              </>
+                            ) : (
+                              // If no discount, just display the original price
+                              <span>{Math.floor(pkg?.price[0]?.price)}TK</span>
+                            )}
+                            {/* Display "Per person" text */}
+                            <span className="text-[12px]"> (Per person)</span>
+                          </p>
                           ) : (
-                            <p className="text-[16px] text-red-500">
+                            <p className="text-[15px] text-red-500">
                               Price: Not Available
                             </p>
                           )}
