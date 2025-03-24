@@ -136,7 +136,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           const lastAccordionBottom = lastAccordion.getBoundingClientRect().bottom;
 
           // Make the tab sticky when the first accordion reaches 124px
-          if (firstAccordionTop < 50 && lastAccordionBottom > 80) {
+          if (firstAccordionTop < 130 && lastAccordionBottom > 80) {
             tabsRef.current.classList.add("sticky1");
           } else {
             tabsRef.current.classList.remove("sticky1");
