@@ -17,7 +17,8 @@ const Header = () => {
   const [contactNumber, setContactNumber] = useState([]);
   const { currentPage, handlePageChange } = usePagination();
   const handleClick = () => {
-    handlePageChange(1); // Reset pagination before navigating home
+    handlePageChange(1);
+     // Reset pagination before navigating home
   };
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -50,7 +51,8 @@ const Header = () => {
             <div className="flex justify-between items-center py-2">
              
               <div className="logo">
-                <div 
+                <Link 
+                href={"/"}
                     onClick={handleClick}
 className="cursor-pointer"
                 >
@@ -61,7 +63,7 @@ className="cursor-pointer"
                     height="60"
                     className="changeLogo"
                   />
-                </div>
+                </Link>
               </div>
               <div className="hidden lg:block">
                 <form

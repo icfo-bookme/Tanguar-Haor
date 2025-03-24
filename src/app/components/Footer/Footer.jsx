@@ -89,8 +89,8 @@ const Footer = () => {
                             <div className="single-footer-caption">
                                 <div className="footer-tittle mb-6">
                                     <h4 className="title text-lg font-semibold text-gray-200 mb-4">Contact</h4>
-                                   <p className='text-white'>{contactNumber[0]?.Phone}</p>
-                                   <p className='text-white mt-[20px]'>{contactNumber[5]?.email}</p>
+                                   <p className='text-white'>{contactNumber?.Phone?.slice(3)}</p>
+                                   <p className='text-white mt-[20px]'>{contactNumber?.email}</p>
                                 </div>
                             </div>
                         </div>
