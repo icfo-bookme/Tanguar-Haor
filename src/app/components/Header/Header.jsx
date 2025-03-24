@@ -9,12 +9,16 @@ import { useForm } from "react-hook-form";
 import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
+import { usePagination } from "@/utiles/usePagination";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
-
 const Header = () => {
   const { searchTerm, setSearchTerm } = useSearch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [contactNumber, setContactNumber] = useState([]);
+  const { currentPage, handlePageChange } = usePagination();
+  const handleClick = () => {
+    handlePageChange(1); // Reset pagination before navigating home
+  };
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -46,7 +50,10 @@ const Header = () => {
             <div className="flex justify-between items-center py-2">
               {/* Logo */}
               <div className="logo">
-                <Link href="/">
+                <div 
+                    onClick={handleClick}
+className="cursor-pointer"
+                >
                   <Image
                     src="/assets/images/tangular-logo.svg" // Adjust the path based on your public folder structure
                     alt="logo"
@@ -55,7 +62,7 @@ const Header = () => {
                     className="changeLogo"
                     style={{ backgroundColor: "white", color: "white" }}
                   />
-                </Link>
+                </div>
               </div>
               <div className="hidden lg:block">
                 <form

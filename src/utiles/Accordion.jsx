@@ -85,10 +85,10 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
             if (rect.top < 124 && rect.bottom > 124) {
               stickyTitle.style.position = "fixed";
               stickyTitle.style.top = "124px";
-              stickyTitle.style.width = "56%"; // Adjust to your requirement
+              stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%"; // Adjust to your requirement
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "true";
             } else {
               stickyTitle.style.position = "";
@@ -97,7 +97,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "false";
             }
           } else {
@@ -109,7 +109,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.backgroundColor = "";
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition = "top 0.3s ease, box-shadow 0.3s ease";
+              stickyTitle.style.transition = "all 0.3s ease, box-shadow 0.3s ease";
               stickyTitle.dataset.sticky = "false";
             }
           }
@@ -136,7 +136,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           const lastAccordionBottom = lastAccordion.getBoundingClientRect().bottom;
 
           // Make the tab sticky when the first accordion reaches 124px
-          if (firstAccordionTop < 124 && lastAccordionBottom > 124) {
+          if (firstAccordionTop < 136 && lastAccordionBottom > 120) {
             tabsRef.current.classList.add("sticky1");
           } else {
             tabsRef.current.classList.remove("sticky1");
@@ -152,20 +152,23 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
   return (
     <div className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}>
       <div ref={tabsRef} className="bg-white sticky top-0 z-50">
-        <div className="flex text-blue-900 dark:bg-gray-100 dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
-          {["Summary", "Description"].map((tab) => (
-            <div
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
-                activeTab === tab ? " bg-white text-[#00026E] md:mr-5" : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
-              }`}
-              style={{ borderBottom: activeTab === tab ? "2px solid blue" : "none" }}
-            >
-              {tab}
-            </div>
-          ))}
-        </div>
+      <div className="flex text-blue-900 dark:bg-gray-100 w-full dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
+  {["Summary", "Description"].map((tab) => (
+    <div
+      key={tab}
+      onClick={() => {
+        setActiveTab(tab);
+        toggleAccordion(tab); // Open the corresponding accordion panel
+      }}
+      className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
+        activeTab === tab ? " bg-white text-[#00026E] md:mr-5" : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
+      }`}
+      style={{ borderBottom: activeTab === tab ? "2px solid blue" : "none" }}
+    >
+      {tab}
+    </div>
+  ))}
+</div>
         <hr />
       </div>
 

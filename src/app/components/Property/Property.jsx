@@ -13,24 +13,19 @@ import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
+import { usePagination } from "@/utiles/usePagination";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
+  const { currentPage, handlePageChange } = usePagination();
   const [data, setData] = useState([]);
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(() => {
-    // Restore currentPage from localStorage or default to 1
-    if (typeof window !== "undefined") {
-      const savedPage = localStorage.getItem("currentPage");
-      return savedPage ? parseInt(savedPage, 10) : 1;
-    }
-    return 1;
-  });
+  
   const itemsPerPage = 10;
 
   const { register, handleSubmit } = useForm();
@@ -127,11 +122,7 @@ export default function Property() {
   // Total pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    // Save currentPage to localStorage
-    localStorage.setItem("currentPage", page.toString());
-  };
+   
 
   // Save scroll position, card index, and current page
   const handleCardClick = (index) => {
@@ -228,8 +219,8 @@ export default function Property() {
             onChange={(e) => setSortOption(e.target.value)}
           >
             <option className="hidden ">Sort By</option>
-            <option value="2">Low to High</option>
-            <option value="3">High to Low</option>
+            <option value="2">Price - Low to High</option>
+            <option value="3">Price - High to Low</option>
           </select>
         </div>
       </div>

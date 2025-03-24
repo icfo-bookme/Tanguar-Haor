@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useRef } from "react";
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import getFacilities from "@/utiles/getFacilities";
 import getPropertyDetails from "@/utiles/getPropertyDetails";
@@ -19,7 +19,7 @@ import AccordionBookMe from "@/utiles/Accordion";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Page({ params }) {
-  const { id } = use(params); // ✅ `use(params)` ব্যবহার করে Promise আনর‍্যাপ করা হয়েছে
+  const { id } = use(params);
 
   const [propertyImages, setPropertyImages] = useState([]);
   const [propertyDetails, setPropertyDetails] = useState([]);
@@ -27,7 +27,37 @@ export default function Page({ params }) {
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [contactNumber, setContactNumber] = useState([]);
+  const [isFixed, setIsFixed] = useState(false);
+  const accordionRef = useRef(null); // Ref for the Accordion section
+  const [accordionWidth, setAccordionWidth] = useState("auto"); // Dynamic width for the fixed element
 
+  // Track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const headerHeight = 80; // Height of your header
+      if (scrollY > headerHeight) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Calculate the width of the Accordion section
+  useEffect(() => {
+    if (accordionRef.current) {
+      const width = accordionRef.current.offsetWidth;
+      setAccordionWidth(`${width}px`);
+    }
+  }, [isFixed]);
+
+  // Fetch property data
   useEffect(() => {
     async function fetchData() {
       try {
@@ -50,6 +80,7 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
+  // Fetch contact number
   useEffect(() => {
     async function fetchData() {
       try {
@@ -227,6 +258,9 @@ export default function Page({ params }) {
               </div>
             </div>
           </div>
+
+          {/* Add padding to prevent overlapping */}
+          {isFixed && <div style={{ height: accordionRef.current?.offsetHeight }} />}
         </div>
         {/* Toast container*/}
         <ToastContainer />

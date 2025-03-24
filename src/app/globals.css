@@ -31,7 +31,15 @@ body {
 	padding-bottom: 7px;
 	border-radius: 7px;
 	background-color: white; /* Ensure the background is visible */
-	
+	transition: all 0.1s ease; /* Smooth transition for all properties */
+	 /* Optional: Add a subtle shadow for better visibility */
+}
+  @media screen and (max-width:500px) {
+	.sticky1{
+		width: 100%;
+		margin-top: -20px;
+
+	}
   }
 
   .sticky-section {
@@ -70,9 +78,11 @@ body {
   position: absolute;
   bottom: 15px;
   left: 50%;
-  transform: translateX(-4%);
+  transform: translateX(0%);
   z-index: 50 !important;
   pointer-events: auto !important;
+  
+  
 }
 
  .swiper-pagination-bullet {
@@ -96,7 +106,7 @@ body {
   position: absolute;
   bottom: 15px;
   left: 50%;
-  transform: translateX(-4%);
+  transform: translateX(0%);
   z-index: 50 !important;
   pointer-events: auto !important;
 }
