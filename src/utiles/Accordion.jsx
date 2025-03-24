@@ -82,7 +82,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top < 124 && rect.bottom > 90) {
+            if (rect.top < 130 && rect.bottom > 90) {
               stickyTitle.style.position = "fixed";
               stickyTitle.style.top = window.innerWidth <=500 ? "112px" : "130px";
               stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%"; // Adjust to your requirement

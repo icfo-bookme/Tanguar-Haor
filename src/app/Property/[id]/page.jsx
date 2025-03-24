@@ -219,24 +219,24 @@ console.log(propertyDetails)
                         </div>
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
-                            <p className="text-[15px] text-blue-950 font-semibold">
+                            <p className="text-[16px] text-blue-950 font-semibold">
                             {/* Check if the last discount exists */}
+                            <span>Price </span>
                             {pkg?.discount?.length > 0 ? (
                               <>
-                                <span>Price </span>
                                 {/* Display the original price with a red line-through */}
                                 <span className="line-through text-red-500">
-                                  {Math.floor(pkg?.price[0]?.price)}TK
+                                  {Math.floor(pkg?.price[0]?.price)} TK
                                 </span>{" "}
                                 {/* Display the last discounted price */}
-                                <span>{Math.floor(pkg?.discount.at(-1)?.discount_amount)}TK</span>
+                                <span>{Math.floor(pkg?.price[0]?.price)-pkg?.discount.at(-1)?.discount_amount}  <span className="ml-[2px]">TK</span></span>
                               </>
                             ) : (
                               // If no discount, just display the original price
                               <span>{Math.floor(pkg?.price[0]?.price)}TK</span>
                             )}
                             {/* Display "Per person" text */}
-                            <span className="text-[12px]"> (Per person)</span>
+                            <span className="text-[14px]"> (Per person)</span>
                           </p>
                           ) : (
                             <p className="text-[15px] text-red-500">

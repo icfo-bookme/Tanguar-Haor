@@ -217,7 +217,7 @@ export default function Property() {
           </h4>
           <span className="text-[12px] sm:text-sm font-medium text-blue-600 w-[21%] md:[33%] xl:w-[20%]">
             {parseInt(price).toLocaleString()}
-            {parseInt(price) > 9500 ? "+" : ""} BDT
+            {parseInt(price) > 9500 ? "+" : ""} TK
           </span>
           <RangeSlider
             id="default-range"
@@ -290,7 +290,7 @@ export default function Property() {
                           unit.price?.map((priceObj) => priceObj.price)
                         ) || [];
                       return prices.length > 0
-                        ? `${Math.min(...prices)} BDT`
+                        ? `${Math.min(...prices)} TK`
                         : "N/A";
                     })()}
                   </span>
@@ -379,7 +379,7 @@ export default function Property() {
                       </div>
                       <div className="md:hidden block mt-[10px]">
                         <a
-                          href={`tel:${contactNumber?.[0]?.value}`} // Use the `tel:` protocol
+                          href={`tel:${contactNumber?.Phone}`} // Use the `tel:` protocol
                           className="mx-[10px]"
                          
                         >
@@ -410,7 +410,7 @@ export default function Property() {
                           </span>
                           <div className="mx-[5px] mt-[10px]">
                             <a
-                             href={`tel:${contactNumber?.[0]?.value}`} 
+                             href={`tel:${contactNumber?.Phone}`} 
                               className="mx-[10px]"
                               target="_blank"
                               rel="noopener noreferrer"
@@ -422,7 +422,7 @@ export default function Property() {
                           </div>
                           <div>
                             <Link
-                              href={`https://wa.me/${contactNumber[0]?.Phone}`}
+                              href={`https://wa.me/${contactNumber?.Phone}`}
                               className="mx-[10px]"
                               target="_blank"
                               rel="noopener noreferrer"
