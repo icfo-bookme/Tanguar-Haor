@@ -13,7 +13,6 @@ import {
 import { LuInfo } from "react-icons/lu";
 import { IoLocationSharp } from "react-icons/io5";
 
-// Import the Google font
 const raleway = Raleway({ subsets: ["latin"] });
 
 const staticFacilityTypes = [
@@ -28,11 +27,15 @@ const staticFacilityTypes = [
 ];
 
 const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
-  const [activeIndexes, setActiveIndexes] = useState(["Summary"]); // Initially open "Summary"
+  const [activeIndexes, setActiveIndexes] = useState(["Summary"]);
   const [activeTab, setActiveTab] = useState("Summary");
   const titleRefs = useRef({});
   const accordionRefs = useRef({});
+  const contentRefs = useRef({});
   const tabsRef = useRef(null);
+  const containerRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
+  const isScrollingRef = useRef(false);
 
   const groupedFacilities = useMemo(() => {
     return (facilities.facilities || []).reduce((acc, facility) => {
@@ -48,19 +51,15 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
     }, {});
   }, [facilities]);
 
-  // Toggle function for opening/closing individual accordion panels
   const toggleAccordion = (facilityType) => {
     setActiveIndexes((prev) => {
       if (facilityType === "Summary") {
-        // Close the "Summary" if it's currently open
         if (prev.includes("Summary")) {
           return prev.filter((item) => item !== "Summary");
         } else {
-          return ["Summary"]; // Open the "Summary" if it's closed
+          return ["Summary"];
         }
       }
-
-      // For other facility types, toggle as usual
       if (prev.includes(facilityType)) {
         return prev.filter((item) => item !== facilityType);
       } else {
@@ -68,7 +67,6 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
       }
     });
 
-    // Set the active tab to "Summary" if it is closed, otherwise set to the clicked facilityType
     if (facilityType === "Summary" && activeIndexes.includes("Summary")) {
       setActiveTab("Summary");
     } else {
@@ -76,114 +74,90 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
     }
   };
 
-  // Handle Sticky Scroll Behavior for Accordion Titles
   useEffect(() => {
-    let requestId;
-
     const handleScroll = () => {
-      cancelAnimationFrame(requestId); // Cancel previous frame
+      if (isScrollingRef.current) return;
+      isScrollingRef.current = true;
 
-      requestId = requestAnimationFrame(() => {
-        Object.keys(accordionRefs.current).forEach((facilityType) => {
-          const panel = accordionRefs.current[facilityType];
-          const stickyTitle = titleRefs.current[facilityType];
+      clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 100);
 
-          // Only make sticky if Accordion Content is open
-          const isOpen = activeIndexes.includes(facilityType);
+      const tabsHeight = tabsRef.current?.offsetHeight || 0;
 
-          if (panel && stickyTitle && isOpen) {
-            const rect = panel.getBoundingClientRect();
-            // Ensure it becomes sticky only when the content is in view
-            if (rect.top < 130 && rect.bottom > 90) {
-              stickyTitle.style.position = "fixed";
-              stickyTitle.style.top =
-                window.innerWidth <= 500 ? "112px" : "130px";
-              stickyTitle.style.width =
-                window.innerWidth <= 500 ? "100%" : "56%"; // Adjust to your requirement
-              stickyTitle.style.backgroundColor = "white";
-              stickyTitle.style.zIndex = "50";
-              stickyTitle.style.transition =
-                "all 0.8s ease, box-shadow 0.8s ease";
-              stickyTitle.dataset.sticky = "true";
-            } else {
-              stickyTitle.style.position = "";
-              stickyTitle.style.top = "";
-              stickyTitle.style.width = "";
-              stickyTitle.style.backgroundColor = "";
-              stickyTitle.style.zIndex = "";
-              stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition =
-                "all 0.8s ease, box-shadow 0.8s ease";
-              stickyTitle.dataset.sticky = "false";
-            }
+      Object.keys(accordionRefs.current).forEach((facilityType) => {
+        const panel = accordionRefs.current[facilityType];
+        const stickyTitle = titleRefs.current[facilityType];
+        const isOpen = activeIndexes.includes(facilityType);
+
+        if (panel && stickyTitle && isOpen) {
+          const rect = panel.getBoundingClientRect();
+          const shouldStick =
+            rect.top < 130 + tabsHeight && rect.bottom > 90 + tabsHeight;
+
+          if (shouldStick) {
+            stickyTitle.style.willChange = "transform, opacity";
+            stickyTitle.style.position = "fixed";
+            stickyTitle.style.top = `${
+              tabsHeight + (window.innerWidth <= 500 ? 62 : 80)
+            }px`;
+            stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%";
+            stickyTitle.style.backgroundColor = "white";
+            stickyTitle.style.zIndex = "40";
+            stickyTitle.style.transition = "none";
+            stickyTitle.style.transform = "translateY(0)";
+            stickyTitle.style.opacity = "1";
+            stickyTitle.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
           } else {
-            // Reset sticky title if it's not open
-            if (stickyTitle) {
-              stickyTitle.style.position = "";
-              stickyTitle.style.top = "";
-              stickyTitle.style.width = "";
-              stickyTitle.style.backgroundColor = "";
-              stickyTitle.style.zIndex = "";
-              stickyTitle.style.boxShadow = "";
-              stickyTitle.style.transition =
-                "all 0.8s ease, box-shadow 0.8s ease";
-              stickyTitle.dataset.sticky = "false";
-            }
+            stickyTitle.style.willChange = "";
+            stickyTitle.style.position = "";
+            stickyTitle.style.top = "";
+            stickyTitle.style.width = "";
+            stickyTitle.style.backgroundColor = "";
+            stickyTitle.style.zIndex = "";
+            stickyTitle.style.transition = "";
+            stickyTitle.style.transform = "";
+            stickyTitle.style.opacity = "";
+            stickyTitle.style.boxShadow = "";
           }
-        });
+        }
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      cancelAnimationFrame(requestId); // Cleanup the animation frame
+      clearTimeout(scrollTimeoutRef.current);
       window.removeEventListener("scroll", handleScroll);
     };
   }, [activeIndexes]);
 
-  // Handle Tab Scroll Behavior
-  useEffect(() => {
-    const handleTabScroll = () => {
-      if (tabsRef.current) {
-        const firstAccordion = accordionRefs.current[staticFacilityTypes[0]];
-        const lastAccordion =
-          accordionRefs.current[
-            staticFacilityTypes[staticFacilityTypes.length - 1]
-          ];
-
-        if (firstAccordion && lastAccordion) {
-          const firstAccordionTop = firstAccordion.getBoundingClientRect().top;
-          const lastAccordionBottom =
-            lastAccordion.getBoundingClientRect().bottom;
-
-          // Make the tab sticky when the first accordion reaches 124px
-          if (firstAccordionTop < 130 && lastAccordionBottom > 80) {
-            tabsRef.current.classList.add("sticky1");
-          } else {
-            tabsRef.current.classList.remove("sticky1");
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleTabScroll);
-    return () => window.removeEventListener("scroll", handleTabScroll);
-  }, []);
-
   return (
     <div
-      className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}
+      className={`${raleway.className} flex flex-col bg-white relative`}
+      ref={containerRef}
     >
-      <div ref={tabsRef} className="bg-white sticky top-0 z-50">
+      {/* Sticky Tabs - Always stays at top */}
+      <div
+        ref={tabsRef}
+        className="sticky-tabs bg-white w-full border-b"
+        style={{
+          position: "sticky",
+          top: "85px",
+          zIndex: 50,
+          backgroundColor: "white",
+          willChange: "transform",
+        }}
+      >
         <div className="flex text-blue-900 dark:bg-gray-100 w-full dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
           {["Summary", "Description"].map((tab) => (
             <div
               key={tab}
               onClick={() => {
                 setActiveTab(tab);
-                toggleAccordion(tab); // Open the corresponding accordion panel
+                toggleAccordion(tab);
               }}
-              className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
+              className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2 transition-colors duration-200${
                 activeTab === tab
                   ? " bg-white text-[#00026E] md:mr-5"
                   : " dark:border-gray-300 dark:text-gray-600 md:mr-5"
@@ -196,18 +170,18 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
             </div>
           ))}
         </div>
-        <hr />
       </div>
 
-      <div className="flex flex-wrap gap-4 mt-[5px]">
+      {/* Accordion Content */}
+      <div className="flex flex-wrap gap-4">
         {staticFacilityTypes.map((facilityType, index) => {
-          const isOpen = activeIndexes.includes(facilityType); // Check if the panel is open
+          const isOpen = activeIndexes.includes(facilityType);
           const facilityItems = groupedFacilities[facilityType] || [];
 
           return (
             <div
               key={index}
-              className={`w-full cursor-pointer mt-[10px]`}
+              className="w-full cursor-pointer"
               ref={(el) => (accordionRefs.current[facilityType] = el)}
               data-facility-type={facilityType}
             >
@@ -215,7 +189,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                 <Accordion.Panel className="border-0">
                   <div
                     className="flex border-b justify-between w-full cursor-pointer items-center px-4 py-3"
-                    onClick={() => toggleAccordion(facilityType)} // Toggle the facilityType
+                    onClick={() => toggleAccordion(facilityType)}
                     ref={(el) => (titleRefs.current[facilityType] = el)}
                   >
                     <div className="flex items-center">
@@ -255,8 +229,23 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                       <FaPlus className="text-black" size={20} />
                     )}
                   </div>
-                  {isOpen && (
-                    <Accordion.Content>
+                  <Accordion.Content
+                    className="overflow-hidden"
+                    style={{
+                      transition:
+                        "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      maxHeight: isOpen
+                        ? `${
+                            contentRefs.current[facilityType]?.current
+                              ?.scrollHeight || 0
+                          }px`
+                        : "0px",
+                    }}
+                    ref={(el) =>
+                      (contentRefs.current[facilityType] = { current: el })
+                    }
+                  >
+                    <div className="py-2">
                       {facilityItems.map((item, itemIndex) => (
                         <div
                           key={itemIndex}
@@ -270,14 +259,29 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                           />
                         </div>
                       ))}
-                    </Accordion.Content>
-                  )}
+                    </div>
+                  </Accordion.Content>
                 </Accordion.Panel>
               </Accordion>
             </div>
           );
         })}
       </div>
+
+      <style jsx global>{`
+        .sticky-tabs {
+          position: sticky;
+          top: 0;
+          width: 103%;
+          z-index: 50;
+          background-color: white;
+        }
+        @media screen and (max-width: 500px) {
+          .sticky-tabs {
+            top: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 };
