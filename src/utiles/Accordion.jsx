@@ -76,7 +76,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
     }
   };
 
-  // Handle Sticky Scroll Behavior
+  // Handle Sticky Scroll Behavior for Accordion Titles
   useEffect(() => {
     let requestId;
 
@@ -94,14 +94,16 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
           if (panel && stickyTitle && isOpen) {
             const rect = panel.getBoundingClientRect();
             // Ensure it becomes sticky only when the content is in view
-            if (rect.top <= 134 && rect.bottom > 134) {
+            if (rect.top < 130 && rect.bottom > 90) {
               stickyTitle.style.position = "fixed";
-              stickyTitle.style.top = "134px";
-              stickyTitle.style.width = "56%"; // Adjust to your requirement
+              stickyTitle.style.top =
+                window.innerWidth <= 500 ? "112px" : "130px";
+              stickyTitle.style.width =
+                window.innerWidth <= 500 ? "100%" : "56%"; // Adjust to your requirement
               stickyTitle.style.backgroundColor = "white";
               stickyTitle.style.zIndex = "50";
               stickyTitle.style.transition =
-                "top 0.3s ease, box-shadow 0.3s ease";
+                "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "true";
             } else {
               stickyTitle.style.position = "";
@@ -111,7 +113,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
               stickyTitle.style.transition =
-                "top 0.3s ease, box-shadow 0.3s ease";
+                "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "false";
             }
           } else {
@@ -124,7 +126,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
               stickyTitle.style.zIndex = "";
               stickyTitle.style.boxShadow = "";
               stickyTitle.style.transition =
-                "top 0.3s ease, box-shadow 0.3s ease";
+                "all 0.8s ease, box-shadow 0.8s ease";
               stickyTitle.dataset.sticky = "false";
             }
           }
@@ -143,13 +145,23 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
   useEffect(() => {
     const handleTabScroll = () => {
       if (tabsRef.current) {
-        const thresholdHeight = 942; // Adjust based on your requirement
-        const scrollPosition = window.scrollY;
+        const firstAccordion = accordionRefs.current[staticFacilityTypes[0]];
+        const lastAccordion =
+          accordionRefs.current[
+            staticFacilityTypes[staticFacilityTypes.length - 1]
+          ];
 
-        if (scrollPosition >= thresholdHeight) {
-          tabsRef.current.classList.add("sticky1");
-        } else {
-          tabsRef.current.classList.remove("sticky1");
+        if (firstAccordion && lastAccordion) {
+          const firstAccordionTop = firstAccordion.getBoundingClientRect().top;
+          const lastAccordionBottom =
+            lastAccordion.getBoundingClientRect().bottom;
+
+          // Make the tab sticky when the first accordion reaches 124px
+          if (firstAccordionTop < 130 && lastAccordionBottom > 80) {
+            tabsRef.current.classList.add("sticky1");
+          } else {
+            tabsRef.current.classList.remove("sticky1");
+          }
         }
       }
     };
@@ -163,11 +175,14 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
       className={`${raleway.className} flex flex-col gap-4 mt-5 bg-white z-10`}
     >
       <div ref={tabsRef} className="bg-white sticky top-0 z-50">
-        <div className="flex text-blue-900 dark:bg-gray-100 dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
+        <div className="flex text-blue-900 dark:bg-gray-100 w-full dark:text-gray-800 font-semibold gap-x-[30px] md:gap-x-[40px]">
           {["Summary", "Description"].map((tab) => (
             <div
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                toggleAccordion(tab); // Open the corresponding accordion panel
+              }}
               className={`bg-white flex font-bold mx-[10px] items-center flex-shrink-0 cursor-pointer py-2${
                 activeTab === tab
                   ? " bg-white text-[#00026E] md:mr-5"

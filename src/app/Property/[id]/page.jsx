@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useRef } from "react";
 import ContactForm from "@/app/components/ContactForm/ContactForm";
 import getFacilities from "@/utiles/getFacilities";
 import getPropertyDetails from "@/utiles/getPropertyDetails";
@@ -19,7 +19,7 @@ import AccordionBookMe from "@/utiles/Accordion";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Page({ params }) {
-  const { id } = use(params); // ✅ `use(params)` ব্যবহার করে Promise আনর‍্যাপ করা হয়েছে
+  const { id } = use(params);
 
   const [propertyImages, setPropertyImages] = useState([]);
   const [propertyDetails, setPropertyDetails] = useState([]);
@@ -27,7 +27,37 @@ export default function Page({ params }) {
   const [propertyPackages, setPropertyPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [contactNumber, setContactNumber] = useState([]);
+  const [isFixed, setIsFixed] = useState(false);
+  const accordionRef = useRef(null); // Ref for the Accordion section
+  const [accordionWidth, setAccordionWidth] = useState("auto"); // Dynamic width for the fixed element
+  console.log(propertyDetails);
+  // Track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const headerHeight = 80; // Height of your header
+      if (scrollY > headerHeight) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Calculate the width of the Accordion section
+  useEffect(() => {
+    if (accordionRef.current) {
+      const width = accordionRef.current.offsetWidth;
+      setAccordionWidth(`${width}px`);
+    }
+  }, [isFixed]);
+
+  // Fetch property data
   useEffect(() => {
     async function fetchData() {
       try {
@@ -50,6 +80,7 @@ export default function Page({ params }) {
     fetchData();
   }, [id]);
 
+  // Fetch contact number
   useEffect(() => {
     async function fetchData() {
       try {
@@ -64,7 +95,9 @@ export default function Page({ params }) {
 
   return (
     <div>
-      <div className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px]`}>
+      <div
+        className={`${roboto.className} pt-[80px] bg-[#EBF0F4] pb-[20px] md:pb-[200px] `}
+      >
         <div className="container w-[98%] md:w-[85%] mx-auto">
           <div className="grid-cols-1 rounded gap-8 lg:grid pr-1 pt-1">
             {/* Property Details */}
@@ -109,7 +142,7 @@ export default function Page({ params }) {
             >
               Packages:
             </h1>
-            <div className="flex flex-wrap gap-0 lg:gap-6 md:mx-[-10px] md:px-0 mx-0 px-[10px] xl:flex-nowrap">
+            <div className="flex flex-wrap md:justify-start justify-around gap-0 lg:gap-6 md:mx-[-10px] md:px-0 mx-0 px-[10px] xl:flex-nowrap">
               {loading ? (
                 <div>Loading...</div>
               ) : (
@@ -126,7 +159,10 @@ export default function Page({ params }) {
                     {pkg.discount?.length > 0 && (
                       <div className="flex flex-col bg-red-700 h-14 justify-center rounded-full shadow-md text-white text-xs w-14 -right-3 -top-4 absolute font-semibold items-center py-2 z-40">
                         <span>
-                          {Math.floor(pkg.discount[0].discount_percent)}%
+                          <>
+                            {Math.floor(pkg?.discount.at(-1)?.discount_percent)}
+                            %
+                          </>
                         </span>
                         <span className="text-[10px]">OFF</span>
                       </div>
@@ -166,16 +202,16 @@ export default function Page({ params }) {
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              href={`tel:${contactNumber?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-center text-sm font-heading items-center px-3 py-1 sm:w-[90px]">
-                                Call Now
+                                Call No
                               </div>
                             </Link>
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              href={`https://wa.me/${contactNumber?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-sm font-heading gap-2 items-center px-3 py-1 sm:w-[120px]">
                                 <FaWhatsapp className="text-[16px] text-green-500" />
@@ -187,10 +223,33 @@ export default function Page({ params }) {
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
                             <p className="text-[16px] text-blue-950 font-semibold">
-                              Price: {pkg.price[0].price} BDT(Per person)
+                              {/* Check if the last discount exists */}
+                              <span>Price </span>
+                              {pkg?.discount?.length > 0 ? (
+                                <>
+                                  {/* Display the original price with a red line-through */}
+                                  <span className="line-through text-red-500">
+                                    {Math.floor(pkg?.price[0]?.price)} TK
+                                  </span>{" "}
+                                  {/* Display the last discounted price */}
+                                  <span>
+                                    {Math.floor(pkg?.price[0]?.price) -
+                                      pkg?.discount.at(-1)
+                                        ?.discount_amount}{" "}
+                                    <span className="ml-[2px]">TK</span>
+                                  </span>
+                                </>
+                              ) : (
+                                // If no discount, just display the original price
+                                <span>
+                                  {Math.floor(pkg?.price[0]?.price)}TK
+                                </span>
+                              )}
+                              {/* Display "Per person" text */}
+                              <span className="text-[14px]"> (Per person)</span>
                             </p>
                           ) : (
-                            <p className="text-[16px] text-red-500">
+                            <p className="text-[15px] text-red-500">
                               Price: Not Available
                             </p>
                           )}
@@ -204,7 +263,7 @@ export default function Page({ params }) {
           </div>
 
           {/* Sticky Accordion Section */}
-          
+
           <div className="bg-white p-[15px] rounded-lg top-[80px]">
             <div className="">
               <div className="w-full">
@@ -212,7 +271,7 @@ export default function Page({ params }) {
                   <div className="col-span-2">
                     <AccordionBookMe facilities={propertyFacilities} />
                   </div>
-                 
+
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
                       <h1
@@ -227,6 +286,11 @@ export default function Page({ params }) {
               </div>
             </div>
           </div>
+
+          {/* Add padding to prevent overlapping */}
+          {isFixed && (
+            <div style={{ height: accordionRef.current?.offsetHeight }} />
+          )}
         </div>
         {/* Toast container*/}
         <ToastContainer />

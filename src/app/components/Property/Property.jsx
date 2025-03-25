@@ -13,24 +13,20 @@ import { useSearch } from "@/SearchContext";
 import getContactNumber from "@/utiles/getContactNumber";
 import { FaPhone, FaWhatsapp } from "react-icons/fa";
 import Pagination from "../Pagination/Pagination";
+import { usePagination } from "@/utiles/usePagination";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 
 export default function Property() {
   const { searchTerm, setSearchTerm } = useSearch();
+  const { currentPage, handlePageChange, setCurrentPage } = usePagination();
   const [data, setData] = useState([]);
+  const [popularData, setPopularData] = useState([]);
   const [price, setPrice] = useState(10000);
   const [sortOption, setSortOption] = useState("1");
   const [contactNumber, setContactNumber] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(() => {
-    // Restore currentPage from localStorage or default to 1
-    if (typeof window !== "undefined") {
-      const savedPage = localStorage.getItem("currentPage");
-      return savedPage ? parseInt(savedPage, 10) : 1;
-    }
-    return 1;
-  });
+
   const itemsPerPage = 10;
 
   const { register, handleSubmit } = useForm();
@@ -54,6 +50,27 @@ export default function Property() {
     }
     fetchData();
   }, []);
+
+  // Fetch popular property data
+  useEffect(() => {
+    async function fetchPopularData() {
+      if (sortOption === "4") {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            "https://freecvbd.com/admin/api/popularPropertySummary/1"
+          );
+          const result = await response.json();
+          setPopularData(result);
+        } catch (error) {
+          console.error("Error fetching popular property data:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+    fetchPopularData();
+  }, [sortOption]);
 
   // Fetch contact number
   useEffect(() => {
@@ -96,6 +113,10 @@ export default function Property() {
   const filteredData = useMemo(() => {
     let filtered = sortedData;
 
+    if (sortOption === "4") {
+      filtered = popularData;
+    }
+
     if (searchTerm) {
       filtered = filtered.filter((property) =>
         property.property_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -115,7 +136,7 @@ export default function Property() {
     }
 
     return filtered;
-  }, [sortedData, searchTerm, price]);
+  }, [sortedData, popularData, searchTerm, price, sortOption]);
 
   // Paginated data
   const paginatedData = useMemo(() => {
@@ -126,12 +147,6 @@ export default function Property() {
 
   // Total pages
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    // Save currentPage to localStorage
-    localStorage.setItem("currentPage", page.toString());
-  };
 
   // Save scroll position, card index, and current page
   const handleCardClick = (index) => {
@@ -202,7 +217,7 @@ export default function Property() {
           </h4>
           <span className="text-[12px] sm:text-sm font-medium text-blue-600 w-[21%] md:[33%] xl:w-[20%]">
             {parseInt(price).toLocaleString()}
-            {parseInt(price) > 9500 ? "+" : ""} BDT
+            {parseInt(price) > 9500 ? "+" : ""} TK
           </span>
           <RangeSlider
             id="default-range"
@@ -228,8 +243,9 @@ export default function Property() {
             onChange={(e) => setSortOption(e.target.value)}
           >
             <option className="hidden ">Sort By</option>
-            <option value="2">Low to High</option>
-            <option value="3">High to Low</option>
+            <option value="2">Price - Low to High</option>
+            <option value="3">Price - High to Low</option>
+            <option value="4">Popular</option>
           </select>
         </div>
       </div>
@@ -274,7 +290,7 @@ export default function Property() {
                           unit.price?.map((priceObj) => priceObj.price)
                         ) || [];
                       return prices.length > 0
-                        ? `${Math.min(...prices)} BDT`
+                        ? `${Math.min(...prices)} TK`
                         : "N/A";
                     })()}
                   </span>
@@ -362,20 +378,20 @@ export default function Property() {
                         </Link>
                       </div>
                       <div className="md:hidden block mt-[10px]">
-                        <Link
-                          href={`https://wa.me/${contactNumber[0]?.value}`}
+                        <a
+                          href={`tel:${contactNumber?.Phone}`} // Use the `tel:` protocol
                           className="mx-[10px]"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                         
                         >
-                          <div className="phone-call md:w-[50px] md:h-[50px] w-[33px] h-[33px] ml-[15px]">
-                            <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[8px]" />
+                          
+                          <div className="phone-call md:w-[50px] md:h-[50px] w-[37px] h-[37px] ml-[15px]">
+                            <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[10px] ml-[10px]" />
                           </div>
-                        </Link>
+                        </a>
                       </div>
                       <div className="md:hidden block mt-[10px]">
                         <Link
-                          href={`https://wa.me/${contactNumber[0]?.value}`}
+                          href={`https://wa.me/${contactNumber[0]?.Phone}`}
                           className="mx-[10px]"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -393,8 +409,8 @@ export default function Property() {
                             For instant service:{" "}
                           </span>
                           <div className="mx-[5px] mt-[10px]">
-                            <Link
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                            <a
+                             href={`tel:${contactNumber?.Phone}`} 
                               className="mx-[10px]"
                               target="_blank"
                               rel="noopener noreferrer"
@@ -402,11 +418,11 @@ export default function Property() {
                               <div className="phone-call md:w-[50px] md:h-[50px] w-[36px] h-[36px] ml-[15px]">
                                 <FaPhone className="i md:ml-[17px] md:mt-[17px] mt-[8px] ml-[11px]" />
                               </div>
-                            </Link>
+                            </a>
                           </div>
                           <div>
                             <Link
-                              href={`https://wa.me/${contactNumber[0]?.value}`}
+                              href={`https://wa.me/${contactNumber?.Phone}`}
                               className="mx-[10px]"
                               target="_blank"
                               rel="noopener noreferrer"

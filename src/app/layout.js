@@ -4,6 +4,7 @@ import Header from "./components/Header/Header";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { SearchProvider } from "@/SearchContext";
+import { PaginationProvider } from "@/utiles/usePagination";
 
 // Font setup at module scope
 const inter = Inter({
@@ -26,6 +27,7 @@ export default function DashboardLayout({ children }) {
       </head>
       <body className={inter.className}>
         {/*global search provider*/}
+        <PaginationProvider>
         <SearchProvider>
           {" "}
           {/* Wrap children inside provider */}
@@ -40,6 +42,8 @@ export default function DashboardLayout({ children }) {
             </div>
           </div>
         </SearchProvider>
+        </PaginationProvider>
+
       </body>
     </html>
   );

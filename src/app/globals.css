@@ -23,7 +23,7 @@ body {
 
 .sticky1 {
 	position: fixed;
-	top: 83px; /* Adjust this value based on your header height */
+	top: 82px; /* Adjust this value based on your header height */
 	width: 58%;
 	z-index: 1000;
 	margin-left: -16px;
@@ -31,7 +31,16 @@ body {
 	padding-bottom: 7px;
 	border-radius: 7px;
 	background-color: white; /* Ensure the background is visible */
-	
+	transition: all 0.6s ease; /* Smooth transition for all properties */
+	 /* Optional: Add a subtle shadow for better visibility */
+}
+  @media screen and (max-width:500px) {
+	.sticky1{
+		width: 100%;
+		margin-top: -20px;
+		top:80px
+
+	}
   }
 
   .sticky-section {
@@ -70,9 +79,11 @@ body {
   position: absolute;
   bottom: 15px;
   left: 50%;
-  transform: translateX(-4%);
+  transform: translateX(0%);
   z-index: 50 !important;
   pointer-events: auto !important;
+  
+  
 }
 
  .swiper-pagination-bullet {
@@ -96,7 +107,8 @@ body {
   position: absolute;
   bottom: 15px;
   left: 50%;
-  transform: translateX(-4%);
+ display: flex;
+ justify-content: center;
   z-index: 50 !important;
   pointer-events: auto !important;
 }
@@ -158,6 +170,7 @@ body {
 	transform: scaleX(-1);
 	
   }
+ 
   .phone-call:before {
 	position: absolute;
 	content: " ";
@@ -179,6 +192,15 @@ body {
 	animation: pulse 1.8s ease-out;
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
+  }
+  @media screen and (max-width:1000px) {
+	.phone-call:before {
+		top: -2px;
+		left: -2px;
+		width: 56px;
+	height: 56px;
+	}
+	
   }
   html, body {
 	scroll-behavior: auto !important;
@@ -569,4 +591,18 @@ body {
 	  opacity: 0;
 	}
   }
-  
+@media screen and (max-width: 1000px) {
+	@keyframes pulse-border {
+		0% {
+			padding: 20px;
+			opacity: 0.65;
+		}
+		75% {
+			padding: 25px;
+			opacity: 0;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+}
