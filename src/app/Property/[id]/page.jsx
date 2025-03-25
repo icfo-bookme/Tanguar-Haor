@@ -205,7 +205,7 @@ export default function Page({ params }) {
                               href={`tel:${contactNumber?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-center text-sm font-heading items-center px-3 py-1 sm:w-[90px]">
-                                Call No
+                                Call Now
                               </div>
                             </Link>
                             <Link
