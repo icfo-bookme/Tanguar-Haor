@@ -187,8 +187,8 @@ export default function Page({ params }) {
                         <p
                           className={`${roboto.className} text-gray-700 text-[16px]`}
                         >
-                          {pkg.unit_type} | Person Allowed: {pkg.person_allowed}{" "}
-                          | Additional Bed:{" "}
+                          Unit Type: {pkg.unit_type} | Person Allowed:{" "}
+                          {pkg.person_allowed} | Additional Bed:{" "}
                           {pkg?.additionalbed === 1
                             ? "Available"
                             : pkg?.additionalbed === 0
@@ -224,7 +224,7 @@ export default function Page({ params }) {
                           {pkg.price?.length > 0 ? (
                             <p className="text-[16px] text-blue-950 font-semibold">
                               {/* Check if the last discount exists */}
-                              <span>Price </span>
+                              <span>Price: </span>
                               {pkg?.discount?.length > 0 ? (
                                 <>
                                   {/* Display the original price with a red line-through */}
