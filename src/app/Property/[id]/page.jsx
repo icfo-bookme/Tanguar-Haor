@@ -30,7 +30,7 @@ export default function Page({ params }) {
   const [isFixed, setIsFixed] = useState(false);
   const accordionRef = useRef(null); // Ref for the Accordion section
   const [accordionWidth, setAccordionWidth] = useState("auto"); // Dynamic width for the fixed element
-console.log(propertyDetails)
+  console.log(propertyDetails)
   // Track scroll position
   useEffect(() => {
     const handleScroll = () => {
@@ -147,20 +147,19 @@ console.log(propertyDetails)
                 propertyPackages?.slice(0, 4).map((pkg, dd) => (
                   <div
                     key={pkg.unit_id}
-                    className={`${
-                      propertyPackages?.length < 4
+                    className={`${propertyPackages?.length < 4
                         ? "lg:max-w-[25%] max-w-[80%] "
                         : "max-w-[100%]"
-                    } relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
+                      } relative z-10 lg:my-0 my-[10px] md:mx-[10px] bg-white shadow-xl rounded-lg overflow-visible`}
                   >
                     {/* Discount Badge */}
                     {pkg.discount?.length > 0 && (
                       <div className="flex flex-col bg-red-700 h-14 justify-center rounded-full shadow-md text-white text-xs w-14 -right-3 -top-4 absolute font-semibold items-center py-2 z-40">
                         <span>
-  
-    <>{Math.floor(pkg?.discount.at(-1)?.discount_percent)}%</>
-  
-</span>
+
+                          <>{Math.floor(pkg?.discount.at(-1)?.discount_percent)}%</>
+
+                        </span>
                         <span className="text-[10px]">OFF</span>
                       </div>
                     )}
@@ -189,8 +188,8 @@ console.log(propertyDetails)
                           {pkg?.additionalbed === 1
                             ? "Available"
                             : pkg?.additionalbed === 0
-                            ? "Not Available"
-                            : ""}
+                              ? "Not Available"
+                              : ""}
                         </p>
                         <div className="flex justify-start items-center">
                           <div
@@ -199,7 +198,7 @@ console.log(propertyDetails)
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.Phone}`}
+                              href={`tel:${contactNumber?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-center text-sm font-heading items-center px-3 py-1 sm:w-[90px]">
                                 Call Now
@@ -208,7 +207,7 @@ console.log(propertyDetails)
                             <Link
                               target="_blank"
                               rel="noopener noreferrer"
-                              href={`https://wa.me/${contactNumber[0]?.Phone}`}
+                              href={`https://wa.me/${contactNumber?.Phone}`}
                             >
                               <div className="flex border border-blue-950 justify-center rounded-full text-black text-sm font-heading gap-2 items-center px-3 py-1 sm:w-[120px]">
                                 <FaWhatsapp className="text-[16px] text-green-500" />
@@ -220,24 +219,24 @@ console.log(propertyDetails)
                         <div className={`${roboto.className}`}>
                           {pkg.price?.length > 0 ? (
                             <p className="text-[16px] text-blue-950 font-semibold">
-                            {/* Check if the last discount exists */}
-                            <span>Price </span>
-                            {pkg?.discount?.length > 0 ? (
-                              <>
-                                {/* Display the original price with a red line-through */}
-                                <span className="line-through text-red-500">
-                                  {Math.floor(pkg?.price[0]?.price)} TK
-                                </span>{" "}
-                                {/* Display the last discounted price */}
-                                <span>{Math.floor(pkg?.price[0]?.price)-pkg?.discount.at(-1)?.discount_amount}  <span className="ml-[2px]">TK</span></span>
-                              </>
-                            ) : (
-                              // If no discount, just display the original price
-                              <span>{Math.floor(pkg?.price[0]?.price)}TK</span>
-                            )}
-                            {/* Display "Per person" text */}
-                            <span className="text-[14px]"> (Per person)</span>
-                          </p>
+                              {/* Check if the last discount exists */}
+                              <span>Price </span>
+                              {pkg?.discount?.length > 0 ? (
+                                <>
+                                  {/* Display the original price with a red line-through */}
+                                  <span className="line-through text-red-500">
+                                    {Math.floor(pkg?.price[0]?.price)} TK
+                                  </span>{" "}
+                                  {/* Display the last discounted price */}
+                                  <span>{Math.floor(pkg?.price[0]?.price) - pkg?.discount.at(-1)?.discount_amount}  <span className="ml-[2px]">TK</span></span>
+                                </>
+                              ) : (
+                                // If no discount, just display the original price
+                                <span>{Math.floor(pkg?.price[0]?.price)}TK</span>
+                              )}
+                              {/* Display "Per person" text */}
+                              <span className="text-[14px]"> (Per person)</span>
+                            </p>
                           ) : (
                             <p className="text-[15px] text-red-500">
                               Price: Not Available
@@ -253,7 +252,7 @@ console.log(propertyDetails)
           </div>
 
           {/* Sticky Accordion Section */}
-          
+
           <div className="bg-white p-[15px] rounded-lg top-[80px]">
             <div className="">
               <div className="w-full">
@@ -261,7 +260,7 @@ console.log(propertyDetails)
                   <div className="col-span-2">
                     <AccordionBookMe facilities={propertyFacilities} />
                   </div>
-                 
+
                   <div className="col-span-1 p-[10px] rounded-lg shadow-lg">
                     <div>
                       <h1
