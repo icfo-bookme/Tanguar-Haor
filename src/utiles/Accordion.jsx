@@ -94,13 +94,13 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
         if (panel && stickyTitle && isOpen) {
           const rect = panel.getBoundingClientRect();
           const shouldStick =
-            rect.top < 130 + tabsHeight && rect.bottom > 90 + tabsHeight;
+            rect.top < 110 + tabsHeight && rect.bottom > 80 + tabsHeight;
 
           if (shouldStick) {
             stickyTitle.style.willChange = "transform, opacity";
             stickyTitle.style.position = "fixed";
             stickyTitle.style.top = `${
-              tabsHeight + (window.innerWidth <= 500 ? 62 : 80)
+              tabsHeight + (window.innerWidth <= 500 ? 55 : 85)
             }px`;
             stickyTitle.style.width = window.innerWidth <= 500 ? "100%" : "56%";
             stickyTitle.style.backgroundColor = "white";
@@ -143,8 +143,8 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
         className="sticky-tabs bg-white w-full border-b"
         style={{
           position: "sticky",
-          top: "85px",
-          zIndex: 50,
+          top: window.innerWidth > 500 ? "85px" : "55px",
+          zIndex: 15,
           backgroundColor: "white",
           willChange: "transform",
         }}
@@ -230,7 +230,7 @@ const AccordionBookMe = ({ facilities = { facilities: [] } }) => {
                     )}
                   </div>
                   <Accordion.Content
-                    className="overflow-hidden"
+                    className="overflow-hidden p-[5px]"
                     style={{
                       transition:
                         "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
