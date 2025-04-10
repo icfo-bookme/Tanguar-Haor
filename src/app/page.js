@@ -1,8 +1,8 @@
-import Banner from "./components/Banner/Banner";
-import Property from "./components/Property/Property";
+import Banner from "./components/tour/Banner/Banner";
+import Property from "./components/tour/Property/Property";
 
 
-export default function Home() {
+export default  function Home() {
   return (
     <main className=" ">
       <div className=" w-[100%] pt-[40px] md:pt-[50px]">

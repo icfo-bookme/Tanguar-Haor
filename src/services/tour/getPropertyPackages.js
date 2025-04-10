@@ -1,7 +1,7 @@
 const getPropertyPackages = async (id) => {
   try {
     const response = await fetch(
-      `https://freecvbd.com/admin/api/propertyUnit/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/propertyUnit/${id}`
     );
     const propertyPackages = await response.json();
     return propertyPackages;

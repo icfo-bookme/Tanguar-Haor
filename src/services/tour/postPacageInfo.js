@@ -1,7 +1,7 @@
 const postPackageInfo = async (packageData) => {
   try {
     const res = await fetch(
-      `https://freecvbd.com/admin/api/tour-consultations`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/tour-consultations`,
       {
         method: "POST", // Change to POST
         headers: {

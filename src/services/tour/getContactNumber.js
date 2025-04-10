@@ -1,7 +1,7 @@
 const getContactNumber = async () => {
   try {
     const res = await fetch(
-      `https://freecvbd.com/admin/api/contact-attributes `,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/contact-attributes `,
       {
         cache: "no-store", // Ensure no caching
       }

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { Roboto } from "next/font/google";
-import getContactNumber from '@/utiles/getContactNumber';
+import getContactNumber from '@/services/tour/getContactNumber';
 const roboto = Roboto({ subsets: ["latin"], weight: ['400',], });
 
 const Footer = () => {
@@ -36,10 +36,10 @@ const Footer = () => {
                                             <Link href="/" className="text-white font-extralight  transition duration-300">Home</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/terms" className="text-white  transition duration-300">Terms</Link>
+                                            <Link href="/all-terms" className="text-white  transition duration-300">Terms</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/talent&Culture" className="text-white transition duration-300">Talent & Culture</Link>
+                                            <Link href="/talent-&-culture" className="text-white transition duration-300">Talent & Culture</Link>
                                         </li>
                                         <br/>
                                        
@@ -47,13 +47,13 @@ const Footer = () => {
                                     </ul>
                                     <ul className="listing space-y-[5px] ml-[40px]">
                                         <li className="single-lsit">
-                                            <Link href="/refundPolicy" className="text-white  transition duration-300">Refund Policy</Link>
+                                            <Link href="/refund-policy" className="text-white  transition duration-300">Refund Policy</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/emiPolicy" className="text-white  transition duration-300">EMI Policy</Link>
+                                            <Link href="/emi-policy" className="text-white  transition duration-300">EMI Policy</Link>
                                         </li>
                                         <li className="single-lsit">
-                                            <Link href="/privacyPolicy" className="text-white transition duration-300">Privacy Policy
+                                            <Link href="/privacy-policy" className="text-white transition duration-300">Privacy Policy
                                             </Link>
                                         </li>
                                         <br/>

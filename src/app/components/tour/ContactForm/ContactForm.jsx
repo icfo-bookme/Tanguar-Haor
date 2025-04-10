@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import postPackageInfo from "@/utiles/postPacageInfo";
+import postPackageInfo from "@/services/tour/postPacageInfo";
 
 const ContactForm = ({ propertyDetails }) => {
   const {
@@ -99,18 +99,18 @@ const ContactForm = ({ propertyDetails }) => {
               Phone Number <span className="text-red-700 text-xl">*</span>
             </label>
             <input
-              type="tel"
-              id="phoneNumber"
-              placeholder="01xxxxxxxxx"
-              {...register("phoneNumber", {
-                required: "Phone number is required",
-                pattern: {
-                  value: /^[0-9]{11}$/, // Ensures exactly 11 digits
-                  message: "Phone number must be exactly 11 digits and only will contain number",
-                },
-              })}
-              className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
-            />
+  type="tel"
+  id="phoneNumber"
+  placeholder="01xxxxxxxxx"
+  {...register("phoneNumber", {
+    required: "Phone number is required",
+    pattern: {
+      value: /^[0-9]{11,}$/, // At least 11 digits
+      message: "Phone number must be at least 11 digits and contain only numbers",
+    },
+  })}
+  className="mt-2 p-2 border border-gray-300 rounded-md w-full text-black"
+/>
             {errors.phoneNumber && (
               <span className="text-red-500">{errors.phoneNumber.message}</span>
             )}

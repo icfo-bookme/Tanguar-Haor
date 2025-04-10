@@ -1,7 +1,7 @@
 const getFacilities = async (id) => {
   try {
     let res = await fetch(
-      `https://freecvbd.com/admin/api/propertyfacilities/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/propertyfacilities/${id}`
     );
     let propertyFacilities = await res.json();
     return propertyFacilities;

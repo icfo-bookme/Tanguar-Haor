@@ -1,10 +1,10 @@
 import React from "react";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
+import Footer from "./components/shared/Footer/Footer";
+import Header from "./components/shared/Header/Header";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { SearchProvider } from "@/SearchContext";
-import { PaginationProvider } from "@/utiles/usePagination";
+import { PaginationProvider } from "@/services/tour/usePagination";
 
 // Font setup at module scope
 const inter = Inter({
